@@ -27,7 +27,7 @@ pipeline {
         stage("Build Sprites") {
             steps{
                 sh './gradlew clean'
-                sh './gradlew desktop:sprites'
+                sh './gradlew lwjgl3:sprites'
             }
         }
         stage("Build Desktop") {
