@@ -33,7 +33,7 @@ pipeline {
         stage("Build Desktop") {
             steps {
                 script {
-                    sh './gradlew lwjgl3:distZip'
+                    sh './gradlew lwjgl3:jar'
                 }
             }
         }
