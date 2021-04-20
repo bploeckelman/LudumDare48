@@ -106,7 +106,22 @@ public class Assets implements Disposable {
 
     @Override
     public void dispose() {
-
+        transitions.blinds.dispose();
+        transitions.fade.dispose();
+        transitions.radial.dispose();
+        transitions.doom.dispose();
+        transitions.pixelize.dispose();
+        transitions.doorway.dispose();
+        transitions.crosshatch.dispose();
+        transitions.ripple.dispose();
+        transitions.heart.dispose();
+        transitions.stereo.dispose();
+        transitions.circleCrop.dispose();
+        transitions.cube.dispose();
+        transitions.dreamy.dispose();
+        mgr.dispose();
+        shapes.dispose();
+        batch.dispose();
     }
 
     private static ShaderProgram loadShader(String vertSourcePath, String fragSourcePath) {
