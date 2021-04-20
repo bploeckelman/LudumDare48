@@ -1,0 +1,8 @@
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-core'
+
+dependencies {
+	api "com.badlogicgames.gdx:gdx:$gdxVersion"
+	api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
+	api "org.mini2Dx:universal-tween-engine:$tweenEngineVersion"
+}
