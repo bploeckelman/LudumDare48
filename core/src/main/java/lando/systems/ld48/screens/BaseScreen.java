@@ -1,8 +1,10 @@
 package lando.systems.ld48.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.ld48.Config;
@@ -22,6 +24,10 @@ public abstract class BaseScreen implements InputProcessor, ControllerListener {
         this.windowCamera = new OrthographicCamera();
         this.windowCamera.setToOrtho(false, Config.windowWidth, Config.windowHeight);
         this.windowCamera.update();
+
+        Controllers.clearListeners();
+        Controllers.addListener(this);
+        Gdx.input.setInputProcessor(this);
     }
 
     /**
