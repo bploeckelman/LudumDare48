@@ -8,6 +8,7 @@
 	<inherits name="lando.systems.ld48.Game" />
 	<inherits name="aurelienribon.tweenengine" />
 	<inherits name="com.ray3k.tenpatch.tenpatch"/>
+	<inherits name='com.kotcrab.vis.vis-ui' />
 <!--	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld48...." />-->
 	<entry-point class="lando.systems.ld48.gwt.GwtLauncher" />
 	<set-configuration-property name="gdx.assetpath" value="../assets" />
