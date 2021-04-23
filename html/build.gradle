@@ -35,6 +35,7 @@ dependencies {
 	implementation "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion:sources"
 	implementation "com.badlogicgames.gdx-controllers:gdx-controllers-gwt:$gdxControllersVersion:sources"
 	implementation "org.mini2Dx:universal-tween-engine:$tweenEngineVersion:sources"
+    implementation "com.github.raeleus.TenPatch:tenpatch:$tenPatchVersion:sources"
 }
 
 import org.akhikhl.gretty.AppBeforeIntegrationTestTask
