@@ -54,7 +54,7 @@ public class MovableEntity extends GameEntity {
         if (ignore) return;
         super.update(dt);
 
-        if (velocity.y < -50) {
+        if (velocity.y < -50 || state == State.falling) {
             state = State.falling;
             jumpTime = -1;
         }

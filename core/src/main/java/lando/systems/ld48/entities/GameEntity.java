@@ -94,7 +94,7 @@ public class GameEntity implements PhysicsComponent {
         this.direction = direction;
         velocity.add(speed, 0);
 
-        if (state != State.jumping) {
+        if (state != State.jumping && (state != State.jump || grounded)) {
             state = State.walking;
         }
     }
@@ -113,7 +113,7 @@ public class GameEntity implements PhysicsComponent {
 
         if (state != State.jumping) {
             // stop if entity gets slow enough
-            if (Math.abs(velocity.x) < 10f) {
+            if (Math.abs(velocity.x) < 10f && grounded) {
                 velocity.x = 0f;
                 state = State.standing;
             }
