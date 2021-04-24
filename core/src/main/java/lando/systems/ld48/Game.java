@@ -208,6 +208,8 @@ public class Game extends ApplicationAdapter {
                 destTexture.bind(0);
                 shader.setUniformi("u_texture", 0);
 
+                // TODO - this only works cleanly if source and dest equal window size,
+                //  if one screen has a different size it ends up either too big or too small during the transition
                 batch.setColor(Color.WHITE);
                 batch.draw(destTexture, 0, 0, Config.windowWidth, Config.windowHeight);
             }

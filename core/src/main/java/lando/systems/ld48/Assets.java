@@ -24,8 +24,12 @@ public class Assets implements Disposable {
     public TextureAtlas atlas;
     public Transitions transitions;
 
+    public BitmapFont pixelFont16;
+
     public Texture pixel;
     public Texture title;
+
+    public TextureRegion whitePixel;
 
     public Animation<TextureRegion> cat;
     public Animation<TextureRegion> dog;
@@ -46,6 +50,8 @@ public class Assets implements Disposable {
             mgr.load(new AssetDescriptor<>("images/pixel.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/title.png", Texture.class));
 
+            mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
+
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
         }
 
@@ -62,7 +68,11 @@ public class Assets implements Disposable {
         pixel = mgr.get("images/pixel.png");
         title = mgr.get("images/title.png");
 
+        pixelFont16 = mgr.get("fonts/chevyray-rise-16.fnt");
+
         atlas = mgr.get("sprites/sprites.atlas");
+
+        whitePixel = new TextureRegion(pixel);
 
         cat = new Animation<>(0.1f, atlas.findRegions("pets/cat"), Animation.PlayMode.LOOP);
         dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);

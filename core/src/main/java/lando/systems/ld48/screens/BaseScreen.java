@@ -12,7 +12,8 @@ import lando.systems.ld48.Game;
 
 public abstract class BaseScreen implements InputProcessor, ControllerListener {
 
-    Game game;
+    public final Game game;
+
     OrthographicCamera worldCamera;
     OrthographicCamera windowCamera;
 
