@@ -7,5 +7,5 @@ public class Config {
     public static final int worldWidth = 320;
     public static final int worldHeight = 240;
     public static final boolean debugShaders = true;
-    public static final boolean showLaunchScreen = true;
+    public static final boolean showLaunchScreen = false;
 }

@@ -1,5 +1,6 @@
 package lando.systems.ld48.physics;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
@@ -64,6 +65,10 @@ public class PhysicsSystem {
         //update particles
         updateParticles(dt);
         updateGameEntities(dt);
+    }
+
+    public void renderDebug(SpriteBatch batch) {
+        collisionTree.renderDebug(batch);
     }
 
     private void rebuildTree() {

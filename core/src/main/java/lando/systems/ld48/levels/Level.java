@@ -148,6 +148,10 @@ public class Level {
 
     }
 
+    public SpawnPlayer getPlayerSpawn() {
+        return playerSpawn;
+    }
+
     public Layer getLayer(LayerType layerType) {
         return layers.get(layerType);
     }

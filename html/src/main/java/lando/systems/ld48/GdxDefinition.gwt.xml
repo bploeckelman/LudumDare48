@@ -5,11 +5,16 @@
 	<inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
 	<inherits name="com.badlogic.gdx.controllers" />
 	<inherits name="com.badlogic.gdx.controllers.controllers-gwt" />
+
 	<inherits name="lando.systems.ld48.Game" />
+
 	<inherits name="aurelienribon.tweenengine" />
 	<inherits name="com.ray3k.tenpatch.tenpatch"/>
-	<inherits name='com.kotcrab.vis.vis-ui' />
-<!--	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld48...." />-->
+	<inherits name="com.kotcrab.vis.vis-ui" />
+
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld46.physics.Collision" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.math.Rectangle" />
+
 	<entry-point class="lando.systems.ld48.gwt.GwtLauncher" />
 	<set-configuration-property name="gdx.assetpath" value="../assets" />
 	<set-configuration-property name="xsiframe.failIfScriptTag" value="FALSE"/>

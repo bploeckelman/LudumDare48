@@ -34,6 +34,15 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> cat;
     public Animation<TextureRegion> dog;
 
+    public Animation<TextureRegion> playerAnimation;
+    public Animation<TextureRegion> playerMoveAnimation;
+    public Animation<TextureRegion> playerAttackAnimation;
+    public Animation<TextureRegion> playerJumpAnimation;
+    public Animation<TextureRegion> playerFallAnimation;
+    public Animation<TextureRegion> playerDieAnimation;
+
+    public NinePatch debugNinePatch;
+
     public Assets() {
         this(Load.SYNC);
     }
@@ -76,6 +85,15 @@ public class Assets implements Disposable {
 
         cat = new Animation<>(0.1f, atlas.findRegions("pets/cat"), Animation.PlayMode.LOOP);
         dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);
+
+        playerAnimation       = new Animation<>(0.1f, atlas.findRegions("player/doc-idle"),  Animation.PlayMode.LOOP);
+        playerMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("player/doc-run"),   Animation.PlayMode.LOOP);
+        playerAttackAnimation = new Animation<>(0.1f, atlas.findRegions("player/doc-punch"), Animation.PlayMode.NORMAL);
+        playerJumpAnimation   = new Animation<>(0.1f, atlas.findRegions("player/doc-jump"),  Animation.PlayMode.NORMAL);
+        playerFallAnimation   = new Animation<>(0.1f, atlas.findRegions("player/doc-fall"),  Animation.PlayMode.NORMAL);
+        playerDieAnimation    = new Animation<>(0.1f, atlas.findRegions("player/doc-die"),   Animation.PlayMode.NORMAL);
+
+        debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 6, 6, 6, 6);
 
         transitions = new Transitions();
         transitions.blinds     = loadShader("shaders/transitions/default.vert", "shaders/transitions/blinds.frag");
