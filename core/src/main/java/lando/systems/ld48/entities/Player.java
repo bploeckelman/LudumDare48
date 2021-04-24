@@ -17,6 +17,9 @@ public class Player extends MovableEntity {
 
     private float deathTime = -1;
 
+    public EnemyEntity capturedEnemy = null;
+    public boolean capturing = false;
+
     public Player(GameScreen screen, SpawnPlayer spawn) {
         this(screen, spawn.pos.x, spawn.pos.y);
     }

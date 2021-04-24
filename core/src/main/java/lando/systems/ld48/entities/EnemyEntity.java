@@ -8,6 +8,7 @@ import lando.systems.ld48.screens.GameScreen;
 public class EnemyEntity extends GameEntity {
 
     public float removeTime = 2f;
+    public boolean captured = false;
 
     protected EnemyEntity(GameScreen screen, Animation<TextureRegion> animation, float x, float y) {
         this(screen, animation, 1f, x, y);
@@ -55,6 +56,8 @@ public class EnemyEntity extends GameEntity {
 
     @Override
     public Color getEffectColor() {
+        if (captured) {return Color.RED;}
+
         if (dead) {
             if ((int)(removeTime * 30) % 2 == 0 ) { return Color.BLACK; }
         }

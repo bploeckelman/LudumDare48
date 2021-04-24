@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld48.Game;
+import lando.systems.ld48.entities.CaptureHandler;
 import lando.systems.ld48.entities.EnemyEntity;
 import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.levels.Level;
@@ -17,6 +18,7 @@ public class GameScreen extends BaseScreen {
 
     public Level level;
     public Player player;
+    public CaptureHandler captureHandler;
     public Array<EnemyEntity> enemies;
 
     public PhysicsSystem physicsSystem;
@@ -30,6 +32,7 @@ public class GameScreen extends BaseScreen {
     private void loadLevel(LevelDescriptor levelDescriptor) {
         this.level = new Level(levelDescriptor, this);
         this.player = new Player(this, level.getPlayerSpawn());
+        this.captureHandler = new CaptureHandler(player);
         this.enemies = new Array<>();
         this.physicsSystem = new PhysicsSystem(this);
         this.physicsEntities = new Array<>();
@@ -44,17 +47,44 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void update(float dt) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) DebugFlags.renderFpsDebug     = !DebugFlags.renderFpsDebug;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) DebugFlags.renderLevelDebug   = !DebugFlags.renderLevelDebug;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F3)) DebugFlags.renderPlayerDebug  = !DebugFlags.renderPlayerDebug;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F4)) DebugFlags.renderEnemyDebug   = !DebugFlags.renderEnemyDebug;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F5)) DebugFlags.renderPhysicsDebug = !DebugFlags.renderPhysicsDebug;
 
         player.update(dt);
         enemies.forEach(enemy -> enemy.update(dt));
+        captureHandler.updateCapture(dt, enemies);
         level.update(dt);
         physicsSystem.update(dt);
     }
+
+    @Override
+    public boolean keyDown(int keyCode) {
+        switch (keyCode) {
+            case Input.Keys.F1:
+                DebugFlags.renderFpsDebug = !DebugFlags.renderFpsDebug;
+                break;
+            case Input.Keys.F2:
+                DebugFlags.renderLevelDebug   = !DebugFlags.renderLevelDebug;
+                break;
+            case Input.Keys.F3:
+                DebugFlags.renderPlayerDebug  = !DebugFlags.renderPlayerDebug;
+                break;
+            case Input.Keys.F4:
+                DebugFlags.renderEnemyDebug   = !DebugFlags.renderEnemyDebug;
+                break;
+            case Input.Keys.F5:
+                DebugFlags.renderPhysicsDebug = !DebugFlags.renderPhysicsDebug;
+                break;
+            case Input.Keys.S:
+            case Input.Keys.DOWN:
+                if (captureHandler != null) {
+                    captureHandler.beginCapture(enemies);
+                }
+                break;
+
+        }
+        return false;
+    }
+
+
 
     @Override
     public void render(SpriteBatch batch) {
