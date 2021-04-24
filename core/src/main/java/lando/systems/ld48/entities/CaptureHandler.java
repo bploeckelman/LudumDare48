@@ -56,7 +56,7 @@ public class CaptureHandler {
                 player.capturing = false;
             }
         } else {
-            if (!Gdx.input.isKeyPressed(Input.Keys.DOWN) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
+            if (!player.screen.downPressed) {
                 captureTimer = 0;
                 player.capturing = false;
                 return;

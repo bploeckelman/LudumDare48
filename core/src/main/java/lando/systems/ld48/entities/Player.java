@@ -54,26 +54,18 @@ public class Player extends MovableEntity {
         boolean isDead = updateDeath(dt);
         if (isDead) return;
 
+        this.jumpHeld = this.screen.upPressed;
+
         super.update(dt);
 
         // this is the animation of starting to jump
         if (state != State.jumping) {
             // Check for and apply horizontal movement
-            boolean moveLeftPressed = Gdx.input.isKeyPressed(Input.Keys.A)
-                                   || Gdx.input.isKeyPressed(Input.Keys.LEFT);
-            boolean moveRightPressed = Gdx.input.isKeyPressed(Input.Keys.D)
-                                    || Gdx.input.isKeyPressed(Input.Keys.RIGHT);
-
-            if (moveLeftPressed) {
+            if (this.screen.leftPressed) {
                 move(Direction.left);
-            } else if (moveRightPressed) {
+            } else if (this.screen.rightPressed) {
                 move(Direction.right);
             }
-        }
-
-        boolean jumpPressed = Gdx.input.isKeyJustPressed(Input.Keys.SPACE);
-        if (jumpPressed) {
-            jump();
         }
 
         checkIfFellOffscreen();

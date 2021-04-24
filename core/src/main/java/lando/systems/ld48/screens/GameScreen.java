@@ -24,6 +24,11 @@ public class GameScreen extends BaseScreen {
     public PhysicsSystem physicsSystem;
     public Array<PhysicsComponent> physicsEntities;
 
+    public boolean upPressed = false;
+    public boolean rightPressed = false;
+    public boolean leftPressed = false;
+    public boolean downPressed = false;
+
     public GameScreen(Game game) {
         super(game);
         loadLevel(LevelDescriptor.test);
@@ -78,13 +83,49 @@ public class GameScreen extends BaseScreen {
                 if (captureHandler != null) {
                     captureHandler.beginCapture(enemies);
                 }
+                downPressed = true;
                 break;
-
+            case Input.Keys.A:
+            case Input.Keys.LEFT:
+                leftPressed = true;
+                break;
+            case Input.Keys.D:
+            case Input.Keys.RIGHT:
+                rightPressed = true;
+                break;
+            case Input.Keys.W:
+            case Input.Keys.UP:
+            case Input.Keys.SPACE:
+                this.player.jump();
+                upPressed = true;
+                break;
         }
         return false;
     }
 
-
+    @Override
+    public boolean keyUp(int keyCode) {
+        switch (keyCode) {
+            case Input.Keys.S:
+            case Input.Keys.DOWN:
+                downPressed = false;
+                break;
+            case Input.Keys.A:
+            case Input.Keys.LEFT:
+                leftPressed = false;
+                break;
+            case Input.Keys.D:
+            case Input.Keys.RIGHT:
+                rightPressed = false;
+                break;
+            case Input.Keys.W:
+            case Input.Keys.UP:
+            case Input.Keys.SPACE:
+                upPressed = false;
+                break;
+        }
+        return false;
+    }
 
     @Override
     public void render(SpriteBatch batch) {

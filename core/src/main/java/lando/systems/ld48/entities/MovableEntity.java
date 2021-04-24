@@ -17,6 +17,7 @@ public class MovableEntity extends GameEntity {
 
     private float fallTime = 0;
 
+    public boolean jumpHeld = false;
     private float jumpTime = -1;
     private float jumpVelocity = 0f;
     private float jumpKeyHeldTimer = 0f;
@@ -86,7 +87,7 @@ public class MovableEntity extends GameEntity {
         if (jumpTime == -1) return;
 
         // TODO: consolidate input checking into GameScreen
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (jumpHeld) {
             jumpKeyHeldTimer += dt;
         }
 
