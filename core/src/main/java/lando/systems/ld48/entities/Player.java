@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld48.Audio;
 import lando.systems.ld48.levels.SpawnPlayer;
 import lando.systems.ld48.screens.GameScreen;
 
@@ -97,6 +98,14 @@ public class Player extends MovableEntity {
 
     private void move(Direction direction) {
         move(direction, horizontalSpeed);
+    }
+
+    @Override
+    public void jump() {
+        if (state != State.jump && state != State.jumping && grounded) {
+            screen.game.audio.playSound(Audio.Sounds.example);
+        }
+        super.jump();
     }
 
     @Override

@@ -91,16 +91,6 @@ public class GameEntity implements PhysicsComponent {
         this.direction = direction;
     }
 
-    public void move(Direction direction, float moveSpeed) {
-        float speed = (direction == Direction.left) ? -moveSpeed : moveSpeed;
-        this.direction = direction;
-        velocity.add(speed, 0);
-
-        if (state != State.jumping && (state != State.jump || grounded)) {
-            state = State.walking;
-        }
-    }
-
     public void update(float dt) {
         if (updateStateTimer()) {
             stateTime += dt;
@@ -112,14 +102,6 @@ public class GameEntity implements PhysicsComponent {
 
         // clamp velocity to maximum, horizontal only
         velocity.x = MathUtils.clamp(velocity.x, -maxHorizontalVelocity, maxHorizontalVelocity);
-
-        if (state != State.jumping) {
-            // stop if entity gets slow enough
-            if (Math.abs(velocity.x) < 10f && velocity.y < 50 && grounded) {
-                velocity.x = 0f;
-                state = State.standing;
-            }
-        }
 
         imageBounds.setPosition(position.x - imageBounds.width / 2f, position.y - collisionBounds.height / 2f);
         collisionBounds.setPosition(position.x - collisionBounds.width / 2f, position.y - collisionBounds.height / 2f);

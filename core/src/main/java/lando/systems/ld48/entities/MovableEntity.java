@@ -15,7 +15,7 @@ public class MovableEntity extends GameEntity {
     private float fallTime = 0;
 
     public boolean jumpHeld = false;
-    private float jumpTime = -1;
+    private float jumpTime = 1f;
     private float jumpVelocity = 0f;
     private float jumpKeyHeldTimer = 0f;
 
@@ -76,6 +76,14 @@ public class MovableEntity extends GameEntity {
             }
         }
 
+        if (state != State.jumping && jumpTime >= 0.2) {
+            // stop if entity gets slow enough
+            if (Math.abs(velocity.x) < 10f && grounded) {
+                velocity.x = 0f;
+                state = State.standing;
+            }
+        }
+
         if (state == State.standing && lastState != State.standing) {
             setAnimation(animationSet.IdleAnimation);
         }
@@ -84,9 +92,20 @@ public class MovableEntity extends GameEntity {
             setAnimation(animationSet.MoveAnimation);
         }
 
+
         lastState = state;
 
 
+    }
+
+    public void move(Direction direction, float moveSpeed) {
+        float speed = (direction == Direction.left) ? -moveSpeed : moveSpeed;
+        this.direction = direction;
+        velocity.add(speed, 0);
+
+        if (state != State.jumping && jumpTime >= 0.2 && grounded) {
+            state = State.walking;
+        }
     }
 
     public void jump() {
