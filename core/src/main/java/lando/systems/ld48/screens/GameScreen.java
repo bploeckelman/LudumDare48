@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld48.Audio;
 import lando.systems.ld48.Game;
 import lando.systems.ld48.entities.CaptureHandler;
 import lando.systems.ld48.entities.EnemyEntity;
@@ -53,11 +54,12 @@ public class GameScreen extends BaseScreen {
             spawner.spawn(this);
         }
         // for testing
+
+        game.audio.playMusic(Audio.Musics.example);
     }
 
     @Override
     public void update(float dt) {
-
         player.update(dt);
         enemies.forEach(enemy -> enemy.update(dt));
         captureHandler.updateCapture(dt, enemies);
@@ -104,6 +106,7 @@ public class GameScreen extends BaseScreen {
             case Input.Keys.UP:
             case Input.Keys.SPACE:
                 this.player.jump();
+                game.audio.playSound(Audio.Sounds.example);
                 upPressed = true;
                 break;
         }

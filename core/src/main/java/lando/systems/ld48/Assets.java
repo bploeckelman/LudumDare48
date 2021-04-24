@@ -3,6 +3,8 @@ package lando.systems.ld48;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -45,6 +47,10 @@ public class Assets implements Disposable {
 
     public NinePatch debugNinePatch;
 
+    public Sound exampleSound;
+
+    public Music exampleMusic;
+
     public Assets() {
         this(Load.SYNC);
     }
@@ -64,6 +70,10 @@ public class Assets implements Disposable {
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
 
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
+
+            mgr.load("audio/sound/example.wav", Sound.class);
+
+            mgr.load("audio/music/government-1.mp3", Music.class);
         }
 
         if (load == Load.SYNC) {
@@ -113,6 +123,9 @@ public class Assets implements Disposable {
         transitions.circleCrop = loadShader("shaders/transitions/default.vert", "shaders/transitions/circlecrop.frag");
         transitions.cube       = loadShader("shaders/transitions/default.vert", "shaders/transitions/cube.frag");
         transitions.dreamy     = loadShader("shaders/transitions/default.vert", "shaders/transitions/dreamy.frag");
+
+        exampleSound = mgr.get("audio/sound/example.wav", Sound.class);
+        exampleMusic = mgr.get("audio/music/government-1.mp3", Music.class);
 
         Transitions.shaders = new Array<>();
         Transitions.shaders.addAll(

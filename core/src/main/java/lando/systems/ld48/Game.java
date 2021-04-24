@@ -35,10 +35,6 @@ public class Game extends ApplicationAdapter {
     public void create() {
         Time.init();
 
-        assets = new Assets();
-
-        audio = new Audio();
-
         tween = new TweenManager();
         Tween.setWaypointsLimit(4);
         Tween.setCombinedAttributesLimit(4);
@@ -47,6 +43,10 @@ public class Game extends ApplicationAdapter {
         Tween.registerAccessor(Vector2.class, new Vector2Accessor());
         Tween.registerAccessor(Vector3.class, new Vector3Accessor());
         Tween.registerAccessor(OrthographicCamera.class, new CameraAccessor());
+
+        assets = new Assets();
+
+        audio = new Audio(this);
 
         screenTransition = new ScreenTransition(Config.windowWidth, Config.windowHeight);
 
@@ -83,6 +83,7 @@ public class Game extends ApplicationAdapter {
 
         // update systems
         tween.update(Time.delta);
+        audio.update(Time.delta);
         screen.update(Time.delta);
     }
 
@@ -103,6 +104,7 @@ public class Game extends ApplicationAdapter {
     @Override
     public void dispose() {
         screenTransition.dispose();
+        audio.dispose();
         assets.dispose();
     }
 
