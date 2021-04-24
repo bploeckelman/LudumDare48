@@ -70,13 +70,11 @@ public class CaptureHandler {
     }
 
     private void captureEnemy(EnemyEntity e) {
-        e.captured = true;
-        player.capturedEnemy = e;
+        player.SetEnemy(e);
     }
 
     private void uncaptureEnemy() {
-        player.capturedEnemy.captured = false;
-        player.capturedEnemy = null;
+        player.SetEnemy(null);
     }
 
 }

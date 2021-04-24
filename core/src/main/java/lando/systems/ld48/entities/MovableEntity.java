@@ -13,16 +13,13 @@ public class MovableEntity extends GameEntity {
 
     private State lastState;
 
-    private Animation<TextureRegion> idleAnimation;
-    private Animation<TextureRegion> moveAnimation;
+    public AnimationSet animationSet = new AnimationSet();
 
     private float fallTime = 0;
-    private Animation<TextureRegion> fallAnimation;
 
     private float jumpTime = -1;
     private float jumpVelocity = 0f;
     private float jumpKeyHeldTimer = 0f;
-    private Animation<TextureRegion> jumpAnimation;
 
     public int id;
     public boolean ignore = false;
@@ -30,19 +27,19 @@ public class MovableEntity extends GameEntity {
     protected MovableEntity(GameScreen screen, Animation<TextureRegion> idle, Animation<TextureRegion> move) {
         super(screen, idle);
 
-        idleAnimation = idle;
-        moveAnimation = move;
+        animationSet.IdleAnimation = idle;
+        animationSet.MoveAnimation = move;
 
         lastState = state;
     }
 
     public void setJump(Animation<TextureRegion> jumpAnimation, float jumpVelocity) {
-        this.jumpAnimation = jumpAnimation;
+        animationSet.JumpAnimation = jumpAnimation;
         this.jumpVelocity = jumpVelocity;
     }
 
     public void setFall(Animation<TextureRegion> fallAnimation) {
-        this.fallAnimation = fallAnimation;
+        animationSet.FallAnimation = fallAnimation;
     }
 
     @Override
@@ -63,9 +60,9 @@ public class MovableEntity extends GameEntity {
 
         if (lastState != state) {
             if (state == State.standing) {
-                setAnimation(idleAnimation);
+                setAnimation(animationSet.IdleAnimation);
             } else if (state == State.walking) {
-                setAnimation(moveAnimation);
+                setAnimation(animationSet.MoveAnimation);
             }
 
             fallTime = 0;
@@ -77,9 +74,9 @@ public class MovableEntity extends GameEntity {
     }
 
     private void updateFall(float dt) {
-        if (state == State.falling && fallAnimation != null) {
+        if (state == State.falling && animationSet.FallAnimation != null) {
             fallTime += dt;
-            keyframe = fallAnimation.getKeyFrame(fallTime);
+            keyframe = animationSet.FallAnimation.getKeyFrame(fallTime);
         } else {
             fallTime = 0;
         }
@@ -94,13 +91,13 @@ public class MovableEntity extends GameEntity {
         }
 
         jumpTime += dt;
-        if (jumpAnimation != null) {
-            keyframe = jumpAnimation.getKeyFrame(jumpTime);
+        if (animationSet.JumpAnimation != null) {
+            keyframe = animationSet.JumpAnimation.getKeyFrame(jumpTime);
         }
 
-        boolean jumpCompleted = (jumpTime > jumpAnimation.getAnimationDuration());
-        if (state == State.jumping && (jumpAnimation == null || jumpCompleted)) {
-            float bonusJump = (jumpKeyHeldTimer / jumpAnimation.getAnimationDuration()) * JUMP_BONUS;
+        boolean jumpCompleted = (jumpTime > animationSet.JumpAnimation.getAnimationDuration());
+        if (state == State.jumping && (animationSet.JumpAnimation == null || jumpCompleted)) {
+            float bonusJump = (jumpKeyHeldTimer / animationSet.JumpAnimation.getAnimationDuration()) * JUMP_BONUS;
             velocity.y = jumpVelocity * (1f + bonusJump);
             state = State.jump;
         }

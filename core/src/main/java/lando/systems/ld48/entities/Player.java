@@ -20,6 +20,8 @@ public class Player extends MovableEntity {
     public EnemyEntity capturedEnemy = null;
     public boolean capturing = false;
 
+    private AnimationSet defaultAnimationSet;
+
     public Player(GameScreen screen, SpawnPlayer spawn) {
         this(screen, spawn.pos.x, spawn.pos.y);
     }
@@ -33,6 +35,8 @@ public class Player extends MovableEntity {
         initEntity(x, y, keyframe.getRegionWidth() * SCALE, keyframe.getRegionHeight() * SCALE);
 
         id = MoveEntityIds.player;
+
+        defaultAnimationSet = animationSet;
     }
 
     @Override
@@ -128,4 +132,20 @@ public class Player extends MovableEntity {
         return true;
     }
 
+    // temp naming for now
+    public void SetEnemy(EnemyEntity enemy) {
+        if (enemy == null) {
+            capturedEnemy.captured = false;
+            capturedEnemy = null;
+            animationSet = defaultAnimationSet;
+        } else {
+            capturedEnemy = enemy;
+            enemy.captured = true;
+            // need to get animation sets on default GameEntity
+            animationSet = new AnimationSet();
+            animationSet.MoveAnimation = animationSet.IdleAnimation =
+                    animationSet.FallAnimation = animationSet.JumpAnimation = enemy.animation;
+        }
+        animation = animationSet.IdleAnimation;
+    }
 }

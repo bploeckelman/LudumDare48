@@ -19,6 +19,8 @@ public class Mummy extends EnemyEntity {
 
     @Override
     public void update(float dt) {
+        if (captured) { return; }
+
         super.update(dt);
         moveTimer -= dt;
         turnTimer -= dt;
