@@ -43,7 +43,13 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> playerFallAnimation;
     public Animation<TextureRegion> playerDieAnimation;
 
-    public Animation<TextureRegion> mummyAnimation;
+    // enemas
+    public Animation<TextureRegion> grayAnimation;
+    public Animation<TextureRegion> grayMoveAnimation;
+    public Animation<TextureRegion> grayAttackAnimation;
+    public Animation<TextureRegion> grayJumpAnimation;
+    public Animation<TextureRegion> grayFallAnimation;
+    public Animation<TextureRegion> grayDieAnimation;
 
     public NinePatch debugNinePatch;
 
@@ -105,7 +111,12 @@ public class Assets implements Disposable {
         playerFallAnimation   = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),  Animation.PlayMode.NORMAL);
         playerDieAnimation    = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.NORMAL);
 
-        mummyAnimation = new Animation<>(0.2f, atlas.findRegions("enemies/mummy/mummy-walk"), Animation.PlayMode.LOOP);
+        grayAnimation       = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),  Animation.PlayMode.LOOP);
+        grayMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-run"),   Animation.PlayMode.LOOP);
+        grayAttackAnimation = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-shoot"), Animation.PlayMode.NORMAL);
+        grayJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.NORMAL);
+        grayFallAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.REVERSED);
+        grayDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),   Animation.PlayMode.NORMAL);
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 6, 6, 6, 6);
 

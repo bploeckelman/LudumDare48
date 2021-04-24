@@ -11,8 +11,6 @@ public class MovableEntity extends GameEntity {
 
     private State lastState;
 
-    public AnimationSet animationSet = new AnimationSet();
-
     private float fallTime = 0;
 
     public boolean jumpHeld = false;

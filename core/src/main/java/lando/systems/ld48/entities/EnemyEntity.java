@@ -50,9 +50,13 @@ public class EnemyEntity extends GameEntity {
         return this;
     }
 
+    // don't override this
     @Override
     public void update(float dt) {
+        if (captured) { return; }
+
         super.update(dt);
+        updateEntity(dt);
 
         if (dead) {
             removeTime -= dt;
@@ -61,6 +65,9 @@ public class EnemyEntity extends GameEntity {
             }
         }
     }
+
+    // override this
+    protected void updateEntity(float dt) { }
 
     @Override
     public void render(SpriteBatch batch) {

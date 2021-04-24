@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.Assets;
 import lando.systems.ld48.entities.EnemyEntity;
-import lando.systems.ld48.entities.enemies.Mummy;
+import lando.systems.ld48.entities.enemies.Gray;
 import lando.systems.ld48.screens.GameScreen;
 
 public class SpawnEnemy {
 
+    // update to gray
     public enum Type { mummy }
 
     public Vector2 pos;
@@ -34,7 +35,7 @@ public class SpawnEnemy {
         switch (type) {
             // todo - add more cases when we have more enemy types
             case mummy: {
-                enemy = new Mummy(screen, pos.x, pos.y);
+                enemy = new Gray(screen, pos.x, pos.y);
             } break;
         }
 

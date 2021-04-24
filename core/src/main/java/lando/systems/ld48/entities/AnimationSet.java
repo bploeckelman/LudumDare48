@@ -8,4 +8,8 @@ public class AnimationSet {
     public Animation<TextureRegion> MoveAnimation;
     public Animation<TextureRegion> FallAnimation;
     public Animation<TextureRegion> JumpAnimation;
+
+    public AnimationSet(Animation<TextureRegion> animation) {
+        IdleAnimation = MoveAnimation = animation;
+    }
 }

@@ -26,6 +26,7 @@ public class GameEntity implements PhysicsComponent {
     protected GameScreen screen;
     protected TextureRegion keyframe;
     protected Animation<TextureRegion> animation;
+    public AnimationSet animationSet;
 
     public State state = State.standing;
     public Direction direction = Direction.right;
@@ -57,6 +58,7 @@ public class GameEntity implements PhysicsComponent {
     GameEntity(GameScreen screen, Animation<TextureRegion> animation) {
         this(screen, animation.getKeyFrame(0f));
         this.animation = animation;
+        animationSet = new AnimationSet(animation);
     }
 
     protected GameEntity(GameScreen screen, TextureRegion keyframe) {
