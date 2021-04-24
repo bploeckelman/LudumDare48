@@ -1,7 +1,5 @@
 package lando.systems.ld48.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -47,7 +45,6 @@ public class Player extends MovableEntity {
         setPosition(x, y);
     }
 
-    // TODO: consolidate input checking into GameScreen
     @Override
     public void update(float dt) {
         // death takes priority

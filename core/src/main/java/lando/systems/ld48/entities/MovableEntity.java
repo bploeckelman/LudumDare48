@@ -54,55 +54,44 @@ public class MovableEntity extends GameEntity {
 
         if (velocity.y < -50 || state == State.falling) {
             state = State.falling;
-            jumpTime = -1;
-        }
-
-        if (lastState != state) {
-            if (state == State.standing) {
-                setAnimation(animationSet.IdleAnimation);
-            } else if (state == State.walking) {
-                setAnimation(animationSet.MoveAnimation);
-            }
-
-            fallTime = 0;
-            lastState = state;
-        }
-
-        updateFall(dt);
-        updateJump(dt);
-    }
-
-    private void updateFall(float dt) {
-        if (state == State.falling && animationSet.FallAnimation != null) {
             fallTime += dt;
-            keyframe = animationSet.FallAnimation.getKeyFrame(fallTime);
+            if (animationSet.FallAnimation != null) {
+                keyframe = animationSet.FallAnimation.getKeyFrame(fallTime);
+            }
         } else {
             fallTime = 0;
         }
 
-    private void updateJump(float dt) {
-        if (jumpTime == -1) return;
-
-        // TODO: consolidate input checking into GameScreen
-        if (jumpHeld) {
-            jumpKeyHeldTimer += dt;
+        if (state == State.jump || state == State.jumping) {
+            jumpTime += dt;
+            if (jumpHeld) {
+                jumpKeyHeldTimer += dt;
+            }
+            if (animationSet.JumpAnimation != null) {
+                keyframe = animationSet.JumpAnimation.getKeyFrame(jumpTime);
+            }
+            if (state == State.jumping && (animationSet.JumpAnimation == null || jumpTime > animationSet.JumpAnimation.getAnimationDuration())) {
+                float bonusJump = animationSet.JumpAnimation == null ? 0 : Math.min(jumpKeyHeldTimer / animationSet.JumpAnimation.getAnimationDuration(), 1) * JUMP_BONUS;
+                velocity.y = jumpVelocity * (1f + bonusJump);
+                state = State.jump;
+            }
         }
 
-        jumpTime += dt;
-        if (animationSet.JumpAnimation != null) {
-            keyframe = animationSet.JumpAnimation.getKeyFrame(jumpTime);
+        if (state == State.standing && lastState != State.standing) {
+            setAnimation(animationSet.IdleAnimation);
         }
 
-        boolean jumpCompleted = (jumpTime > animationSet.JumpAnimation.getAnimationDuration());
-        if (state == State.jumping && (animationSet.JumpAnimation == null || jumpCompleted)) {
-            float bonusJump = (jumpKeyHeldTimer / animationSet.JumpAnimation.getAnimationDuration()) * JUMP_BONUS;
-            velocity.y = jumpVelocity * (1f + bonusJump);
-            state = State.jump;
+        if (state == State.walking && lastState != State.walking) {
+            setAnimation(animationSet.MoveAnimation);
         }
+
+        lastState = state;
+
+
     }
 
     public void jump() {
-        if (jumpTime == -1 && grounded) {
+        if (state != State.jump && state != State.jumping && grounded) {
             jumpTime = 0;
             jumpKeyHeldTimer = 0;
             state = State.jumping;
