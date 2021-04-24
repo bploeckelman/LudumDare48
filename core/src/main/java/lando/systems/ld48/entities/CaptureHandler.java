@@ -24,6 +24,7 @@ public class CaptureHandler {
                 if (Math.abs((enemy.collisionBounds.x + enemy.collisionBounds.width/2) - (player.collisionBounds.x + player.collisionBounds.width/2)) <= 20
                     && Math.abs((enemy.collisionBounds.y) - (player.collisionBounds.y)) <= 2) {
                     nearbyCapturing.add(enemy);
+                    enemy.targeted = true;
                 }
             }
         }
@@ -42,6 +43,7 @@ public class CaptureHandler {
                         || Math.abs((enemy.collisionBounds.y) - (player.collisionBounds.y)) > 2
                         || enemy.dead
                         || !enemies.contains(enemy, true)) {
+                    enemy.targeted = false;
                     e.remove();
                 }
             }

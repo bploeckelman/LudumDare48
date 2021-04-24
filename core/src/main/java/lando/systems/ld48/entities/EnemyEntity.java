@@ -2,6 +2,7 @@ package lando.systems.ld48.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.ld48.screens.GameScreen;
 
@@ -9,6 +10,7 @@ public class EnemyEntity extends GameEntity {
 
     public float removeTime = 2f;
     public boolean captured = false;
+    public boolean targeted = false;
 
     protected EnemyEntity(GameScreen screen, Animation<TextureRegion> animation, float x, float y) {
         this(screen, animation, 1f, x, y);
@@ -42,6 +44,12 @@ public class EnemyEntity extends GameEntity {
         screen.physicsEntities.removeValue(this, true);
     }
 
+    public EnemyEntity capture() {
+        targeted = false;
+        captured = true;
+        return this;
+    }
+
     @Override
     public void update(float dt) {
         super.update(dt);
@@ -55,13 +63,18 @@ public class EnemyEntity extends GameEntity {
     }
 
     @Override
+    public void render(SpriteBatch batch) {
+        if (captured) { return; }
+        super.render(batch);
+    }
+
+    @Override
     public Color getEffectColor() {
-        if (captured) {return Color.RED;}
+        if (targeted) { return Color.RED; }
 
         if (dead) {
             if ((int)(removeTime * 30) % 2 == 0 ) { return Color.BLACK; }
         }
         return super.getEffectColor();
     }
-
 }

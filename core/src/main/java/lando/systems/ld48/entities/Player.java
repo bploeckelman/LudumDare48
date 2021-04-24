@@ -131,8 +131,7 @@ public class Player extends MovableEntity {
             capturedEnemy = null;
             animationSet = defaultAnimationSet;
         } else {
-            capturedEnemy = enemy;
-            enemy.captured = true;
+            capturedEnemy = enemy.capture();
             // need to get animation sets on default GameEntity
             animationSet = new AnimationSet();
             animationSet.MoveAnimation = animationSet.IdleAnimation =
