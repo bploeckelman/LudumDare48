@@ -1,8 +1,13 @@
 package lando.systems.ld48.screens;
 
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld48.Game;
 import lando.systems.ld48.entities.CaptureHandler;
@@ -58,6 +63,8 @@ public class GameScreen extends BaseScreen {
         captureHandler.updateCapture(dt, enemies);
         level.update(dt);
         physicsSystem.update(dt);
+
+        CameraConstraints.update(worldCamera, player, level);
     }
 
     @Override
@@ -197,6 +204,68 @@ public class GameScreen extends BaseScreen {
         public static boolean renderPlayerDebug = false;
         public static boolean renderEnemyDebug = false;
         public static boolean renderPhysicsDebug = false;
+    }
+
+    static class CameraConstraints {
+        public static boolean override = false;
+
+        public static float marginHoriz = 40f;
+        public static float marginVert = 20;
+        public static float marginVertJump = 150f;
+
+        public static float zoomMin = 0.1f;
+        public static float zoomMax = 2.0f;
+
+        public static float lerpScalePan = 0.2f;
+        public static float lerpScaleZoom = 0.02f;
+
+        public static Vector2 targetPos = new Vector2();
+        public static MutableFloat targetZoom = new MutableFloat(1f);
+
+        public static void update(OrthographicCamera camera, Player player, Level level) {
+            float playerX = player.position.x + player.collisionBounds.width / 2f;
+            if (playerX < CameraConstraints.targetPos.x - CameraConstraints.marginHoriz) CameraConstraints.targetPos.x = playerX + CameraConstraints.marginHoriz;
+            if (playerX > CameraConstraints.targetPos.x + CameraConstraints.marginHoriz) CameraConstraints.targetPos.x = playerX - CameraConstraints.marginHoriz;
+
+            float playerY = player.position.y + player.collisionBounds.height / 2f;
+            if (playerY < CameraConstraints.targetPos.y - CameraConstraints.marginVert) {
+                CameraConstraints.targetPos.y = playerY + CameraConstraints.marginVert;
+            }
+
+            if (player.grounded) {
+                if (playerY > CameraConstraints.targetPos.y + CameraConstraints.marginVert) {
+                    CameraConstraints.targetPos.y = playerY - CameraConstraints.marginVert;
+                }
+            } else {
+                if (playerY > CameraConstraints.targetPos.y + CameraConstraints.marginVertJump) {
+                    CameraConstraints.targetPos.y = playerY - CameraConstraints.marginVertJump;
+                }
+            }
+
+            TiledMapTileLayer collisionTileLayer = level.getLayer(Level.LayerType.collision).tileLayer;
+            float collisionLayerWidth      = collisionTileLayer.getWidth();
+            float collisionLayerHeight     = collisionTileLayer.getHeight();
+            float collisionLayerTileWidth  = collisionTileLayer.getTileWidth();
+            float collisionLayerTileHeight = collisionTileLayer.getTileHeight();
+
+            float cameraLeftEdge = camera.viewportWidth / 2f;
+            CameraConstraints.targetPos.x = MathUtils.clamp(CameraConstraints.targetPos.x, cameraLeftEdge, collisionLayerWidth * collisionLayerTileWidth - cameraLeftEdge);
+
+            float cameraVertEdge = camera.viewportHeight / 2f;
+            CameraConstraints.targetPos.y = MathUtils.clamp(CameraConstraints.targetPos.y, cameraVertEdge, collisionLayerHeight * collisionLayerTileHeight - cameraVertEdge);
+
+    //        targetZoom.setValue(1 + Math.abs(player.velocity.y / 2000f));
+
+            // update actual camera position/zoom unless overridden for special effects
+            if (!CameraConstraints.override) {
+                camera.zoom = MathUtils.lerp(camera.zoom, CameraConstraints.targetZoom.floatValue(), CameraConstraints.lerpScaleZoom);
+                camera.zoom = MathUtils.clamp(camera.zoom, CameraConstraints.zoomMin, CameraConstraints.zoomMax);
+
+                camera.position.x = MathUtils.lerp(camera.position.x, CameraConstraints.targetPos.x, CameraConstraints.lerpScalePan);
+                camera.position.y = MathUtils.lerp(camera.position.y, CameraConstraints.targetPos.y, CameraConstraints.lerpScalePan);
+                camera.update();
+            }
+        }
     }
 
 }

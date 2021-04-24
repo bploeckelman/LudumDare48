@@ -17,7 +17,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import lando.systems.ld48.Assets;
-import lando.systems.ld48.entities.EnemyEntity;
 import lando.systems.ld48.physics.Segment2D;
 import lando.systems.ld48.screens.GameScreen;
 import lando.systems.ld48.utils.Utils;
@@ -36,7 +35,6 @@ public class Level {
         }
     }
 
-    private GameScreen gameScreen;
     private Assets assets;
 
     private String name;
@@ -62,7 +60,6 @@ public class Level {
     public Level(LevelDescriptor levelDescriptor, GameScreen gameScreen) {
         Gdx.app.log("Level", "Loading: " + levelDescriptor);
 
-        this.gameScreen = gameScreen;
         this.assets = gameScreen.game.assets;
         this.currentLevel = levelDescriptor;
 
@@ -250,7 +247,7 @@ public class Level {
 
         // toggle this to allow for 45 degree ramps;
         // but if it's on the parser gets confused about stylistic tiles with transparency that aren't actual ramps
-        boolean pixelPrecision = false;
+        boolean pixelPrecision = true;
         Pixmap pixmap = null;
 
         // Build Edges
@@ -272,10 +269,12 @@ public class Level {
                 if (cellLeft   == null) leftSegment   = new Segment2D((x)   * tileWidth, (y+1) * tileWidth, (x)   * tileWidth, (y)   * tileWidth);
                 if (cellTop    == null) topSegment    = new Segment2D((x+1) * tileWidth, (y+1) * tileWidth, (x)   * tileWidth, (y+1) * tileWidth);
                 if (cellBottom == null) bottomSegment = new Segment2D((x)   * tileWidth, (y)   * tileWidth, (x+1) * tileWidth, (y)   * tileWidth);
-                if (topSegment    != null) collisionSegments.add(topSegment);
-                if (rightSegment  != null) collisionSegments.add(rightSegment);
-                if (leftSegment   != null) collisionSegments.add(leftSegment);
-                if (bottomSegment != null) collisionSegments.add(bottomSegment);
+                if (!pixelPrecision) {
+                    if (topSegment    != null) collisionSegments.add(topSegment);
+                    if (rightSegment  != null) collisionSegments.add(rightSegment);
+                    if (leftSegment   != null) collisionSegments.add(leftSegment);
+                    if (bottomSegment != null) collisionSegments.add(bottomSegment);
+                }
 
                 // NOTE - needed for ramps, but we don't care at the moment and it misreads the prototype tileset
                 if (pixelPrecision) {
@@ -287,32 +286,37 @@ public class Level {
                         pixmap = texture.getTextureData().consumePixmap();
                     }
 
+                    // look for transparent pixels on the edges of a tile to indicate a ramp
                     TextureRegion region = cell.getTile().getTextureRegion();
-                    int valueUL = pixmap.getPixel(region.getRegionX() + 2, region.getRegionY() + 2);
-                    int valueUR = pixmap.getPixel(region.getRegionX() + region.getRegionWidth() - 2, region.getRegionY() + 2);
-                    int valueLL = pixmap.getPixel(region.getRegionX() + 2, region.getRegionY() + region.getRegionHeight() - 2);
-                    int valueLR = pixmap.getPixel(region.getRegionX() + region.getRegionWidth() - 2, region.getRegionY() + region.getRegionHeight() - 2);
+                    int valueL = pixmap.getPixel(region.getRegionX(), region.getRegionY() + region.getRegionHeight() / 2);
+                    int valueR = pixmap.getPixel(region.getRegionX() + region.getRegionWidth() - 1, region.getRegionY() + region.getRegionHeight() / 2);
+                    int valueU = pixmap.getPixel(region.getRegionX() + region.getRegionWidth() / 2, region.getRegionY());
+                    int valueD = pixmap.getPixel(region.getRegionX() + region.getRegionWidth() / 2, region.getRegionY() + region.getRegionHeight() - 1);
+                    Color colorL = new Color(valueL);
+                    Color colorR = new Color(valueR);
+                    Color colorU = new Color(valueU);
+                    Color colorD = new Color(valueD);
 
-                    if ((valueUL & 0x000000ff) == 0) {
+                    if (colorL.a == 0f && colorU.a == 0f) {
+                        if (rightSegment  != null) collisionSegments.add(rightSegment);
                         if (bottomSegment != null) collisionSegments.add(bottomSegment);
-                        if (rightSegment != null) collisionSegments.add(rightSegment);
                         collisionSegments.add(new Segment2D((x + 1) * tileWidth, (y + 1) * tileWidth, (x) * tileWidth, (y) * tileWidth));
-                    } else if ((valueUR & 0x000000ff) == 0) {
+                    } else if (colorR.a == 0f && colorU.a == 0f) {
+                        if (leftSegment   != null) collisionSegments.add(leftSegment);
                         if (bottomSegment != null) collisionSegments.add(bottomSegment);
-                        if (leftSegment != null) collisionSegments.add(leftSegment);
                         collisionSegments.add(new Segment2D((x + 1) * tileWidth, (y) * tileWidth, (x) * tileWidth, (y + 1) * tileWidth));
-                    } else if ((valueLL & 0x000000ff) == 0) {
-                        if (topSegment != null) collisionSegments.add(topSegment);
+                    } else if (colorL.a == 0f && colorD.a == 0f) {
                         if (rightSegment != null) collisionSegments.add(rightSegment);
+                        if (topSegment   != null) collisionSegments.add(topSegment);
                         collisionSegments.add(new Segment2D((x) * tileWidth, (y + 1) * tileWidth, (x + 1) * tileWidth, (y) * tileWidth));
-                    } else if ((valueLR & 0x000000ff) == 0) {
-                        if (topSegment != null) collisionSegments.add(topSegment);
+                    } else if (colorR.a == 0f && colorD.a == 0f) {
                         if (leftSegment != null) collisionSegments.add(leftSegment);
-                        collisionSegments.add(new Segment2D((x + 1) * tileWidth, (y) * tileWidth, (x) * tileWidth, (y + 1) * tileWidth));
+                        if (topSegment  != null) collisionSegments.add(topSegment);
+                        collisionSegments.add(new Segment2D((x) * tileWidth, (y) * tileWidth, (x + 1) * tileWidth, (y + 1) * tileWidth));
                     } else {
-                        if (topSegment != null) collisionSegments.add(topSegment);
-                        if (rightSegment != null) collisionSegments.add(rightSegment);
-                        if (leftSegment != null) collisionSegments.add(leftSegment);
+                        if (topSegment    != null) collisionSegments.add(topSegment);
+                        if (rightSegment  != null) collisionSegments.add(rightSegment);
+                        if (leftSegment   != null) collisionSegments.add(leftSegment);
                         if (bottomSegment != null) collisionSegments.add(bottomSegment);
                     }
                 }
