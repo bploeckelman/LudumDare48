@@ -81,7 +81,6 @@ public class MovableEntity extends GameEntity {
         } else {
             fallTime = 0;
         }
-    }
 
     private void updateJump(float dt) {
         if (jumpTime == -1) return;
