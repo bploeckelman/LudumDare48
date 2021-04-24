@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Align;
 import lando.systems.ld48.Game;
 import lando.systems.ld48.utils.Time;
 
@@ -67,6 +68,20 @@ public class TitleScreen extends BaseScreen {
             float y     = (1f / 4f) * height;
             batch.draw(catKeyFrame, left, y);
             batch.draw(dogKeyFrame, right, y);
+        }
+        batch.end();
+
+        batch.setProjectionMatrix(windowCamera.combined);
+        batch.begin();
+        {
+            float width  = windowCamera.viewportWidth;
+            float height = windowCamera.viewportHeight;
+            float targetWidth = (1f / 3f) * width;
+            game.assets.layout.setText(game.assets.pixelFont16, "Is Game,\n\ntouch to play!", Color.SALMON, targetWidth, Align.center, true);
+
+            float x = targetWidth;
+            float y = (2f / 3f) * height;
+            game.assets.pixelFont16.draw(batch, game.assets.layout, x, y);
         }
         batch.end();
     }
