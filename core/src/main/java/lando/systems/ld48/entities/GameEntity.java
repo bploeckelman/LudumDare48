@@ -115,7 +115,7 @@ public class GameEntity implements PhysicsComponent {
 
         if (state != State.jumping) {
             // stop if entity gets slow enough
-            if (Math.abs(velocity.x) < 10f && grounded) {
+            if (Math.abs(velocity.x) < 10f && velocity.y < 50 && grounded) {
                 velocity.x = 0f;
                 state = State.standing;
             }
