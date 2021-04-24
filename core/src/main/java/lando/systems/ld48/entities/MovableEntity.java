@@ -3,6 +3,7 @@ package lando.systems.ld48.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import lando.systems.ld48.Audio;
 import lando.systems.ld48.screens.GameScreen;
 
 public class MovableEntity extends GameEntity {
@@ -90,6 +91,7 @@ public class MovableEntity extends GameEntity {
 
     public void jump() {
         if (state != State.jump && state != State.jumping && grounded) {
+            screen.game.audio.playSound(Audio.Sounds.jump);
             jumpTime = 0;
             jumpKeyHeldTimer = 0;
             state = State.jumping;

@@ -106,7 +106,6 @@ public class GameScreen extends BaseScreen {
             case Input.Keys.UP:
             case Input.Keys.SPACE:
                 this.player.jump();
-                game.audio.playSound(Audio.Sounds.example);
                 upPressed = true;
                 break;
         }
