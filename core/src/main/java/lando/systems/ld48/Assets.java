@@ -88,12 +88,12 @@ public class Assets implements Disposable {
         cat = new Animation<>(0.1f, atlas.findRegions("pets/cat"), Animation.PlayMode.LOOP);
         dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);
 
-        playerAnimation       = new Animation<>(0.1f, atlas.findRegions("player/doc-idle"),  Animation.PlayMode.LOOP);
-        playerMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("player/doc-run"),   Animation.PlayMode.LOOP);
-        playerAttackAnimation = new Animation<>(0.1f, atlas.findRegions("player/doc-punch"), Animation.PlayMode.NORMAL);
-        playerJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("player/doc-jump"),  Animation.PlayMode.NORMAL);
-        playerFallAnimation   = new Animation<>(0.1f, atlas.findRegions("player/doc-fall"),  Animation.PlayMode.NORMAL);
-        playerDieAnimation    = new Animation<>(0.1f, atlas.findRegions("player/doc-die"),   Animation.PlayMode.NORMAL);
+        playerAnimation       = new Animation<>(0.1f, atlas.findRegions("player/ghost-idle"),  Animation.PlayMode.LOOP);
+        playerMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.LOOP);
+        playerAttackAnimation = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"), Animation.PlayMode.NORMAL);
+        playerJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("player/ghost-move"),  Animation.PlayMode.NORMAL);
+        playerFallAnimation   = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),  Animation.PlayMode.NORMAL);
+        playerDieAnimation    = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.NORMAL);
 
         mummyAnimation = new Animation<>(0.2f, atlas.findRegions("enemies/mummy/mummy-walk"), Animation.PlayMode.LOOP);
 
