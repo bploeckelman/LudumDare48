@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="left-up" width="20" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="3">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="left-up" width="20" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="5">
  <tileset firstgid="1" name="prototype-basic-tiles" tilewidth="16" tileheight="16" tilecount="40" columns="4">
   <image source="prototype-basic-tiles.png" width="64" height="160"/>
  </tileset>
@@ -19,6 +19,11 @@
  <objectgroup id="3" name="objects">
   <object id="1" name="spawn-player" type="spawn-player" gid="45" x="151.794" y="119.595" width="16" height="16"/>
   <object id="2" name="exit" type="exit" gid="45" x="256" y="64" width="16" height="16"/>
+  <object id="3" name="mummy" type="spawn-enemy" gid="45" x="144" y="192" width="16" height="16">
+   <properties>
+    <property name="enemy-type" value="mummy"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer id="4" name="foreground" width="20" height="15">
   <data encoding="base64">

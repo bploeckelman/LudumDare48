@@ -41,6 +41,8 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> playerFallAnimation;
     public Animation<TextureRegion> playerDieAnimation;
 
+    public Animation<TextureRegion> mummyAnimation;
+
     public NinePatch debugNinePatch;
 
     public Assets() {
@@ -92,6 +94,8 @@ public class Assets implements Disposable {
         playerJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("player/doc-jump"),  Animation.PlayMode.NORMAL);
         playerFallAnimation   = new Animation<>(0.1f, atlas.findRegions("player/doc-fall"),  Animation.PlayMode.NORMAL);
         playerDieAnimation    = new Animation<>(0.1f, atlas.findRegions("player/doc-die"),   Animation.PlayMode.NORMAL);
+
+        mummyAnimation = new Animation<>(0.2f, atlas.findRegions("enemies/mummy/mummy-walk"), Animation.PlayMode.LOOP);
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 6, 6, 6, 6);
 

@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld48.Game;
+import lando.systems.ld48.entities.EnemyEntity;
 import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.levels.Level;
 import lando.systems.ld48.levels.LevelDescriptor;
+import lando.systems.ld48.levels.SpawnEnemy;
 import lando.systems.ld48.physics.PhysicsComponent;
 import lando.systems.ld48.physics.PhysicsSystem;
 
@@ -15,6 +17,7 @@ public class GameScreen extends BaseScreen {
 
     public Level level;
     public Player player;
+    public Array<EnemyEntity> enemies;
 
     public PhysicsSystem physicsSystem;
     public Array<PhysicsComponent> physicsEntities;
@@ -27,9 +30,16 @@ public class GameScreen extends BaseScreen {
     private void loadLevel(LevelDescriptor levelDescriptor) {
         this.level = new Level(levelDescriptor, this);
         this.player = new Player(this, level.getPlayerSpawn());
+        this.enemies = new Array<>();
         this.physicsSystem = new PhysicsSystem(this);
         this.physicsEntities = new Array<>();
         this.physicsEntities.add(player);
+
+        // for testing
+        for (SpawnEnemy spawner : this.level.getEnemySpawns()) {
+            spawner.spawn(this);
+        }
+        // for testing
     }
 
     @Override
@@ -37,9 +47,11 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) DebugFlags.renderFpsDebug     = !DebugFlags.renderFpsDebug;
         if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) DebugFlags.renderLevelDebug   = !DebugFlags.renderLevelDebug;
         if (Gdx.input.isKeyJustPressed(Input.Keys.F3)) DebugFlags.renderPlayerDebug  = !DebugFlags.renderPlayerDebug;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F4)) DebugFlags.renderPhysicsDebug = !DebugFlags.renderPhysicsDebug;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F4)) DebugFlags.renderEnemyDebug   = !DebugFlags.renderEnemyDebug;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F5)) DebugFlags.renderPhysicsDebug = !DebugFlags.renderPhysicsDebug;
 
         player.update(dt);
+        enemies.forEach(enemy -> enemy.update(dt));
         level.update(dt);
         physicsSystem.update(dt);
     }
@@ -60,6 +72,7 @@ public class GameScreen extends BaseScreen {
 
             batch.begin();
             {
+                enemies.forEach(enemy -> enemy.render(batch));
                 player.render(batch);
                 level.renderObjects(batch);
             }
@@ -80,6 +93,9 @@ public class GameScreen extends BaseScreen {
                 }
                 if (DebugFlags.renderPlayerDebug) {
                     player.renderDebug(batch);
+                }
+                if (DebugFlags.renderEnemyDebug) {
+                    enemies.forEach(enemy -> enemy.renderDebug(batch));
                 }
                 if (DebugFlags.renderPhysicsDebug) {
                     physicsSystem.renderDebug(batch);
@@ -108,6 +124,7 @@ public class GameScreen extends BaseScreen {
         public static boolean renderFpsDebug = true;
         public static boolean renderLevelDebug = false;
         public static boolean renderPlayerDebug = false;
+        public static boolean renderEnemyDebug = false;
         public static boolean renderPhysicsDebug = false;
     }
 

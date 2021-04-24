@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import lando.systems.ld48.Assets;
+import lando.systems.ld48.entities.EnemyEntity;
 import lando.systems.ld48.physics.Segment2D;
 import lando.systems.ld48.screens.GameScreen;
 import lando.systems.ld48.utils.Utils;
@@ -56,6 +57,7 @@ public class Level {
 
     private Exit exit;
     private SpawnPlayer playerSpawn;
+    private Array<SpawnEnemy> enemySpawns;
 
     public Level(LevelDescriptor levelDescriptor, GameScreen gameScreen) {
         Gdx.app.log("Level", "Loading: " + levelDescriptor);
@@ -112,6 +114,7 @@ public class Level {
         // load map objects
         exit = null;
         playerSpawn = null;
+        enemySpawns = new Array<>();
 
         MapObjects objects = objectsLayer.getObjects();
         for (MapObject object : objects) {
@@ -126,6 +129,11 @@ public class Level {
 
             if ("spawn-player".equalsIgnoreCase(type)) {
                 playerSpawn = new SpawnPlayer(x, y, assets);
+            }
+            else if ("spawn-enemy".equalsIgnoreCase(type)) {
+                SpawnEnemy.Type enemyType = SpawnEnemy.Type.valueOf((String) props.get("enemy-type"));
+                SpawnEnemy spawn = new SpawnEnemy(enemyType, x, y, gameScreen.game.assets);
+                enemySpawns.add(spawn);
             }
             else if ("exit".equalsIgnoreCase(type)) {
                 exit = new Exit(x, y, assets);
@@ -150,6 +158,10 @@ public class Level {
 
     public SpawnPlayer getPlayerSpawn() {
         return playerSpawn;
+    }
+
+    public Array<SpawnEnemy> getEnemySpawns() {
+        return enemySpawns;
     }
 
     public Layer getLayer(LayerType layerType) {
