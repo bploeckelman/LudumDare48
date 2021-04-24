@@ -22,28 +22,29 @@ public class Mummy extends EnemyEntity {
         if (captured) { return; }
 
         super.update(dt);
-        moveTimer -= dt;
-        turnTimer -= dt;
-
-        float moveSpeed = 10f;
-
-        if (turnTimer < 0) {
-            if (Math.abs(screen.player.position.x - position.x) < 100f) {
-                direction = (screen.player.position.x < position.x) ? Direction.left : Direction.right;
-            } else {
-                direction = MathUtils.randomBoolean() ? Direction.left : Direction.right;
-            }
-            turnTimer = MathUtils.random(1f, 3f);
-        }
-        if (moveTimer > 1f) {
-            velocity.x = direction == Direction.left ? -moveSpeed : moveSpeed;
-        }
-//        else {
-//            velocity.x = direction == Direction.left ? -moveSpeed / 2f : moveSpeed / 2f;
+        // todo - this is stupid but somehow this code is causing noticeable slowdown
+//        moveTimer -= dt;
+//        turnTimer -= dt;
+//
+//        float moveSpeed = 10f;
+//
+//        if (turnTimer < 0) {
+//            if (Math.abs(screen.player.position.x - position.x) < 100f) {
+//                direction = (screen.player.position.x < position.x) ? Direction.left : Direction.right;
+//            } else {
+//                direction = MathUtils.randomBoolean() ? Direction.left : Direction.right;
+//            }
+//            turnTimer = MathUtils.random(1f, 3f);
 //        }
-        if (moveTimer < 0f) {
-            moveTimer = MathUtils.random(10f, 15f);
-        }
+//        if (moveTimer > 1f) {
+//            velocity.x = direction == Direction.left ? -moveSpeed : moveSpeed;
+//        }
+////        else {
+////            velocity.x = direction == Direction.left ? -moveSpeed / 2f : moveSpeed / 2f;
+////        }
+//        if (moveTimer < 0f) {
+//            moveTimer = MathUtils.random(10f, 15f);
+//        }
     }
 
 }
