@@ -10,6 +10,7 @@ public class MovableEntity extends GameEntity {
 
     public static float JUMP_BONUS = 0.4f;
 
+    // todo: remove - exists in GameEntity
     private State lastState;
 
     private float fallTime = 0;
@@ -63,6 +64,7 @@ public class MovableEntity extends GameEntity {
         if (ignore) return;
         super.update(dt);
 
+        // todo: move to updateState
         if (state == State.death) {
             deathTime += dt;
             if (animationSet.DieAnimation != null) {

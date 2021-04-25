@@ -19,6 +19,7 @@ public class GameEntity implements PhysicsComponent {
         }
     }
 
+    // add posses, release/excorsize?, landing, dying states - death is special
     public enum State { standing, walking, jumping, jump, falling, attacking, death }
 
     protected Assets assets;
@@ -29,6 +30,8 @@ public class GameEntity implements PhysicsComponent {
     public AnimationSet animationSet;
 
     public State state = State.standing;
+    private State lastState = State.standing;
+
     public Direction direction = Direction.right;
 
     public Vector2 position = new Vector2();
@@ -49,6 +52,7 @@ public class GameEntity implements PhysicsComponent {
     private float maxVerticalVelocity = 1200f;
     private Array<Rectangle> tiles = new Array<>();
 
+    public int hitPoints = 100;
     public boolean dead = false;
 
     protected float renderRotation = 0;
@@ -92,25 +96,55 @@ public class GameEntity implements PhysicsComponent {
     }
 
     public void update(float dt) {
-        if (updateStateTimer()) {
-            stateTime += dt;
+        if (dead) {
+            removeFromScreen();
+            return;
         }
+
+        stateTime += dt;
 
         if (animation != null) {
             keyframe = animation.getKeyFrame(stateTime);
         }
 
-        // clamp velocity to maximum, horizontal only
-        velocity.x = MathUtils.clamp(velocity.x, -maxHorizontalVelocity, maxHorizontalVelocity);
+        if (hitPoints <= 0) {
+            // setState -> dying, for now just kill the bastard
+            dead = true;
+        } else {
+            updatePosition(dt);
 
-        imageBounds.setPosition(position.x - imageBounds.width / 2f, position.y - collisionBounds.height / 2f);
-        collisionBounds.setPosition(position.x - collisionBounds.width / 2f, position.y - collisionBounds.height / 2f);
-        collisionCircle.setPosition(position.x, position.y);
-        collisionCircle.setRadius(collisionBounds.width / 2f);
+            // clamp velocity to maximum, horizontal only
+            velocity.x = MathUtils.clamp(velocity.x, -maxHorizontalVelocity, maxHorizontalVelocity);
+
+            imageBounds.setPosition(position.x - imageBounds.width / 2f, position.y - collisionBounds.height / 2f);
+            collisionBounds.setPosition(position.x - collisionBounds.width / 2f, position.y - collisionBounds.height / 2f);
+            collisionCircle.setPosition(position.x, position.y);
+            collisionCircle.setRadius(collisionBounds.width / 2f);
+
+            // check y velocity and setState -> falling
+            // check x velocity and setState -> walking
+        }
+
+        if (state != lastState) {
+            updateState(lastState);
+            lastState = state;
+        }
     }
 
-    protected boolean updateStateTimer() {
-        return !dead;
+    // override player or enemy movement
+    protected void updatePosition(float dt) { }
+
+    protected void updateState(State lastState) {
+        // todo: handle state transitions here
+    }
+
+    public void addToScreen(float x, float y) {
+        setPosition(x, y);
+        screen.physicsEntities.add(this);
+    }
+
+    public void removeFromScreen() {
+        screen.physicsEntities.removeValue(this, true);
     }
 
     public void updateBounds() {

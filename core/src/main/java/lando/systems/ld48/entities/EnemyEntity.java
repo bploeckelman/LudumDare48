@@ -2,15 +2,12 @@ package lando.systems.ld48.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld48.screens.GameScreen;
 
 public class EnemyEntity extends MovableEntity {
 
-    public float removeTime = 2f;
-    public boolean captured = false;
     public boolean targeted = false;
 
     public float scale = 1f;
@@ -36,15 +33,16 @@ public class EnemyEntity extends MovableEntity {
         setPosition(x, y);
     }
 
+    @Override
     public void addToScreen(float x, float y) {
-        setPosition(x, y);
+        super.addToScreen(x, y);
         screen.enemies.add(this);
-        screen.physicsEntities.add(this);
     }
 
+    @Override
     public void removeFromScreen() {
+        super.removeFromScreen();
         screen.enemies.removeValue(this, true);
-        screen.physicsEntities.removeValue(this, true);
     }
 
     public void reset(Rectangle bounds) {
@@ -54,38 +52,10 @@ public class EnemyEntity extends MovableEntity {
         addToScreen(x, y);
     }
 
-    // don't override this
-    @Override
-    public void update(float dt) {
-        if (captured) { return; }
-
-        super.update(dt);
-        updateEntity(dt);
-
-        if (dead) {
-            removeTime -= dt;
-            if (removeTime < 0) {
-                removeFromScreen();
-            }
-        }
-    }
-
-    // override this
-    protected void updateEntity(float dt) { }
-
-    @Override
-    public void render(SpriteBatch batch) {
-        if (captured) { return; }
-        super.render(batch);
-    }
-
     @Override
     public Color getEffectColor() {
         if (targeted) { return Color.RED; }
 
-        if (dead) {
-            if ((int)(removeTime * 30) % 2 == 0 ) { return Color.BLACK; }
-        }
         return super.getEffectColor();
     }
 }

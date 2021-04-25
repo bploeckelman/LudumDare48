@@ -137,7 +137,7 @@ public class Particle implements Pool.Poolable, PhysicsComponent, QuadTreeable {
         collisionRect.set(position.x - width/2, position.y - height/2, width, height);
     }
 
-    public void draw(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
         if (keyframe == null) return;
         batch.setColor(r, g, b, a);
         batch.draw(keyframe,

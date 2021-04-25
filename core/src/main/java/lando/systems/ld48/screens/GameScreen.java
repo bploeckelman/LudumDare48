@@ -103,8 +103,11 @@ public class GameScreen extends BaseScreen {
         if (levelTransition != null) {
             levelTransition.update(dt);
         } else {
-            player.update(dt);
-            enemies.forEach(enemy -> enemy.update(dt));
+            // loop in reverse so we don't get off when entity is removed
+            for (int i = physicsEntities.size - 1; i >= 0; i--) {
+                physicsEntities.get(i).update(dt);
+            }
+
             captureHandler.updateCapture(dt, enemies);
             level.update(dt);
             physicsSystem.update(dt);
@@ -147,7 +150,12 @@ public class GameScreen extends BaseScreen {
 
                 batch.begin();
                 {
-                    enemies.forEach(enemy -> enemy.render(batch));
+                    // draw all but player - that goes on top
+                    physicsEntities.forEach(entity -> {
+                        if (entity != player) {
+                            entity.render(batch);
+                        }
+                    });
                     particles.draw(batch, Particles.Layer.middle);
                     player.render(batch);
                     level.renderObjects(batch);

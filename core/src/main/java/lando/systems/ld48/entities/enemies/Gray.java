@@ -20,9 +20,4 @@ public class Gray extends EnemyEntity {
         animationSet.AttackAnimation = assets.grayAttackAnimation;
         animationSet.DieAnimation = assets.grayDieAnimation;
     }
-
-    @Override
-    public void updateEntity(float dt) {
-
-    }
 }

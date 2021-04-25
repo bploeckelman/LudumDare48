@@ -64,7 +64,7 @@ public class Particles implements Disposable {
     }
 
     public void draw(SpriteBatch batch, Layer layer) {
-        activeParticles.get(layer).forEach(particle -> particle.draw(batch));
+        activeParticles.get(layer).forEach(particle -> particle.render(batch));
     }
 
     @Override
