@@ -48,7 +48,7 @@ public class EnemyEntity extends MovableEntity {
     public void reset(Rectangle bounds) {
         targeted = false;
         float x = bounds.x + bounds.width / 2;
-        float y = bounds.y + (bounds.height - imageBounds.height) / 2;
+        float y = bounds.y + bounds.height / 2 + (bounds.height - imageBounds.height) / 2;
         addToScreen(x, y);
     }
 
@@ -58,4 +58,5 @@ public class EnemyEntity extends MovableEntity {
 
         return super.getEffectColor();
     }
+
 }

@@ -12,11 +12,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld48.Audio;
 import lando.systems.ld48.Game;
-import lando.systems.ld48.entities.CaptureHandler;
-import lando.systems.ld48.entities.EnemyEntity;
-import lando.systems.ld48.entities.Player;
+import lando.systems.ld48.entities.*;
 import lando.systems.ld48.levels.*;
 import lando.systems.ld48.levels.backgrounds.ParallaxBackground;
 import lando.systems.ld48.levels.backgrounds.TextureRegionParallaxLayer;
@@ -43,10 +43,16 @@ public class GameScreen extends BaseScreen {
 
     private Rectangle exitOverlapRectangle;
 
+    public static final Array<Bullet> activeBullets = new Array<Bullet>();
+    public static final Pool<Bullet> bulletsPool = Pools.get(Bullet.class, 500);
+    private Vector2 oldBulletPosition = new Vector2();
+    private Vector2 newBulletPosition = new Vector2();
+    private Vector2 bulletCollisionPoint = new Vector2();
+
     public GameScreen(Game game) {
         super(game);
-//        loadLevel(LevelDescriptor.introduction);
-        loadLevel(LevelDescriptor.core);
+        loadLevel(LevelDescriptor.introduction);
+//        loadLevel(LevelDescriptor.core);
     }
 
     public void loadLevel(LevelDescriptor levelDescriptor) {
@@ -114,6 +120,8 @@ public class GameScreen extends BaseScreen {
             physicsSystem.update(dt);
             particles.update(dt);
 
+            updateBullets(dt);
+
             CameraConstraints.update(worldCamera, player, level);
 
             // todo - this is abrupt, probably want to trigger an interaction animation like moving the player and making them face front, then spawning a particle system or something
@@ -123,6 +131,38 @@ public class GameScreen extends BaseScreen {
                 if (exitOverlapRectangle.area() > 500f) {
                     startLevelTransition(level.getExit());
                 }
+            }
+
+        }
+    }
+
+    private void updateBullets(float dt) {
+        for(int i = activeBullets.size - 1; i >= 0; i--) {
+            Bullet b = activeBullets.get(i);
+            b.update(dt);
+
+            for (EnemyEntity enemy : enemies) {
+                if (b.checkCollision(enemy)) {
+                    b.alive = false;
+                    // very temp
+                    enemy.hitPoints -= 40;
+                    break;
+                }
+            }
+
+            if (b.alive) {
+                oldBulletPosition.set(b.position);
+                newBulletPosition.set(b.position);
+                newBulletPosition.add(b.velocity.x * b.bulletSpeed * dt, b.velocity.y * b.bulletSpeed * dt);
+                //check collision with the walls & water
+                if (level.checkCollision(oldBulletPosition, newBulletPosition, b.radius, bulletCollisionPoint)) {
+                    b.alive = false;
+                }
+            }
+
+            if (!b.alive) {
+                activeBullets.removeIndex(i);
+                bulletsPool.free(b);
             }
         }
     }
@@ -161,6 +201,10 @@ public class GameScreen extends BaseScreen {
                     player.render(batch);
                     level.renderObjects(batch);
                     particles.draw(batch, Particles.Layer.foreground);
+
+                    for (Bullet b : activeBullets){
+                        b.render(batch);
+                    }
                 }
                 batch.end();
 
@@ -352,6 +396,12 @@ public class GameScreen extends BaseScreen {
 
         // todo - trigger a tween that locks input, fades to black, starts transition
         levelTransition = new LevelTransition(exit, this);
+    }
+
+    public void addBullet(GameEntity owner, Vector2 position, Vector2 dir, TextureRegion tex){
+        Bullet b = bulletsPool.obtain();
+        b.init(position, dir, owner, tex);
+        activeBullets.add(b);
     }
 
 }

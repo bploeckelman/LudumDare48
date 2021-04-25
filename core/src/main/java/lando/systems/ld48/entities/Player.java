@@ -12,7 +12,7 @@ import lando.systems.ld48.stuff.Progress;
 
 public class Player extends MovableEntity {
 
-    public final static float SCALE = 1f;
+    public final static float SCALE = 0.75f;
 
     private final float horizontalSpeed = 20f;
 

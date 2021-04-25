@@ -41,6 +41,8 @@ public class Assets implements Disposable {
     public TextureRegion sunsetBackground;
     public TextureRegion desertBackground;
 
+    public TextureRegion bullet;
+
     public Animation<TextureRegion> cat;
     public Animation<TextureRegion> dog;
 
@@ -148,6 +150,8 @@ public class Assets implements Disposable {
         whitePixel = new TextureRegion(pixel);
         sunsetBackground = new TextureRegion(atlas.findRegion("backgrounds/sunset"));
         desertBackground = new TextureRegion(atlas.findRegion("backgrounds/desert"));
+
+        bullet = new TextureRegion(atlas.findRegion("pets/cat"));
 
         cat = new Animation<>(0.1f, atlas.findRegions("pets/cat"), Animation.PlayMode.LOOP);
         dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);

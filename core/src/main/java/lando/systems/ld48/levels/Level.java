@@ -393,4 +393,151 @@ public class Level {
         }
     }
 
+    public boolean checkCollision(Vector2 oldPosition, Vector2 newPosition, float radius, Vector2 collisionPoint) {
+        // insert Doug here
+//
+//        boolean unresolvedCollisions = false;
+//        CollisionType collisionType = CollisionType.None;
+//        collisionPoint.set(newPosition);
+//        int fuckThisShit = 0;
+//        do {
+//            fuckThisShit++;
+//            unresolvedCollisions = false;
+//            tempCollisionPoint.set(collisionPoint);
+//
+//            // Check for collisions against boundaries
+//            for (int j = 0; j < boundaries.size; j++) {
+//                Polyline boundary = boundaries.get(j).getPolyline();
+//                boolean collided = false;
+//                float nearestCollision = Float.MAX_VALUE;
+//                int vertLength = boundary.getVertices().length;
+//                for (int i = 0; i < vertLength; i += 2) {
+//                    tempVector.set(boundary.getTransformedVertices()[i], boundary.getTransformedVertices()[i + 1]);
+//                    tempVector2.set(boundary.getTransformedVertices()[(i + 2) % vertLength], boundary.getTransformedVertices()[(i + 3) % vertLength]);
+//
+//                    // Check if the traveling path intersects the segment
+//                    if (Intersector.intersectSegments(oldPosition, tempCollisionPoint, tempVector, tempVector2, collisionPoint)) {
+//                        normal.set(-1 * (tempVector2.y - tempVector.y), (tempVector2.x - tempVector.x));
+//                        if (Intersector.pointLineSide(tempVector, tempVector2, oldPosition) != Intersector.pointLineSide(tempVector.x, tempVector.y, tempVector2.x, tempVector2.y, collisionPoint.x + normal.x, collisionPoint.y + normal.y)) {
+//                            normal.set((tempVector2.y - tempVector.y), -1 * (tempVector2.x - tempVector.x));
+//                        }
+//                        normal.nor();
+//                        collisionPoint.add(normal.scl(radius+1f));
+//
+//                        normal.nor();
+//
+//                        collided = true;
+//                        nearestCollision = 0;
+//                    }
+//
+//                    // Check if the segments are within the radius of the object
+//                    float dist = Intersector.distanceSegmentPoint(tempVector, tempVector2, tempCollisionPoint);
+//                    if (dist < nearestCollision && dist < radius) {
+//                        Intersector.nearestSegmentPoint(tempVector, tempVector2, tempCollisionPoint, collisionPoint);
+//                        // If it is on an end point bounce back towards where you came from
+//                        if (collisionPoint.epsilonEquals(tempVector) || collisionPoint.epsilonEquals(tempVector2)) {
+//                            normal.set(tempCollisionPoint.x - collisionPoint.x, tempCollisionPoint.y - collisionPoint.y);
+//                        } else {
+//                            // bounce away from the normal of the segment
+//                            normal.set(-1 * (tempVector2.y - tempVector.y), (tempVector2.x - tempVector.x));
+//                            if (Intersector.pointLineSide(tempVector, tempVector2, oldPosition) != Intersector.pointLineSide(tempVector.x, tempVector.y, tempVector2.x, tempVector2.y, collisionPoint.x + normal.x, collisionPoint.y + normal.y)) {
+//                                // Normal is facing the wrong way, flip it
+//                                normal.set((tempVector2.y - tempVector.y), -1 * (tempVector2.x - tempVector.x));
+//                            }
+//                        }
+//                        normal.nor();
+//                        collisionPoint.add(normal.scl(radius+1f));
+//
+//                        normal.nor();
+//
+//                        collided = true;
+//                        nearestCollision = dist;
+//                    }
+//
+//                }
+//                if (collided) {
+//                    unresolvedCollisions = true;
+//                    if (collisionType != CollisionType.Bumper){
+//                        collisionType = CollisionType.Wall;
+//                    }
+//                }
+//            }
+//
+//            // Check for collision against water regions
+//            for (int j = 0; j < waterRegions.size; j++) {
+//                Polygon boundary = waterRegions.get(j);
+//                float nearestCollision = Float.MAX_VALUE;
+//                int vertLength = boundary.getVertices().length;
+//                for (int i = 0; i < vertLength; i += 2) {
+//                    tempVector.set(boundary.getTransformedVertices()[i], boundary.getTransformedVertices()[i + 1]);
+//                    tempVector2.set(boundary.getTransformedVertices()[(i + 2) % vertLength], boundary.getTransformedVertices()[(i + 3) % vertLength]);
+//
+//                    // Check if the segments are within the radius of the object
+//                    float dist = Intersector.distanceSegmentPoint(tempVector, tempVector2, tempCollisionPoint);
+//                    if (dist < nearestCollision && dist < radius) {
+//                        Intersector.nearestSegmentPoint(tempVector, tempVector2, tempCollisionPoint, collisionPoint);
+//                        // If it is on an end point bounce back towards where you came from
+//                        if (collisionPoint.epsilonEquals(tempVector) || collisionPoint.epsilonEquals(tempVector2)) {
+//                            normal.set(tempCollisionPoint.x - collisionPoint.x, tempCollisionPoint.y - collisionPoint.y);
+//                        } else {
+//                            // bounce away from the normal of the segment
+//                            normal.set(-1 * (tempVector2.y - tempVector.y), (tempVector2.x - tempVector.x));
+//                            if (Intersector.pointLineSide(tempVector, tempVector2, oldPosition) != Intersector.pointLineSide(tempVector.x, tempVector.y, tempVector2.x, tempVector2.y, collisionPoint.x + normal.x, collisionPoint.y + normal.y)) {
+//                                // Normal is facing the wrong way, flip it
+//                                normal.set((tempVector2.y - tempVector.y), -1 * (tempVector2.x - tempVector.x));
+//                            }
+//                        }
+//                        normal.nor();
+//                        collisionPoint.add(normal.scl(radius+1f));
+//
+//                        normal.nor();
+//
+//                        nearestCollision = dist;
+//                        unresolvedCollisions = true;
+//                        if (collisionType != CollisionType.Bumper){
+//                            collisionType = CollisionType.Water;
+//                        }
+//                    }
+//
+//                }
+//            }
+//
+//            for (int i = 0; i < circles.size; i++) {
+//                Ellipse circle = circles.get(i).getEllipse();
+//                if (tempCollisionPoint.dst(circle.x + circle.height / 2f, circle.y + circle.height / 2f) < radius + circle.height / 2f) {
+//                    normal.set(tempCollisionPoint);
+//                    normal.sub(circle.x + circle.height / 2f, circle.y + circle.height / 2f);
+//                    normal.nor();
+//                    collisionPoint.set(circle.x + circle.height / 2f, circle.y + circle.height / 2f);
+//                    normal.scl(radius + circle.height / 2f);
+//                    collisionPoint.add(normal);
+//                    normal.nor();
+//                    unresolvedCollisions = true;
+//                    if (collisionType != CollisionType.Bumper){
+//                        collisionType = CollisionType.Wall;
+//                    }
+//                }
+//            }
+//
+//            for (PinballBumper bumper : pinballBumpers) {
+//                if (tempCollisionPoint.dst(bumper.position) < radius + bumper.radius) {
+//                    bumper.isOn = true;
+//                    normal.set(tempCollisionPoint);
+//                    normal.sub(bumper.position);
+//                    normal.nor();
+//                    collisionPoint.set(bumper.position);
+//                    normal.scl(bumper.radius + radius + 10);
+//                    collisionPoint.add(normal);
+//                    normal.nor();
+//                    unresolvedCollisions = true;
+//                    collisionType = CollisionType.Bumper;
+//                }
+//            }
+//        }while(unresolvedCollisions && fuckThisShit < 10);
+
+        // easy case is just within width of gameboard
+        return false;
+
+    }
+
 }

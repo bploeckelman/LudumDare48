@@ -3,6 +3,7 @@ package lando.systems.ld48.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.Audio;
 import lando.systems.ld48.screens.GameScreen;
 
@@ -159,6 +160,8 @@ public class MovableEntity extends GameEntity {
             screen.game.audio.playSound(Audio.Sounds.attack);
             attackTime = 0;
             state = State.attacking;
+            float x = direction == Direction.left ? -40 : 40;
+            screen.addBullet(this, position, new Vector2(x, 0), assets.bullet);
         }
     }
 

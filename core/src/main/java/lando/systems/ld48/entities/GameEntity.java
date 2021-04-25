@@ -59,6 +59,11 @@ public class GameEntity implements PhysicsComponent {
 
     public float height, width;
 
+    // bullet hacks
+    public float bulletTimeToLive = 10;
+    public float bulletSpeed = 200;
+    public float bulletSize = 5;
+
     GameEntity(GameScreen screen, Animation<TextureRegion> animation) {
         this(screen, animation.getKeyFrame(0f));
         this.animation = animation;
