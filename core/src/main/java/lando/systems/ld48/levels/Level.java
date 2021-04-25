@@ -64,11 +64,13 @@ public class Level {
         this.currentLevel = levelDescriptor;
 
         // load map
-        this.map = (new TmxMapLoader()).load(levelDescriptor.mapFileName, new TmxMapLoader.Parameters() {{
-            generateMipMaps = true;
-            textureMinFilter = Texture.TextureFilter.MipMap;
-            textureMagFilter = Texture.TextureFilter.MipMap;
-        }});
+        this.map = (new TmxMapLoader()).load(levelDescriptor.mapFileName);
+        // note: gwt doesn't like the mipmaps
+//        this.map = (new TmxMapLoader()).load(levelDescriptor.mapFileName, new TmxMapLoader.Parameters() {{
+//            generateMipMaps = true;
+//            textureMinFilter = Texture.TextureFilter.MipMap;
+//            textureMagFilter = Texture.TextureFilter.MipMap;
+//        }});
         this.renderer = new OrthoCachedTiledMapRenderer(map);
         ((OrthoCachedTiledMapRenderer) renderer).setBlending(true);
 
