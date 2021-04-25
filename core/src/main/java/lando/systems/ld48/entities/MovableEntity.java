@@ -97,6 +97,8 @@ public class MovableEntity extends GameEntity {
                 velocity.y = jumpVelocity * (1f + bonusJump);
                 state = State.jump;
             }
+        } else {
+            jumpTime = 1f;
         }
 
         if (state != State.jumping && jumpTime >= 0.2 && state != State.attacking) {
