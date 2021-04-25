@@ -23,7 +23,7 @@ public class CaptureHandler {
             nearbyCapturing = new Array<>();
             for (EnemyEntity enemy : enemies) {
                 if (Math.abs((enemy.collisionBounds.x + enemy.collisionBounds.width/2) - (player.collisionBounds.x + player.collisionBounds.width/2)) <= 20
-                    && Math.abs((enemy.collisionBounds.y) - (player.collisionBounds.y)) <= 2) {
+                    && Math.abs((enemy.collisionBounds.y) - (player.collisionBounds.y)) <= 10) {
                     nearbyCapturing.add(enemy);
                     enemy.targeted = true;
                 }
@@ -47,7 +47,7 @@ public class CaptureHandler {
             while (e.hasNext()) {
                 EnemyEntity enemy = e.next();
                 if (Math.abs((enemy.collisionBounds.x + enemy.collisionBounds.width/2) - (player.collisionBounds.x + player.collisionBounds.width/2)) > 20
-                        || Math.abs((enemy.collisionBounds.y) - (player.collisionBounds.y)) > 2
+                        || Math.abs((enemy.collisionBounds.y) - (player.collisionBounds.y)) > 10
                         || enemy.dead
                         || !enemies.contains(enemy, true)) {
                     enemy.targeted = false;

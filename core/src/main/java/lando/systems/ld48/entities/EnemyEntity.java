@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.ld48.screens.GameScreen;
 
-public class EnemyEntity extends GameEntity {
+public class EnemyEntity extends MovableEntity {
 
     public float removeTime = 2f;
     public boolean captured = false;
     public boolean targeted = false;
+
+    public float scale = 1f;
 
     protected EnemyEntity(GameScreen screen, Animation<TextureRegion> animation, float x, float y) {
         this(screen, animation, 1f, x, y);
@@ -18,7 +20,7 @@ public class EnemyEntity extends GameEntity {
 
     protected EnemyEntity(GameScreen screen, Animation<TextureRegion> animation, float scale, float x, float y) {
         super(screen, animation);
-
+        this.scale = scale;
         initEntity(x, y, keyframe.getRegionWidth() * scale, keyframe.getRegionHeight() * scale);
 
         // todo - should depend on the type of enemy, override in subclasses

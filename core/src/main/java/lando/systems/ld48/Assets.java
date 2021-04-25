@@ -57,6 +57,7 @@ public class Assets implements Disposable {
     public Sound exampleSound;
     public Sound jumpSound;
     public Sound attackSound;
+    public Sound deathSound;
 
     public Music exampleMusic;
 
@@ -142,6 +143,7 @@ public class Assets implements Disposable {
         exampleSound = mgr.get("audio/sound/example.wav", Sound.class);
         jumpSound = mgr.get("audio/sound/example.wav", Sound.class);
         attackSound = mgr.get("audio/sound/example.wav", Sound.class);
+        deathSound = mgr.get("audio/sound/example.wav", Sound.class);
 
         exampleMusic = mgr.get("audio/music/government-1.mp3", Music.class);
 

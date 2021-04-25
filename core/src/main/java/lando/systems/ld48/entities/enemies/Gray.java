@@ -18,6 +18,7 @@ public class Gray extends EnemyEntity {
         animationSet.JumpAnimation = assets.grayJumpAnimation;
         animationSet.FallAnimation = assets.grayFallAnimation;
         animationSet.AttackAnimation = assets.grayAttackAnimation;
+        animationSet.DieAnimation = assets.grayDieAnimation;
     }
 
     @Override

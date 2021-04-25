@@ -21,8 +21,14 @@ public class MovableEntity extends GameEntity {
 
     private float attackTime = 1f;
 
+    private float deathTime = 1f;
+
     public int id;
     public boolean ignore = false;
+
+    protected MovableEntity(GameScreen screen, Animation<TextureRegion> idle) {
+        this(screen, idle, idle);
+    }
 
     protected MovableEntity(GameScreen screen, Animation<TextureRegion> idle, Animation<TextureRegion> move) {
         super(screen, idle);
@@ -56,6 +62,17 @@ public class MovableEntity extends GameEntity {
     public void update(float dt) {
         if (ignore) return;
         super.update(dt);
+
+        if (state == State.death) {
+            deathTime += dt;
+            if (animationSet.DieAnimation != null) {
+                keyframe = animationSet.DieAnimation.getKeyFrame(deathTime);
+            }
+            if (animationSet.DieAnimation == null || deathTime > animationSet.DieAnimation.getAnimationDuration()) {
+                this.dead = true;
+            }
+            return;
+        }
 
         if (velocity.y < -50 || state == State.falling) {
             state = State.falling;
@@ -139,6 +156,12 @@ public class MovableEntity extends GameEntity {
             attackTime = 0;
             state = State.attacking;
         }
+    }
+
+    public void die() {
+        screen.game.audio.playSound(Audio.Sounds.death);
+        deathTime = 0;
+        this.state = State.death;
     }
 
 }

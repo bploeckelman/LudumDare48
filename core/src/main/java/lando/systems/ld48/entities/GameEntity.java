@@ -19,7 +19,7 @@ public class GameEntity implements PhysicsComponent {
         }
     }
 
-    public enum State { standing, walking, jumping, jump, falling, attacking }
+    public enum State { standing, walking, jumping, jump, falling, attacking, death }
 
     protected Assets assets;
 
