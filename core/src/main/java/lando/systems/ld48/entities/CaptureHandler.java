@@ -2,6 +2,7 @@ package lando.systems.ld48.entities;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld48.Audio;
 import lando.systems.ld48.screens.GameScreen;
 
 public class CaptureHandler {
@@ -23,6 +24,7 @@ public class CaptureHandler {
     public void beginCapture(Array<EnemyEntity> enemies) {
         if (player.capturing) { return; }
         if (player.capturedEnemy == null) {
+            screen.game.audio.playSound(Audio.Sounds.capture);
             nearbyCapturing = new Array<>();
             for (EnemyEntity enemy : enemies) {
                 if (Math.abs((enemy.collisionBounds.x + enemy.collisionBounds.width/2) - (player.collisionBounds.x + player.collisionBounds.width/2)) <= 20

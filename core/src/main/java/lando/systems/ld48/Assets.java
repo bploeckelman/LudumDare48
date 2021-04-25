@@ -64,8 +64,12 @@ public class Assets implements Disposable {
     public Sound jumpSound;
     public Sound attackSound;
     public Sound deathSound;
+    public Sound captureSound;
 
     public Music exampleMusic;
+    public Music introMusic;
+    public Music level1Music;
+    public Music level1BossMusic;
 
     public Assets() {
         this(Load.SYNC);
@@ -91,8 +95,11 @@ public class Assets implements Disposable {
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
 
             mgr.load("audio/sound/example.wav", Sound.class);
+            mgr.load("audio/sound/capture.ogg", Sound.class);
 
-            mgr.load("audio/music/government-1.mp3", Music.class);
+            mgr.load("audio/music/intro.ogg", Music.class);
+            mgr.load("audio/music/level1.ogg", Music.class);
+            mgr.load("audio/music/level1-boss.ogg", Music.class);
         }
 
         if (load == Load.SYNC) {
@@ -162,8 +169,12 @@ public class Assets implements Disposable {
         jumpSound = mgr.get("audio/sound/example.wav", Sound.class);
         attackSound = mgr.get("audio/sound/example.wav", Sound.class);
         deathSound = mgr.get("audio/sound/example.wav", Sound.class);
+        captureSound = mgr.get("audio/sound/capture.ogg", Sound.class);
 
-        exampleMusic = mgr.get("audio/music/government-1.mp3", Music.class);
+        exampleMusic = mgr.get("audio/music/intro.ogg", Music.class);
+        introMusic = mgr.get("audio/music/intro.ogg", Music.class);
+        level1Music = mgr.get("audio/music/level1.ogg", Music.class);
+        level1BossMusic = mgr.get("audio/music/level1-boss.ogg", Music.class);
 
         Transitions.shaders = new Array<>();
         Transitions.shaders.addAll(

@@ -23,11 +23,11 @@ public class Audio implements Disposable {
 
     // none should not have a sound
     public enum Sounds {
-        none, example, jump, attack, death
+        none, example, jump, attack, death, capture
     }
 
     public enum Musics {
-        none, example
+        none, example, intro, level1, level1boss
     }
 
     public ObjectMap<Sounds, SoundContainer> sounds = new ObjectMap<>();
@@ -50,8 +50,12 @@ public class Audio implements Disposable {
         putSound(Sounds.jump, assets.jumpSound);
         putSound(Sounds.attack, assets.attackSound);
         putSound(Sounds.death, assets.deathSound);
+        putSound(Sounds.capture, assets.captureSound);
 
         musics.put(Musics.example, assets.exampleMusic);
+        musics.put(Musics.intro, assets.introMusic);
+        musics.put(Musics.level1, assets.level1Music);
+        musics.put(Musics.level1boss, assets.level1BossMusic);
 
         musicVolume = new MutableFloat(0);
         setMusicVolume(MUSIC_VOLUME, 2f);
