@@ -32,6 +32,7 @@ public class Assets implements Disposable {
     public Texture title;
     public Texture levelTransitionMilitary;
     public Texture levelTransitionOrganic;
+    public Texture levelTransitionAlien;
 
     public TextureRegion whitePixel;
     public TextureRegion sunsetBackground;
@@ -82,6 +83,7 @@ public class Assets implements Disposable {
             mgr.load(new AssetDescriptor<>("images/title.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/elevator-military.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/elevator-organic.png", Texture.class));
+            mgr.load(new AssetDescriptor<>("images/elevator-alien.png", Texture.class));
 
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
 
@@ -106,9 +108,11 @@ public class Assets implements Disposable {
         title = mgr.get("images/title.png");
 
         levelTransitionMilitary = mgr.get("images/elevator-military.png");
-        levelTransitionOrganic = mgr.get("images/elevator-organic.png");
-        levelTransitionMilitary.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.Repeat);
-        levelTransitionOrganic.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.Repeat);
+        levelTransitionOrganic  = mgr.get("images/elevator-organic.png");
+        levelTransitionAlien    = mgr.get("images/elevator-alien.png");
+        levelTransitionMilitary .setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.Repeat);
+        levelTransitionOrganic  .setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.Repeat);
+        levelTransitionAlien    .setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.Repeat);
 
         pixelFont16 = mgr.get("fonts/chevyray-rise-16.fnt");
 

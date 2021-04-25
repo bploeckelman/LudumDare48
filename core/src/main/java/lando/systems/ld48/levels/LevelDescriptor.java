@@ -4,6 +4,7 @@ public enum LevelDescriptor {
 
       test("levels/test.tmx")
     , test2("levels/test2.tmx")
+    , test3("levels/test3.tmx")
     ;
 
     public String mapFileName;

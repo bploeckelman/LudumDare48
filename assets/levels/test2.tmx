@@ -20,7 +20,7 @@
   <object id="1" name="spawn-player" type="spawn-player" gid="45" x="32" y="112" width="16" height="16"/>
   <object id="2" name="exit" type="exit" gid="45" x="256" y="176" width="16" height="16">
    <properties>
-    <property name="target-level" value="test"/>
+    <property name="target-level" value="test3"/>
     <property name="transition-type" value="organic"/>
    </properties>
   </object>

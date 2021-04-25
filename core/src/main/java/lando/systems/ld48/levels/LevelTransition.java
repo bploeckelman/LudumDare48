@@ -19,7 +19,7 @@ import lando.systems.ld48.screens.GameScreen;
 
 public class LevelTransition {
 
-    public enum Type { military, organic }
+    public enum Type { military, organic, alien }
 
     private Type type;
     private Texture background;
