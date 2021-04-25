@@ -23,7 +23,7 @@ public class Audio implements Disposable {
 
     // none should not have a sound
     public enum Sounds {
-        none, example, jump
+        none, example, jump, attack
     }
 
     public enum Musics {
@@ -48,6 +48,7 @@ public class Audio implements Disposable {
         putSound(Sounds.none, assets.exampleSound);
         putSound(Sounds.example, assets.exampleSound);
         putSound(Sounds.jump, assets.jumpSound);
+        putSound(Sounds.attack, assets.attackSound);
 
         musics.put(Musics.example, assets.exampleMusic);
 

@@ -135,7 +135,7 @@ public class MovableEntity extends GameEntity {
 
     public void attack() {
         if (this.state == State.standing || this.state == State.walking) {
-            screen.game.audio.playSound(Audio.Sounds.jump);
+            screen.game.audio.playSound(Audio.Sounds.attack);
             attackTime = 0;
             state = State.attacking;
         }

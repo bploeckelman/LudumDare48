@@ -34,7 +34,6 @@ public class Player extends MovableEntity {
 
         setJump(screen.game.assets.playerJumpAnimation, 200f);
         setFall(screen.game.assets.playerFallAnimation);
-        setAttack(screen.game.assets.playerAttackAnimation);
 
         initEntity(x, y, keyframe.getRegionWidth() * SCALE, keyframe.getRegionHeight() * SCALE);
 
@@ -151,4 +150,5 @@ public class Player extends MovableEntity {
         }
         animation = animationSet.IdleAnimation;
     }
+
 }
