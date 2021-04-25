@@ -10,8 +10,7 @@ import lando.systems.ld48.screens.GameScreen;
 
 public class SpawnEnemy {
 
-    // update to gray
-    public enum Type { mummy }
+    public enum Type { alien }
 
     public Vector2 pos;
     public float size = Level.TILE_SIZE;
@@ -34,7 +33,7 @@ public class SpawnEnemy {
         EnemyEntity enemy = null;
         switch (type) {
             // todo - add more cases when we have more enemy types
-            case mummy: {
+            case alien: {
                 enemy = new Gray(screen, pos.x, pos.y);
             } break;
         }
@@ -42,6 +41,5 @@ public class SpawnEnemy {
         if (enemy == null) return;
         enemy.addToScreen(pos.x, pos.y + size);
     }
-
 
 }

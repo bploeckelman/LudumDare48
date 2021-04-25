@@ -24,9 +24,9 @@
     <property name="transition-type" value="military"/>
    </properties>
   </object>
-  <object id="3" name="mummy" type="spawn-enemy" gid="45" x="144" y="160" width="16" height="16">
+  <object id="3" name="alien" type="spawn-enemy" gid="45" x="144" y="160" width="16" height="16">
    <properties>
-    <property name="enemy-type" value="mummy"/>
+    <property name="enemy-type" value="alien"/>
    </properties>
   </object>
  </objectgroup>
