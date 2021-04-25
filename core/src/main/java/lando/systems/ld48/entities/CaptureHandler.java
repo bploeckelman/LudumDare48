@@ -92,6 +92,7 @@ public class CaptureHandler {
     }
 
     private void uncaptureEnemy() {
+        screen.game.audio.playSound(Audio.Sounds.uncapture);
         player.SetEnemy(null);
         screen.particles.smoke(player.position.x, player.position.y);
     }

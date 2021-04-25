@@ -81,7 +81,7 @@ public class GameScreen extends BaseScreen {
         // make sure the camera is setup correctly for when we get here from a level transition
         CameraConstraints.update(worldCamera, player, level);
 
-        game.audio.playMusic(Audio.Musics.level1boss);
+        game.audio.playMusic(Audio.Musics.level1);
     }
 
     @Override
