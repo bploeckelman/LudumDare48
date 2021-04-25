@@ -12,8 +12,10 @@
 	<inherits name="com.ray3k.tenpatch.tenpatch"/>
 	<inherits name="com.kotcrab.vis.vis-ui" />
 
-	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld48.physics.Collision" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.math.Rectangle" />
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld48.physics.Collision" />
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld48.particles.Particle" />
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld48.Audio" />
 
 	<entry-point class="lando.systems.ld48.gwt.GwtLauncher" />
 	<set-configuration-property name="gdx.assetpath" value="../assets" />

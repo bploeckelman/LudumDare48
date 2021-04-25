@@ -19,6 +19,7 @@ import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.levels.*;
 import lando.systems.ld48.levels.backgrounds.ParallaxBackground;
 import lando.systems.ld48.levels.backgrounds.TextureRegionParallaxLayer;
+import lando.systems.ld48.particles.Particles;
 import lando.systems.ld48.physics.PhysicsComponent;
 import lando.systems.ld48.physics.PhysicsSystem;
 
@@ -50,7 +51,7 @@ public class GameScreen extends BaseScreen {
         this.level = new Level(levelDescriptor, this);
         this.levelTransition = null;
         this.player = new Player(this, level.getPlayerSpawn());
-        this.captureHandler = new CaptureHandler(player);
+        this.captureHandler = new CaptureHandler(player, this);
         this.enemies = new Array<>();
         this.physicsSystem = new PhysicsSystem(this);
         this.physicsEntities = new Array<>();
@@ -85,6 +86,7 @@ public class GameScreen extends BaseScreen {
             captureHandler.updateCapture(dt, enemies);
             level.update(dt);
             physicsSystem.update(dt);
+            particles.update(dt);
 
             CameraConstraints.update(worldCamera, player, level);
 
@@ -114,6 +116,7 @@ public class GameScreen extends BaseScreen {
                 batch.begin();
                 {
                     background.render(batch, worldCamera);
+                    particles.draw(batch, Particles.Layer.background);
                 }
                 batch.end();
 
@@ -123,8 +126,10 @@ public class GameScreen extends BaseScreen {
                 batch.begin();
                 {
                     enemies.forEach(enemy -> enemy.render(batch));
+                    particles.draw(batch, Particles.Layer.middle);
                     player.render(batch);
                     level.renderObjects(batch);
+                    particles.draw(batch, Particles.Layer.foreground);
                 }
                 batch.end();
 
@@ -242,7 +247,7 @@ public class GameScreen extends BaseScreen {
     // ------------------------------------------------------------------------
 
     static class DebugFlags {
-        public static boolean renderFpsDebug = true;
+        public static boolean renderFpsDebug = false;
         public static boolean renderLevelDebug = false;
         public static boolean renderPlayerDebug = false;
         public static boolean renderEnemyDebug = false;

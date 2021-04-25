@@ -2,6 +2,7 @@ package lando.systems.ld48.entities;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld48.screens.GameScreen;
 
 public class CaptureHandler {
 
@@ -9,12 +10,14 @@ public class CaptureHandler {
     private final float RELEASE_TIME = 0.5f;
 
     private Player player;
+    private GameScreen screen;
 
     private Array<EnemyEntity> nearbyCapturing = new Array<>();
     private float captureTimer = 0f;
 
-    public CaptureHandler(Player p) {
+    public CaptureHandler(Player p, GameScreen screen) {
         player = p;
+        this.screen = screen;
     }
 
     public void beginCapture(Array<EnemyEntity> enemies) {
@@ -29,8 +32,8 @@ public class CaptureHandler {
                 }
             }
         }
-        player.capturing = (player.capturedEnemy != null || nearbyCapturing.size != 0);
         captureTimer = 0f;
+        player.capturing = (player.capturedEnemy != null || nearbyCapturing.size != 0);
     }
 
     public void updateCapture(float dt, Array<EnemyEntity> enemies) {
@@ -83,10 +86,12 @@ public class CaptureHandler {
 
     private void captureEnemy(EnemyEntity e) {
         player.SetEnemy(e);
+        screen.particles.physics(e.position.x, e.position.y);
     }
 
     private void uncaptureEnemy() {
         player.SetEnemy(null);
+        screen.particles.smoke(player.position.x, player.position.y);
     }
 
 }

@@ -25,6 +25,7 @@ public class Assets implements Disposable {
     public AssetManager mgr;
     public TextureAtlas atlas;
     public Transitions transitions;
+    public Particles particles;
 
     public BitmapFont pixelFont16;
 
@@ -181,6 +182,12 @@ public class Assets implements Disposable {
                 transitions.dreamy
         );
 
+        particles = new Particles();
+        particles.circle  = atlas.findRegion("particles/circle");
+        particles.sparkle = atlas.findRegion("particles/sparkle");
+        particles.smoke   = atlas.findRegion("particles/smoke");
+        particles.ring    = atlas.findRegion("particles/ring");
+
         initialized = true;
         return 1;
     }
@@ -238,6 +245,13 @@ public class Assets implements Disposable {
         public ShaderProgram cube;
         public ShaderProgram dreamy;
         public static Array<ShaderProgram> shaders;
+    }
+
+    public static class Particles {
+        public TextureRegion circle;
+        public TextureRegion sparkle;
+        public TextureRegion smoke;
+        public TextureRegion ring;
     }
 
 }

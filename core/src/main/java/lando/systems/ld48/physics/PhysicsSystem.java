@@ -7,10 +7,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld48.levels.Level;
+import lando.systems.ld48.particles.Particle;
 import lando.systems.ld48.screens.GameScreen;
 import lando.systems.ld48.utils.PointComparator;
 import lando.systems.ld48.utils.QuadTree;
 import lando.systems.ld48.utils.QuadTreeable;
+import lando.systems.ld48.utils.Utils;
 
 public class PhysicsSystem {
 
@@ -203,7 +205,6 @@ public class PhysicsSystem {
 
     private float dtAmount = .03f;
     private void updateParticles(float dt){
-        /*
         storeDT += dt;
         if (storeDT > dtAmount){
             storeDT -= dtAmount;
@@ -255,7 +256,6 @@ public class PhysicsSystem {
             }
             pos.set(frameEndPos);
         }
-        */
     }
 
 //    private void handleCollision(Vector2 startPos, Segment2D segment, Vector2 movement, Vector2 end) {

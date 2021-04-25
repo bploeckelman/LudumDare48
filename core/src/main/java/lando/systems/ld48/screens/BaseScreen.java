@@ -9,16 +9,19 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.ld48.Config;
 import lando.systems.ld48.Game;
+import lando.systems.ld48.particles.Particles;
 
 public abstract class BaseScreen implements InputProcessor, ControllerListener {
 
     public final Game game;
+    public final Particles particles;
 
     OrthographicCamera worldCamera;
     OrthographicCamera windowCamera;
 
     public BaseScreen(Game game) {
         this.game = game;
+        this.particles = new Particles(game.assets);
         this.worldCamera = new OrthographicCamera();
         this.worldCamera.setToOrtho(false, Config.worldWidth, Config.worldHeight);
         this.worldCamera.update();
