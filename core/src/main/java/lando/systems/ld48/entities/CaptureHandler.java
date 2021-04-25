@@ -31,6 +31,7 @@ public class CaptureHandler {
                     && Math.abs((enemy.collisionBounds.y) - (player.collisionBounds.y)) <= 10) {
                     nearbyCapturing.add(enemy);
                     enemy.targeted = true;
+                    break;
                 }
             }
         }
