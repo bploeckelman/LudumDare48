@@ -110,9 +110,9 @@ public class Assets implements Disposable {
         levelTransitionMilitary = mgr.get("images/elevator-military.png");
         levelTransitionOrganic  = mgr.get("images/elevator-organic.png");
         levelTransitionAlien    = mgr.get("images/elevator-alien.png");
-        levelTransitionMilitary .setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.Repeat);
-        levelTransitionOrganic  .setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.Repeat);
-        levelTransitionAlien    .setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.Repeat);
+        levelTransitionMilitary .setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        levelTransitionOrganic  .setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        levelTransitionAlien    .setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
         pixelFont16 = mgr.get("fonts/chevyray-rise-16.fnt");
 

@@ -53,6 +53,7 @@ public class LevelTransition {
             default:
             case military: background = screen.game.assets.levelTransitionMilitary; break;
             case organic:  background = screen.game.assets.levelTransitionOrganic;  break;
+            case alien:    background = screen.game.assets.levelTransitionAlien;  break;
         }
 
         this.assets = screen.game.assets;
