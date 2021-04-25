@@ -56,7 +56,7 @@ public class GameScreen extends BaseScreen {
         TiledMapTileLayer collisionLayer = level.getLayer(Level.LayerType.collision).tileLayer;
         float levelWidth = collisionLayer.getWidth() * collisionLayer.getTileWidth();
         float levelHeight = collisionLayer.getHeight() * collisionLayer.getTileHeight();
-        Vector2 scrollRatio = new Vector2(0.8f, 1.0f);
+        Vector2 scrollRatio = new Vector2(0.75f, 1.0f);
         this.background = new ParallaxBackground(new TextureRegionParallaxLayer(game.assets.sunsetBackground, levelWidth, levelHeight, scrollRatio));
 
         // for testing
