@@ -9,13 +9,20 @@ import lando.systems.ld48.Assets;
 public class Exit {
 
     public Vector2 pos;
+    public LevelTransition.Type levelTransitionType;
+    public LevelDescriptor targetLevel;
     public TextureRegion texture;
     public Rectangle bounds;
     public float size = Level.TILE_SIZE;
 
-    public Exit(float x, float y, Assets assets) {
+    public Exit(float x, float y,
+                LevelTransition.Type levelTransitionType,
+                LevelDescriptor targetLevel,
+                Assets assets) {
         this.pos = new Vector2(x, y);
         this.texture = assets.whitePixel;
+        this.levelTransitionType = levelTransitionType;
+        this.targetLevel = targetLevel;
         this.bounds = new Rectangle(pos.x, pos.y, size, size);
     }
 

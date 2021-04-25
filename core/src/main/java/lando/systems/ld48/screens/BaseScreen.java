@@ -31,6 +31,14 @@ public abstract class BaseScreen implements InputProcessor, ControllerListener {
         Gdx.input.setInputProcessor(this);
     }
 
+    public OrthographicCamera getWorldCamera() {
+        return worldCamera;
+    }
+
+    public OrthographicCamera getWindowCamera() {
+        return windowCamera;
+    }
+
     /**
      * Always called during game update loop, regardless of whether system is paused.
      */

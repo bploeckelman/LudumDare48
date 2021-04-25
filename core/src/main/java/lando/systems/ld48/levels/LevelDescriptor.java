@@ -3,6 +3,7 @@ package lando.systems.ld48.levels;
 public enum LevelDescriptor {
 
       test("levels/test.tmx")
+    , test2("levels/test2.tmx")
     ;
 
     public String mapFileName;

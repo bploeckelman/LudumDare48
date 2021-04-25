@@ -133,7 +133,9 @@ public class Level {
                 enemySpawns.add(spawn);
             }
             else if ("exit".equalsIgnoreCase(type)) {
-                exit = new Exit(x, y, assets);
+                LevelTransition.Type transitionType = LevelTransition.Type.valueOf((String) props.get("transition-type"));
+                LevelDescriptor targetLevel = LevelDescriptor.valueOf((String) props.get("target-level"));
+                exit = new Exit(x, y, transitionType, targetLevel, assets);
             }
         }
 
@@ -151,6 +153,10 @@ public class Level {
 
     public void update(float dt) {
 
+    }
+
+    public Exit getExit() {
+        return exit;
     }
 
     public SpawnPlayer getPlayerSpawn() {

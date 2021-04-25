@@ -30,12 +30,16 @@ public class Assets implements Disposable {
 
     public Texture pixel;
     public Texture title;
+    public Texture levelTransitionMilitary;
+    public Texture levelTransitionOrganic;
 
     public TextureRegion whitePixel;
     public TextureRegion sunsetBackground;
 
     public Animation<TextureRegion> cat;
     public Animation<TextureRegion> dog;
+
+    public Animation<TextureRegion> elevatorPlatformAnimation;
 
     public Animation<TextureRegion> playerAnimation;
     public Animation<TextureRegion> playerMoveAnimation;
@@ -76,6 +80,8 @@ public class Assets implements Disposable {
         {
             mgr.load(new AssetDescriptor<>("images/pixel.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/title.png", Texture.class));
+            mgr.load(new AssetDescriptor<>("images/elevator-military.png", Texture.class));
+            mgr.load(new AssetDescriptor<>("images/elevator-organic.png", Texture.class));
 
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
 
@@ -99,6 +105,11 @@ public class Assets implements Disposable {
         pixel = mgr.get("images/pixel.png");
         title = mgr.get("images/title.png");
 
+        levelTransitionMilitary = mgr.get("images/elevator-military.png");
+        levelTransitionOrganic = mgr.get("images/elevator-organic.png");
+        levelTransitionMilitary.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.Repeat);
+        levelTransitionOrganic.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.Repeat);
+
         pixelFont16 = mgr.get("fonts/chevyray-rise-16.fnt");
 
         atlas = mgr.get("sprites/sprites.atlas");
@@ -108,6 +119,8 @@ public class Assets implements Disposable {
 
         cat = new Animation<>(0.1f, atlas.findRegions("pets/cat"), Animation.PlayMode.LOOP);
         dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);
+
+        elevatorPlatformAnimation = new Animation<>(0.1f, atlas.findRegions("world/elevator-platform"), Animation.PlayMode.LOOP);
 
         playerAnimation       = new Animation<>(0.1f, atlas.findRegions("player/ghost-idle"),  Animation.PlayMode.LOOP);
         playerMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.LOOP);
