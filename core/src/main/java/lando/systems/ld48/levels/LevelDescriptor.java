@@ -2,7 +2,8 @@ package lando.systems.ld48.levels;
 
 public enum LevelDescriptor {
 
-      test("levels/test.tmx")
+      introduction("levels/introduction.tmx")
+    , test("levels/test.tmx")
     , test2("levels/test2.tmx")
     , test3("levels/test3.tmx")
     ;

@@ -45,7 +45,7 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(Game game) {
         super(game);
-        loadLevel(LevelDescriptor.test);
+        loadLevel(LevelDescriptor.introduction);
     }
 
     public void loadLevel(LevelDescriptor levelDescriptor) {
@@ -81,7 +81,12 @@ public class GameScreen extends BaseScreen {
         // make sure the camera is setup correctly for when we get here from a level transition
         CameraConstraints.update(worldCamera, player, level);
 
-        game.audio.playMusic(Audio.Musics.level1);
+        // immediately move to starting coords instead of lerping
+        worldCamera.position.x = CameraConstraints.targetPos.x;
+        worldCamera.position.y = CameraConstraints.targetPos.y;
+        worldCamera.update();
+
+        game.audio.playMusic(Audio.Musics.level1boss);
     }
 
     @Override
