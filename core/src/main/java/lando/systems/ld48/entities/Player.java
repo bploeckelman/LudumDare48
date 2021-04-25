@@ -1,12 +1,14 @@
 package lando.systems.ld48.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld48.Audio;
 import lando.systems.ld48.levels.SpawnPlayer;
 import lando.systems.ld48.screens.GameScreen;
+import lando.systems.ld48.stuff.Progress;
 
 public class Player extends MovableEntity {
 
@@ -18,6 +20,8 @@ public class Player extends MovableEntity {
 
     public EnemyEntity capturedEnemy = null;
     public boolean capturing = false;
+    public float captureProgress = 0;
+    private Progress captureProgressBar;
 
     private AnimationSet defaultAnimationSet;
 
@@ -36,6 +40,8 @@ public class Player extends MovableEntity {
         id = MoveEntityIds.player;
 
         defaultAnimationSet = animationSet;
+
+        captureProgressBar = new Progress(assets);
     }
 
     @Override
@@ -67,6 +73,16 @@ public class Player extends MovableEntity {
         }
 
         checkIfFellOffscreen();
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
+
+        if (captureProgress > 0) {
+            captureProgressBar.draw(batch, captureProgress, imageBounds.x,
+                    imageBounds.y + imageBounds.height + 5, imageBounds.width, 2);
+        }
     }
 
     private void checkIfFellOffscreen() {

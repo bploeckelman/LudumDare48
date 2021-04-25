@@ -1,11 +1,12 @@
 package lando.systems.ld48.entities;
 
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 public class CaptureHandler {
+
+    private final float CAPTURE_TIME = 1.0f;
+    private final float RELEASE_TIME = 0.5f;
 
     private Player player;
 
@@ -34,7 +35,13 @@ public class CaptureHandler {
 
     public void updateCapture(float dt, Array<EnemyEntity> enemies) {
         if (!player.capturing) { return; }
+
         captureTimer += dt;
+
+        float maxTime = CAPTURE_TIME;
+
+        player.captureProgress = 0;
+
         if (player.capturedEnemy == null) {
             Array.ArrayIterator<EnemyEntity> e = nearbyCapturing.iterator();
             while (e.hasNext()) {
@@ -52,23 +59,26 @@ public class CaptureHandler {
                 player.capturing = false;
                 return;
             }
-            if (captureTimer >= 1.5f) {
+            if (captureTimer >= CAPTURE_TIME) {
                 captureEnemy(nearbyCapturing.get(0));
                 captureTimer = 0;
                 player.capturing = false;
             }
         } else {
+            maxTime = RELEASE_TIME;
             if (!player.screen.downPressed) {
                 captureTimer = 0;
                 player.capturing = false;
                 return;
             }
-            if (captureTimer >= 1f) {
+            if (captureTimer >= RELEASE_TIME) {
                 uncaptureEnemy();
                 captureTimer = 0;
                 player.capturing = false;
             }
         }
+
+        player.captureProgress = MathUtils.clamp(captureTimer / maxTime, 0, 1);
     }
 
     private void captureEnemy(EnemyEntity e) {
