@@ -51,7 +51,9 @@ public class GameScreen extends BaseScreen {
     public void loadLevel(LevelDescriptor levelDescriptor) {
         this.level = new Level(levelDescriptor, this);
         this.levelTransition = null;
-        this.player = new Player(this, level.getPlayerSpawn());
+
+        resetPlayer(level.getPlayerSpawn());
+
         this.captureHandler = new CaptureHandler(player, this);
         this.enemies = new Array<>();
         this.physicsSystem = new PhysicsSystem(this);
@@ -87,6 +89,13 @@ public class GameScreen extends BaseScreen {
         worldCamera.update();
 
         game.audio.playMusic(Audio.Musics.level1boss);
+    }
+
+    private void resetPlayer(SpawnPlayer spawn) {
+        if (this.player == null) {
+            this.player = new Player(this, spawn);
+        }
+        this.player.setPosition(spawn.pos.x, spawn.pos.y);
     }
 
     @Override

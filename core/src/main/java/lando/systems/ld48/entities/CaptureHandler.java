@@ -86,14 +86,15 @@ public class CaptureHandler {
         player.captureProgress = MathUtils.clamp(captureTimer / maxTime, 0, 1);
     }
 
-    private void captureEnemy(EnemyEntity e) {
-        player.SetEnemy(e);
-        screen.particles.physics(e.position.x, e.position.y);
+    private void captureEnemy(EnemyEntity enemy) {
+        enemy.removeFromScreen();
+        player.possess(enemy);
+        screen.particles.physics(enemy.position.x, enemy.position.y);
     }
 
     private void uncaptureEnemy() {
         screen.game.audio.playSound(Audio.Sounds.uncapture);
-        player.SetEnemy(null);
+        player.possess(null);
         screen.particles.smoke(player.position.x, player.position.y);
     }
 

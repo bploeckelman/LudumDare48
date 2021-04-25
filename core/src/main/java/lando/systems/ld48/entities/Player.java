@@ -151,22 +151,15 @@ public class Player extends MovableEntity {
         return true;
     }
 
-    // temp naming for now
-    public void SetEnemy(EnemyEntity enemy) {
-        if (enemy == null) {
-            capturedEnemy.captured = false;
-
-            float dy = (imageBounds.height - capturedEnemy.imageBounds.height)/2;
-
-            capturedEnemy.setPosition(position.x, position.y - dy);
-            capturedEnemy = null;
-            animationSet = defaultAnimationSet;
-        } else {
-            capturedEnemy = enemy.capture();
-            animationSet = capturedEnemy.animationSet;
+    public void possess(EnemyEntity enemy) {
+        if (capturedEnemy != null) {
+            capturedEnemy.reset(imageBounds);
         }
 
-        animation = (state == State.standing) ? animationSet.IdleAnimation : animationSet.MoveAnimation;
-    }
+        capturedEnemy = enemy;
+        animationSet = (capturedEnemy != null) ? capturedEnemy.animationSet : defaultAnimationSet;
 
+        state = State.standing;
+        animation = animationSet.IdleAnimation;
+    }
 }

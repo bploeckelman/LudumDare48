@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld48.screens.GameScreen;
 
 public class EnemyEntity extends MovableEntity {
@@ -46,10 +47,11 @@ public class EnemyEntity extends MovableEntity {
         screen.physicsEntities.removeValue(this, true);
     }
 
-    public EnemyEntity capture() {
+    public void reset(Rectangle bounds) {
         targeted = false;
-        captured = true;
-        return this;
+        float x = bounds.x + bounds.width / 2;
+        float y = bounds.y + (bounds.height - imageBounds.height) / 2;
+        addToScreen(x, y);
     }
 
     // don't override this
