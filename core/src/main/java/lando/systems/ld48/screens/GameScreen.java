@@ -108,6 +108,10 @@ public class GameScreen extends BaseScreen {
                 this.player.jump();
                 upPressed = true;
                 break;
+            case Input.Keys.SHIFT_LEFT:
+            case Input.Keys.SHIFT_RIGHT:
+                this.player.attack();
+                break;
         }
         return false;
     }

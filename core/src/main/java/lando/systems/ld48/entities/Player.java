@@ -34,6 +34,7 @@ public class Player extends MovableEntity {
 
         setJump(screen.game.assets.playerJumpAnimation, 200f);
         setFall(screen.game.assets.playerFallAnimation);
+        setAttack(screen.game.assets.playerAttackAnimation);
 
         initEntity(x, y, keyframe.getRegionWidth() * SCALE, keyframe.getRegionHeight() * SCALE);
 
@@ -114,14 +115,6 @@ public class Player extends MovableEntity {
 
     private void move(Direction direction) {
         move(direction, horizontalSpeed);
-    }
-
-    @Override
-    public void jump() {
-        if (state != State.jump && state != State.jumping && grounded) {
-            screen.game.audio.playSound(Audio.Sounds.example);
-        }
-        super.jump();
     }
 
     @Override

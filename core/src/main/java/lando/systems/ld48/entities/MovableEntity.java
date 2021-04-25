@@ -19,6 +19,8 @@ public class MovableEntity extends GameEntity {
     private float jumpVelocity = 0f;
     private float jumpKeyHeldTimer = 0f;
 
+    private float attackTime = 1f;
+
     public int id;
     public boolean ignore = false;
 
@@ -38,6 +40,10 @@ public class MovableEntity extends GameEntity {
 
     public void setFall(Animation<TextureRegion> fallAnimation) {
         animationSet.FallAnimation = fallAnimation;
+    }
+
+    public void setAttack(Animation<TextureRegion> attackAnimation) {
+        animationSet.AttackAnimation = attackAnimation;
     }
 
     @Override
@@ -76,11 +82,21 @@ public class MovableEntity extends GameEntity {
             }
         }
 
-        if (state != State.jumping && jumpTime >= 0.2) {
+        if (state != State.jumping && jumpTime >= 0.2 && state != State.attacking) {
             // stop if entity gets slow enough
             if (Math.abs(velocity.x) < 10f && grounded) {
                 velocity.x = 0f;
                 state = State.standing;
+            }
+        }
+
+        if (state == State.attacking) {
+            attackTime += dt;
+            if (animationSet.AttackAnimation != null) {
+                keyframe = animationSet.AttackAnimation.getKeyFrame(attackTime);
+            }
+            if (animationSet.AttackAnimation == null || attackTime > animationSet.AttackAnimation.getAnimationDuration()) {
+                state = Math.abs(velocity.x) > 10 ? State.walking : State.standing;
             }
         }
 
@@ -103,17 +119,25 @@ public class MovableEntity extends GameEntity {
         this.direction = direction;
         velocity.add(speed, 0);
 
-        if (state != State.jumping && jumpTime >= 0.2 && grounded) {
+        if (state != State.jumping && jumpTime >= 0.2 && state != State.attacking && grounded) {
             state = State.walking;
         }
     }
 
     public void jump() {
-        if (state != State.jump && state != State.jumping && grounded) {
+        if (state != State.jump && state != State.jumping && state != State.attacking && grounded) {
             screen.game.audio.playSound(Audio.Sounds.jump);
             jumpTime = 0;
             jumpKeyHeldTimer = 0;
             state = State.jumping;
+        }
+    }
+
+    public void attack() {
+        if (this.state == State.standing || this.state == State.walking) {
+            screen.game.audio.playSound(Audio.Sounds.jump);
+            attackTime = 0;
+            state = State.attacking;
         }
     }
 
