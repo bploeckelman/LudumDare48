@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -62,7 +63,14 @@ public class GameScreen extends BaseScreen {
         float levelWidth = collisionLayer.getWidth() * collisionLayer.getTileWidth();
         float levelHeight = collisionLayer.getHeight() * collisionLayer.getTileHeight();
         Vector2 scrollRatio = new Vector2(0.75f, 1.0f);
-        this.background = new ParallaxBackground(new TextureRegionParallaxLayer(game.assets.sunsetBackground, levelWidth, levelHeight, scrollRatio));
+        TextureRegion backTexture;
+        switch (levelDescriptor) {
+            default:
+            case test:  backTexture = game.assets.sunsetBackground; break;
+            case test2: backTexture = game.assets.desertBackground; break;
+            case test3: backTexture = game.assets.desertBackground; break;
+        }
+        this.background = new ParallaxBackground(new TextureRegionParallaxLayer(backTexture, levelWidth, levelHeight, scrollRatio));
 
         // immediately spawn enemies rather than spawning when they're about to come onscreen
         // todo - this is for testing, make spawning smarter
