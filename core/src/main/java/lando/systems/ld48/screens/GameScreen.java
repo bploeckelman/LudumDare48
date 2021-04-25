@@ -32,6 +32,7 @@ public class GameScreen extends BaseScreen {
     public ParallaxBackground background;
     public CaptureHandler captureHandler;
     public Array<EnemyEntity> enemies;
+    public Array<PickupEntity> pickups;
 
     public PhysicsSystem physicsSystem;
     public Array<PhysicsComponent> physicsEntities;
@@ -63,6 +64,7 @@ public class GameScreen extends BaseScreen {
 
         this.captureHandler = new CaptureHandler(player, this);
         this.enemies = new Array<>();
+        this.pickups = new Array<>();
         this.physicsSystem = new PhysicsSystem(this);
         this.physicsEntities = new Array<>();
         this.physicsEntities.add(player);
@@ -81,9 +83,11 @@ public class GameScreen extends BaseScreen {
         }
         this.background = new ParallaxBackground(new TextureRegionParallaxLayer(backTexture, levelWidth, levelHeight, scrollRatio));
 
-        // immediately spawn enemies rather than spawning when they're about to come onscreen
-        // todo - this is for testing, make spawning smarter
+        // immediately spawn stuff, probably not enough time to get clever spawning setup
         for (SpawnEnemy spawner : this.level.getEnemySpawns()) {
+            spawner.spawn(this);
+        }
+        for (SpawnPickup spawner : this.level.getPickupSpawns()) {
             spawner.spawn(this);
         }
 
@@ -124,6 +128,20 @@ public class GameScreen extends BaseScreen {
 
             CameraConstraints.update(worldCamera, player, level);
 
+            // pickup pickup-able entities
+            if (player.capturedEnemy != null) {
+                for (int i = pickups.size - 1; i >= 0; i--) {
+                    PickupEntity pickup = pickups.get(i);
+                    if (player.collisionBounds.overlaps(pickup.collisionBounds)) {
+                        // TODO: make a counter for the hud or something
+                        // TODO: play a sound
+                        particles.pickup(pickup.position.x, pickup.position.y, pickup.type);
+                        pickup.removeFromScreen();
+                    }
+                }
+            }
+
+            // check for level exit
             // todo - this is abrupt, probably want to trigger an interaction animation like moving the player and making them face front, then spawning a particle system or something
             // todo - this is also a little dumb, probably want a more robust way to check for 'mostly overlapped' (vs 'any overlap' vs 'fully contained')
             if (player.capturedEnemy != null) {
@@ -227,6 +245,9 @@ public class GameScreen extends BaseScreen {
                     if (DebugFlags.renderEnemyDebug) {
                         enemies.forEach(enemy -> enemy.renderDebug(batch));
                     }
+                    if (DebugFlags.renderPickupDebug) {
+                        pickups.forEach(pickup -> pickup.renderDebug(batch));
+                    }
                     if (DebugFlags.renderPhysicsDebug) {
                         physicsSystem.renderDebug(batch);
                     }
@@ -259,7 +280,8 @@ public class GameScreen extends BaseScreen {
             case Input.Keys.F2: DebugFlags.renderLevelDebug   = !DebugFlags.renderLevelDebug;   break;
             case Input.Keys.F3: DebugFlags.renderPlayerDebug  = !DebugFlags.renderPlayerDebug;  break;
             case Input.Keys.F4: DebugFlags.renderEnemyDebug   = !DebugFlags.renderEnemyDebug;   break;
-            case Input.Keys.F5: DebugFlags.renderPhysicsDebug = !DebugFlags.renderPhysicsDebug; break;
+            case Input.Keys.F5: DebugFlags.renderPickupDebug  = !DebugFlags.renderPickupDebug;  break;
+            case Input.Keys.F6: DebugFlags.renderPhysicsDebug = !DebugFlags.renderPhysicsDebug; break;
             // ----------------------
             case Input.Keys.S:
             case Input.Keys.DOWN:
@@ -326,6 +348,7 @@ public class GameScreen extends BaseScreen {
         public static boolean renderLevelDebug = false;
         public static boolean renderPlayerDebug = false;
         public static boolean renderEnemyDebug = false;
+        public static boolean renderPickupDebug = false;
         public static boolean renderPhysicsDebug = false;
     }
 

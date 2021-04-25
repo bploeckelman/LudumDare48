@@ -56,6 +56,7 @@ public class Level {
     private Exit exit;
     private SpawnPlayer playerSpawn;
     private Array<SpawnEnemy> enemySpawns;
+    private Array<SpawnPickup> pickupSpawns;
 
     public Level(LevelDescriptor levelDescriptor, GameScreen gameScreen) {
         Gdx.app.log("Level", "Loading: " + levelDescriptor);
@@ -114,6 +115,7 @@ public class Level {
         exit = null;
         playerSpawn = null;
         enemySpawns = new Array<>();
+        pickupSpawns = new Array<>();
 
         MapObjects objects = objectsLayer.getObjects();
         for (MapObject object : objects) {
@@ -133,6 +135,11 @@ public class Level {
                 SpawnEnemy.Type enemyType = SpawnEnemy.Type.valueOf((String) props.get("enemy-type"));
                 SpawnEnemy spawn = new SpawnEnemy(enemyType, x, y, gameScreen.game.assets);
                 enemySpawns.add(spawn);
+            }
+            else if ("spawn-pickup".equalsIgnoreCase(type)) {
+                SpawnPickup.Type pickupType = SpawnPickup.Type.valueOf((String) props.get("pickup-type"));
+                SpawnPickup spawn = new SpawnPickup(pickupType, x, y, gameScreen.game.assets);
+                pickupSpawns.add(spawn);
             }
             else if ("exit".equalsIgnoreCase(type)) {
                 LevelTransition.Type transitionType = LevelTransition.Type.valueOf((String) props.get("transition-type"));
@@ -167,6 +174,10 @@ public class Level {
 
     public Array<SpawnEnemy> getEnemySpawns() {
         return enemySpawns;
+    }
+
+    public Array<SpawnPickup> getPickupSpawns() {
+        return pickupSpawns;
     }
 
     public Layer getLayer(LayerType layerType) {

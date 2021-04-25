@@ -74,6 +74,7 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> zuckTankRamActAnimation;
 
     public Animation<TextureRegion> dogeCoinAnimation;
+    public Animation<TextureRegion> bitCoinAnimation;
 
     public NinePatch debugNinePatch;
 
@@ -183,6 +184,7 @@ public class Assets implements Disposable {
         zuckTankRamActAnimation  = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-ram-state/zuck-tank-ram-state"), Animation.PlayMode.NORMAL);
 
         dogeCoinAnimation  = new Animation<>(0.1f, atlas.findRegions("pickups/dogecoin/doge-coin"), Animation.PlayMode.LOOP);
+        bitCoinAnimation  = new Animation<>(0.1f, atlas.findRegions("pickups/bitcoin/bitcoin-coin"), Animation.PlayMode.LOOP);
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 6, 6, 6, 6);
 

@@ -1,6 +1,7 @@
 package lando.systems.ld48.particles;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import lando.systems.ld48.Assets;
+import lando.systems.ld48.levels.SpawnPickup;
 import lando.systems.ld48.physics.PhysicsComponent;
 import lando.systems.ld48.utils.Utils;
 
@@ -81,25 +83,28 @@ public class Particles implements Disposable {
     // Spawners for different particle effects
     // ------------------------------------------------------------------------
 
-    public void pickup(float x, float y) {
-        int numParticles = 40;
+    public void pickup(float x, float y, SpawnPickup.Type pickupType) {
+        Animation<TextureRegion> animation;
+        switch (pickupType) {
+            default:
+            case dogecoin: animation = assets.dogeCoinAnimation; break;
+            case bitcoin:  animation = assets.bitCoinAnimation;  break;
+        }
+        int numParticles = 20;
         float angle = 0;
-        float speed = 40f;
+        float speed = 20f;
         float increment = 36f;
         float ttl = 1f;
         for (int i = 0; i < numParticles; ++i) {
-            float startRotation = MathUtils.random(0f, 360f);
             activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
-                    .keyframe(assets.particles.sparkle)
+                    .animation(animation)
                     .startPos(x, y)
                     .velocityDirection(angle, speed)
-                    .startSize(40f)
+                    .startSize(16f)
                     .endSize(1f)
                     .startAlpha(1f)
                     .endAlpha(0f)
                     .timeToLive(ttl)
-                    .startRotation(startRotation)
-                    .endRotation(startRotation + MathUtils.random(-3f * 360f, 3f * 360f))
                     .init());
             angle += increment;
             speed += 5f;
