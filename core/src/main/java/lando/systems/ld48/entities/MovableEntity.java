@@ -10,7 +10,6 @@ public class MovableEntity extends GameEntity {
 
     public static float JUMP_BONUS = 0.4f;
 
-    private State lastState;
 
     private float fallTime = 0;
 
@@ -26,30 +25,12 @@ public class MovableEntity extends GameEntity {
     public int id;
     public boolean ignore = false;
 
-    protected MovableEntity(GameScreen screen, Animation<TextureRegion> idle) {
-        this(screen, idle, idle);
+    protected MovableEntity(GameScreen screen, AnimationSet animSet) {
+        super(screen, animSet);
     }
 
-    protected MovableEntity(GameScreen screen, Animation<TextureRegion> idle, Animation<TextureRegion> move) {
-        super(screen, idle);
-
-        animationSet.IdleAnimation = idle;
-        animationSet.MoveAnimation = move;
-
-        lastState = state;
-    }
-
-    public void setJump(Animation<TextureRegion> jumpAnimation, float jumpVelocity) {
-        animationSet.JumpAnimation = jumpAnimation;
+    public void setJump(float jumpVelocity) {
         this.jumpVelocity = jumpVelocity;
-    }
-
-    public void setFall(Animation<TextureRegion> fallAnimation) {
-        animationSet.FallAnimation = fallAnimation;
-    }
-
-    public void setAttack(Animation<TextureRegion> attackAnimation) {
-        animationSet.AttackAnimation = attackAnimation;
     }
 
     @Override
@@ -63,11 +44,8 @@ public class MovableEntity extends GameEntity {
         if (ignore) return;
         super.update(dt);
 
-        if (state == State.death) {
+        if (state == State.dying) {
             deathTime += dt;
-            if (animationSet.DieAnimation != null) {
-                keyframe = animationSet.DieAnimation.getKeyFrame(deathTime);
-            }
             if (animationSet.DieAnimation == null || deathTime > animationSet.DieAnimation.getAnimationDuration()) {
                 this.dead = true;
             }
@@ -76,10 +54,6 @@ public class MovableEntity extends GameEntity {
 
         if (velocity.y < -50 || state == State.falling) {
             state = State.falling;
-            fallTime += dt;
-            if (animationSet.FallAnimation != null) {
-                keyframe = animationSet.FallAnimation.getKeyFrame(fallTime);
-            }
         } else {
             fallTime = 0;
         }
@@ -89,11 +63,8 @@ public class MovableEntity extends GameEntity {
             if (jumpHeld) {
                 jumpKeyHeldTimer += dt;
             }
-            if (animationSet.JumpAnimation != null) {
-                keyframe = animationSet.JumpAnimation.getKeyFrame(jumpTime);
-            }
-            if (state == State.jumping && (animationSet.JumpAnimation == null || jumpTime > animationSet.JumpAnimation.getAnimationDuration())) {
-                float bonusJump = animationSet.JumpAnimation == null ? 0 : Math.min(jumpKeyHeldTimer / animationSet.JumpAnimation.getAnimationDuration(), 1) * JUMP_BONUS;
+            if (state == State.jumping && jumpTime > 0.15f) {
+                float bonusJump = Math.min(jumpKeyHeldTimer / 0.15f, 1) * JUMP_BONUS;
                 velocity.y = jumpVelocity * (1f + bonusJump);
                 state = State.jump;
             }
@@ -105,26 +76,15 @@ public class MovableEntity extends GameEntity {
             // stop if entity gets slow enough
             if (Math.abs(velocity.x) < 10f && grounded) {
                 velocity.x = 0f;
-                state = State.standing;
+                state = State.idling;
             }
         }
 
         if (state == State.attacking) {
             attackTime += dt;
-            if (animationSet.AttackAnimation != null) {
-                keyframe = animationSet.AttackAnimation.getKeyFrame(attackTime);
+            if (animationSet.getAnimation(State.attacking) == null || attackTime > animationSet.getAnimation(State.attacking).getAnimationDuration()) {
+                state = Math.abs(velocity.x) > 10 ? State.moving : State.idling;
             }
-            if (animationSet.AttackAnimation == null || attackTime > animationSet.AttackAnimation.getAnimationDuration()) {
-                state = Math.abs(velocity.x) > 10 ? State.walking : State.standing;
-            }
-        }
-
-        if (state == State.standing && lastState != State.standing) {
-            setAnimation(animationSet.IdleAnimation);
-        }
-
-        if (state == State.walking && lastState != State.walking) {
-            setAnimation(animationSet.MoveAnimation);
         }
 
 
@@ -139,7 +99,7 @@ public class MovableEntity extends GameEntity {
         velocity.add(speed, 0);
 
         if (state != State.jumping && jumpTime >= 0.2 && state != State.attacking && grounded) {
-            state = State.walking;
+            state = State.moving;
         }
     }
 
@@ -153,7 +113,7 @@ public class MovableEntity extends GameEntity {
     }
 
     public void attack() {
-        if (this.state == State.standing || this.state == State.walking) {
+        if (this.state == State.idling || this.state == State.moving) {
             screen.game.audio.playSound(Audio.Sounds.attack);
             attackTime = 0;
             state = State.attacking;
@@ -163,7 +123,7 @@ public class MovableEntity extends GameEntity {
     public void die() {
         screen.game.audio.playSound(Audio.Sounds.death);
         deathTime = 0;
-        this.state = State.death;
+        this.state = State.dying;
     }
 
 }

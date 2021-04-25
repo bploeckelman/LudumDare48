@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ArrayMap;
 import lando.systems.ld48.Assets;
 import lando.systems.ld48.physics.PhysicsComponent;
 import lando.systems.ld48.screens.GameScreen;
@@ -19,7 +20,7 @@ public class GameEntity implements PhysicsComponent {
         }
     }
 
-    public enum State { standing, walking, jumping, jump, falling, attacking, death }
+    public enum State { none, idling, moving, jumping, jump, falling, attacking, dying, landing, capturing, uncapturing, dead }
 
     protected Assets assets;
 
@@ -28,7 +29,9 @@ public class GameEntity implements PhysicsComponent {
     protected Animation<TextureRegion> animation;
     public AnimationSet animationSet;
 
-    public State state = State.standing;
+    public State state = State.idling;
+    protected State lastState = State.none;
+
     public Direction direction = Direction.right;
 
     public Vector2 position = new Vector2();
@@ -55,24 +58,13 @@ public class GameEntity implements PhysicsComponent {
 
     public float height, width;
 
-    GameEntity(GameScreen screen, Animation<TextureRegion> animation) {
-        this(screen, animation.getKeyFrame(0f));
-        this.animation = animation;
-        animationSet = new AnimationSet(animation);
-    }
 
-    protected GameEntity(GameScreen screen, TextureRegion keyframe) {
+    GameEntity(GameScreen screen, AnimationSet animSet) {
+        animationSet = animSet;
         this.assets = screen.game.assets;
         this.screen = screen;
-        this.animation = null;
-        this.keyframe = keyframe;
         this.grounded = true;
         this.stateTime = 0f;
-    }
-
-    protected void setAnimation(Animation<TextureRegion> animation) {
-        this.animation = animation;
-        stateTime = 0;
     }
 
     protected void initEntity(float x, float y, float width, float height) {
@@ -81,6 +73,11 @@ public class GameEntity implements PhysicsComponent {
         setPosition(x, y);
         this.width = width;
         this.height = height;
+    }
+
+    protected void setAnimation(State s) {
+        this.animation = animationSet.getAnimation(s);
+        stateTime = 0;
     }
 
     public void changeDirection() {
@@ -95,7 +92,6 @@ public class GameEntity implements PhysicsComponent {
         if (updateStateTimer()) {
             stateTime += dt;
         }
-
         if (animation != null) {
             keyframe = animation.getKeyFrame(stateTime);
         }

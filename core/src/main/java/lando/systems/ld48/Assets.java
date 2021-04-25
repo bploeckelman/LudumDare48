@@ -10,8 +10,11 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import lando.systems.ld48.entities.AnimationSet;
+import lando.systems.ld48.entities.GameEntity;
 
 public class Assets implements Disposable {
 
@@ -41,20 +44,9 @@ public class Assets implements Disposable {
 
     public Animation<TextureRegion> elevatorPlatformAnimation;
 
-    public Animation<TextureRegion> playerAnimation;
-    public Animation<TextureRegion> playerMoveAnimation;
-    public Animation<TextureRegion> playerAttackAnimation;
-    public Animation<TextureRegion> playerJumpAnimation;
-    public Animation<TextureRegion> playerFallAnimation;
-    public Animation<TextureRegion> playerDieAnimation;
+    public AnimationSet playerAnimations;
 
-    // enemas
-    public Animation<TextureRegion> grayAnimation;
-    public Animation<TextureRegion> grayMoveAnimation;
-    public Animation<TextureRegion> grayAttackAnimation;
-    public Animation<TextureRegion> grayJumpAnimation;
-    public Animation<TextureRegion> grayFallAnimation;
-    public Animation<TextureRegion> grayDieAnimation;
+    public AnimationSet grayAnimations;
 
     public NinePatch debugNinePatch;
 
@@ -83,7 +75,7 @@ public class Assets implements Disposable {
             mgr.load(new AssetDescriptor<>("images/elevator-military.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/elevator-organic.png", Texture.class));
 
-            mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
+            mgr.load(new AssetDescriptor<>("fonts/chevyray-rise-16.fnt", BitmapFont.class));
 
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
 
@@ -122,19 +114,24 @@ public class Assets implements Disposable {
 
         elevatorPlatformAnimation = new Animation<>(0.1f, atlas.findRegions("world/elevator-platform"), Animation.PlayMode.LOOP);
 
-        playerAnimation       = new Animation<>(0.1f, atlas.findRegions("player/ghost-idle"),  Animation.PlayMode.LOOP);
-        playerMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.LOOP);
-        playerAttackAnimation = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"), Animation.PlayMode.NORMAL);
-        playerJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("player/ghost-jump"),  Animation.PlayMode.NORMAL);
-        playerFallAnimation   = new Animation<>(0.1f, atlas.findRegions("player/ghost-fall"),  Animation.PlayMode.NORMAL);
-        playerDieAnimation    = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.NORMAL);
+        playerAnimations = new AnimationSet();
 
-        grayAnimation       = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),  Animation.PlayMode.LOOP);
-        grayMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-run"),   Animation.PlayMode.LOOP);
-        grayAttackAnimation = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-shoot"), Animation.PlayMode.NORMAL);
-        grayJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.NORMAL);
-        grayFallAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.REVERSED);
-        grayDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),   Animation.PlayMode.NORMAL);
+        playerAnimations.setAnimation(GameEntity.State.idling, new Animation<>(0.1f, atlas.findRegions("player/ghost-idle"),  Animation.PlayMode.LOOP));
+        playerAnimations.setAnimation(GameEntity.State.moving, new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.LOOP));
+        playerAnimations.setAnimation(GameEntity.State.attacking, new Animation<>(0.1f, atlas.findRegions("player/ghost-move"), Animation.PlayMode.NORMAL));
+        playerAnimations.setAnimation(GameEntity.State.jumping  , new Animation<>(0.03f, atlas.findRegions("player/ghost-jump"),  Animation.PlayMode.NORMAL));
+        playerAnimations.setAnimation(GameEntity.State.falling  , new Animation<>(0.1f, atlas.findRegions("player/ghost-fall"),  Animation.PlayMode.NORMAL));
+        playerAnimations.setAnimation(GameEntity.State.dying, new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.NORMAL));
+
+        grayAnimations = new AnimationSet();
+
+        grayAnimations.setAnimation(GameEntity.State.idling, new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),  Animation.PlayMode.LOOP));
+        grayAnimations.setAnimation(GameEntity.State.moving, new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-run"),   Animation.PlayMode.LOOP));
+        grayAnimations.setAnimation(GameEntity.State.attacking, new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-shoot"), Animation.PlayMode.NORMAL));
+        grayAnimations.setAnimation(GameEntity.State.jumping  , new Animation<>(0.03f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.NORMAL));
+        grayAnimations.setAnimation(GameEntity.State.falling  , new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.REVERSED));
+        grayAnimations.setAnimation(GameEntity.State.dying, new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),   Animation.PlayMode.NORMAL));
+
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 6, 6, 6, 6);
 

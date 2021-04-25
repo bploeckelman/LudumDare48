@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import lando.systems.ld48.Audio;
 import lando.systems.ld48.levels.SpawnPlayer;
 import lando.systems.ld48.screens.GameScreen;
 import lando.systems.ld48.stuff.Progress;
@@ -153,7 +152,7 @@ public class Player extends MovableEntity {
             animationSet = capturedEnemy.animationSet;
         }
 
-        animation = (state == State.standing) ? animationSet.IdleAnimation : animationSet.MoveAnimation;
+        animation = (state == State.idling) ? animationSet.IdleAnimation : animationSet.MoveAnimation;
     }
 
 }
