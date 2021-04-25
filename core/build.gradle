@@ -7,4 +7,5 @@ dependencies {
 	api "org.mini2Dx:universal-tween-engine:$tweenEngineVersion"
 	implementation "com.github.raeleus.TenPatch:tenpatch:$tenPatchVersion"
     implementation "com.kotcrab.vis:vis-ui:$visuiVersion"
+	implementation "com.github.tommyettinger:regexodus:$regexodusVersion"
 }
