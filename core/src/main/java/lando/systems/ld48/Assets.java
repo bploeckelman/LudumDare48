@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.I18NBundle;
 
 public class Assets implements Disposable {
 
@@ -26,6 +27,7 @@ public class Assets implements Disposable {
     public TextureAtlas atlas;
     public Transitions transitions;
     public Particles particles;
+    public I18NBundle strings;
 
     public BitmapFont pixelFont16;
 
@@ -94,6 +96,8 @@ public class Assets implements Disposable {
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
 
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
+
+            mgr.load("i18n/strings", I18NBundle.class);
 
             mgr.load("audio/sound/example.wav", Sound.class);
             mgr.load("audio/sound/capture.ogg", Sound.class);
@@ -200,6 +204,8 @@ public class Assets implements Disposable {
         particles.sparkle = atlas.findRegion("particles/sparkle");
         particles.smoke   = atlas.findRegion("particles/smoke");
         particles.ring    = atlas.findRegion("particles/ring");
+
+        strings = mgr.get("i18n/strings", I18NBundle.class);
 
         initialized = true;
         return 1;
