@@ -1,11 +1,11 @@
 package lando.systems.ld48.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import lando.systems.ld48.Audio;
 import lando.systems.ld48.levels.SpawnPlayer;
 import lando.systems.ld48.screens.GameScreen;
 import lando.systems.ld48.stuff.Progress;
@@ -85,6 +85,19 @@ public class Player extends MovableEntity {
         }
     }
 
+    private final Color spookyTransparent = new Color(1f, 1f, 1f, 0.5f);
+    @Override
+    public Color getEffectColor() {
+        if (capturedEnemy == null) {
+            return spookyTransparent;
+        } else {
+            return Color.WHITE;
+        }
+    }
+
+    // todo - if player fell offscreen,
+    //  pause and trigger a popup saying "you died, but you're a ghost, so you can't die, so you're fine, start over"
+    //  when the player dismisses it, unpause and either launch them back onscreen or respawn them at the start
     private void checkIfFellOffscreen() {
         float offStage = -collisionBounds.height;
         if (position.y < offStage) {

@@ -90,9 +90,11 @@ public class GameScreen extends BaseScreen {
 
             // todo - this is abrupt, probably want to trigger an interaction animation like moving the player and making them face front, then spawning a particle system or something
             // todo - this is also a little dumb, probably want a more robust way to check for 'mostly overlapped' (vs 'any overlap' vs 'fully contained')
-            Intersector.intersectRectangles(player.collisionBounds, level.getExit().bounds, exitOverlapRectangle);
-            if (exitOverlapRectangle.area() > 500f) {
-                startLevelTransition(level.getExit());
+            if (player.capturedEnemy != null) {
+                Intersector.intersectRectangles(player.collisionBounds, level.getExit().bounds, exitOverlapRectangle);
+                if (exitOverlapRectangle.area() > 500f) {
+                    startLevelTransition(level.getExit());
+                }
             }
         }
     }
