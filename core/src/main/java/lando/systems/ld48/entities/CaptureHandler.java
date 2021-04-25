@@ -25,12 +25,14 @@ public class CaptureHandler {
         if (player.capturing) { return; }
         if (player.capturedEnemy == null) {
             screen.game.audio.playSound(Audio.Sounds.capture);
-            nearbyCapturing = new Array<>();
+            nearbyCapturing.clear();
             for (EnemyEntity enemy : enemies) {
                 if (Math.abs((enemy.collisionBounds.x + enemy.collisionBounds.width/2) - (player.collisionBounds.x + player.collisionBounds.width/2)) <= 20
                     && Math.abs((enemy.collisionBounds.y) - (player.collisionBounds.y)) <= 10) {
                     nearbyCapturing.add(enemy);
                     enemy.targeted = true;
+                    // this makes the array unnecessary, but if we want multiple possible targets, remove break and
+                    // untarget all enemies when capturing
                     break;
                 }
             }
