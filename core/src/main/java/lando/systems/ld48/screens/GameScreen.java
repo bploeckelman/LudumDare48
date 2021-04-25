@@ -45,7 +45,8 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(Game game) {
         super(game);
-        loadLevel(LevelDescriptor.introduction);
+//        loadLevel(LevelDescriptor.introduction);
+        loadLevel(LevelDescriptor.core);
     }
 
     public void loadLevel(LevelDescriptor levelDescriptor) {

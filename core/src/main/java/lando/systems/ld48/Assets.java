@@ -61,6 +61,18 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> grayFallAnimation;
     public Animation<TextureRegion> grayDieAnimation;
 
+    // zuck tank
+    public Animation<TextureRegion> zuckTankMissileAnimation;
+    public Animation<TextureRegion> zuckTankLowerAnimation;
+    public Animation<TextureRegion> zuckTankTalkAnimation;
+    public Animation<TextureRegion> zuckTankIdleAAnimation;
+    public Animation<TextureRegion> zuckTankIdleBAnimation;
+    public Animation<TextureRegion> zuckTankShootAnimation;
+    public Animation<TextureRegion> zuckTankRamTellAnimation;
+    public Animation<TextureRegion> zuckTankRamActAnimation;
+
+    public Animation<TextureRegion> dogeCoinAnimation;
+
     public NinePatch debugNinePatch;
 
     public Sound exampleSound;
@@ -155,6 +167,18 @@ public class Assets implements Disposable {
         grayJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.NORMAL);
         grayFallAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.REVERSED);
         grayDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),   Animation.PlayMode.NORMAL);
+
+
+        zuckTankMissileAnimation = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-missile/zuck-missile"), Animation.PlayMode.NORMAL);
+        zuckTankLowerAnimation   = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-lower/zuck-tank-lower"), Animation.PlayMode.NORMAL);
+        zuckTankTalkAnimation    = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-talk/zuck-tank-talk"), Animation.PlayMode.NORMAL);
+        zuckTankIdleAAnimation   = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-idle-a/zuck-tank-idle-a"), Animation.PlayMode.LOOP);
+        zuckTankIdleBAnimation   = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-idle-b/zuck-tank-idle-b"), Animation.PlayMode.LOOP);
+        zuckTankShootAnimation   = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-shoot/zuck-tank-shoot"), Animation.PlayMode.NORMAL);
+        zuckTankRamTellAnimation = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-ram-tell/zuck-tank-ram-tell"), Animation.PlayMode.NORMAL);
+        zuckTankRamActAnimation  = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-ram-state/zuck-tank-ram-state"), Animation.PlayMode.NORMAL);
+
+        dogeCoinAnimation  = new Animation<>(0.1f, atlas.findRegions("pickups/dogecoin/doge-coin"), Animation.PlayMode.LOOP);
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 6, 6, 6, 6);
 
