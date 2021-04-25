@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="left-up" width="30" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="4">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="left-up" width="30" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="5">
  <tileset firstgid="1" name="prototype-basic-tiles" tilewidth="16" tileheight="16" tilecount="80" columns="8">
   <image source="prototype-basic-tiles.png" width="128" height="160"/>
  </tileset>
@@ -25,6 +25,11 @@
    </properties>
   </object>
   <object id="3" name="alien" type="spawn-enemy" gid="89" x="176" y="176" width="16" height="16">
+   <properties>
+    <property name="enemy-type" value="alien"/>
+   </properties>
+  </object>
+  <object id="4" name="alien" type="spawn-enemy" gid="89" x="304" y="176" width="16" height="16">
    <properties>
     <property name="enemy-type" value="alien"/>
    </properties>
