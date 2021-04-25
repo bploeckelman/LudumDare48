@@ -6,7 +6,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld48.Audio;
@@ -14,10 +16,7 @@ import lando.systems.ld48.Game;
 import lando.systems.ld48.entities.CaptureHandler;
 import lando.systems.ld48.entities.EnemyEntity;
 import lando.systems.ld48.entities.Player;
-import lando.systems.ld48.levels.Level;
-import lando.systems.ld48.levels.LevelDescriptor;
-import lando.systems.ld48.levels.LevelTransition;
-import lando.systems.ld48.levels.SpawnEnemy;
+import lando.systems.ld48.levels.*;
 import lando.systems.ld48.levels.backgrounds.ParallaxBackground;
 import lando.systems.ld48.levels.backgrounds.TextureRegionParallaxLayer;
 import lando.systems.ld48.physics.PhysicsComponent;
@@ -40,6 +39,8 @@ public class GameScreen extends BaseScreen {
     public boolean leftPressed = false;
     public boolean downPressed = false;
 
+    private Rectangle exitOverlapRectangle;
+
     public GameScreen(Game game) {
         super(game);
         loadLevel(LevelDescriptor.test);
@@ -54,6 +55,7 @@ public class GameScreen extends BaseScreen {
         this.physicsSystem = new PhysicsSystem(this);
         this.physicsEntities = new Array<>();
         this.physicsEntities.add(player);
+        this.exitOverlapRectangle = new Rectangle();
 
         TiledMapTileLayer collisionLayer = level.getLayer(Level.LayerType.collision).tileLayer;
         float levelWidth = collisionLayer.getWidth() * collisionLayer.getTileWidth();
@@ -61,32 +63,23 @@ public class GameScreen extends BaseScreen {
         Vector2 scrollRatio = new Vector2(0.75f, 1.0f);
         this.background = new ParallaxBackground(new TextureRegionParallaxLayer(game.assets.sunsetBackground, levelWidth, levelHeight, scrollRatio));
 
-        // for testing
+        // immediately spawn enemies rather than spawning when they're about to come onscreen
+        // todo - this is for testing, make spawning smarter
         for (SpawnEnemy spawner : this.level.getEnemySpawns()) {
             spawner.spawn(this);
         }
-        // for testing
+
+        // make sure the camera is setup correctly for when we get here from a level transition
+        CameraConstraints.update(worldCamera, player, level);
 
         game.audio.playMusic(Audio.Musics.example);
-
-        // make sure the camera is setup correctly
-        CameraConstraints.update(worldCamera, player, level);
     }
 
     @Override
     public void update(float dt) {
-        // testing
-        if (levelTransition == null && Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-            // todo - trigger a tween that locks input, fades to black, starts transition
-            //        and vice versa on return from transition
-            levelTransition = new LevelTransition(level.getExit(), this);
-        }
         if (levelTransition != null) {
             levelTransition.update(dt);
-        }
-        // testing
-
-        if (levelTransition == null) {
+        } else {
             player.update(dt);
             enemies.forEach(enemy -> enemy.update(dt));
             captureHandler.updateCapture(dt, enemies);
@@ -94,6 +87,13 @@ public class GameScreen extends BaseScreen {
             physicsSystem.update(dt);
 
             CameraConstraints.update(worldCamera, player, level);
+
+            // todo - this is abrupt, probably want to trigger an interaction animation like moving the player and making them face front, then spawning a particle system or something
+            // todo - this is also a little dumb, probably want a more robust way to check for 'mostly overlapped' (vs 'any overlap' vs 'fully contained')
+            Intersector.intersectRectangles(player.collisionBounds, level.getExit().bounds, exitOverlapRectangle);
+            if (exitOverlapRectangle.area() > 500f) {
+                startLevelTransition(level.getExit());
+            }
         }
     }
 
@@ -307,6 +307,13 @@ public class GameScreen extends BaseScreen {
                 camera.update();
             }
         }
+    }
+
+    private void startLevelTransition(Exit exit) {
+        if (levelTransition != null) return;
+
+        // todo - trigger a tween that locks input, fades to black, starts transition
+        levelTransition = new LevelTransition(exit, this);
     }
 
 }
