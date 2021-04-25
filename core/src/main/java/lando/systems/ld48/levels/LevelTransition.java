@@ -4,6 +4,8 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Back;
 import aurelienribon.tweenengine.primitives.MutableFloat;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import lando.systems.ld48.Assets;
 import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.screens.GameScreen;
+import lando.systems.ld48.ui.typinglabel.TypingLabel;
 
 // NOTE: one problem still, captured creatures don't come out of the level transition intact
 
@@ -25,6 +28,7 @@ public class LevelTransition {
     private Texture background;
     private LevelDescriptor targetLevel;
     private Assets assets;
+    private GameScreen screen;
 
     private Player player;
     private TextureRegion pixel;
@@ -37,14 +41,10 @@ public class LevelTransition {
 
     private MutableFloat height = new MutableFloat(0f);
     private MutableFloat fade = new MutableFloat(1f);
+    private boolean introComplete = false;
+    private boolean outroStarted = false;
 
-    private boolean drawText = false;
-    private final String text = ""
-            + "You're a ghost...\n\n"
-            + "You died.\n\n"
-            + "It probably hurt.\n\n"
-            + "How did this happen?\n\n"
-            + "Infiltrate the deeper state\nand find out\n\n\nif you dare........";
+    private TypingLabel typingLabel;
 
     public LevelTransition(Exit exit, GameScreen screen) {
         this.type = exit.levelTransitionType;
@@ -56,6 +56,7 @@ public class LevelTransition {
             case alien:    background = screen.game.assets.levelTransitionAlien;  break;
         }
 
+        this.screen = screen;
         this.assets = screen.game.assets;
 
         this.player = screen.player;
@@ -67,11 +68,18 @@ public class LevelTransition {
         screen.getWorldCamera().position.set(GameScreen.CameraConstraints.targetPos.x, GameScreen.CameraConstraints.targetPos.y, 0f);
         screen.getWorldCamera().update();
 
-        // setup transition
+        final float screenWidth  = screen.getWorldCamera().viewportWidth;
         final float screenHeight = screen.getWorldCamera().viewportHeight;
+
+        this.typingLabel = new TypingLabel(assets.pixelFont16, assets.strings.get("test"), 90, screenHeight - 90);
+        this.typingLabel.setWidth((1f / 3f) * screenWidth);
+        this.typingLabel.setFontScale(.16f);
+        this.typingLabel.setLineAlign(Align.right);
+        this.typingLabel.setX(0);
+        this.typingLabel.setY(screenHeight / 2f + typingLabel.getHeight() / 2f - 15);
+
+        // setup transition
         final float introDuration = 2f;
-        final float outroDuration = 1.5f;
-        final float pauseDuration = 3f;
         Timeline.createSequence()
                 .push(
                         Timeline.createParallel()
@@ -83,20 +91,32 @@ public class LevelTransition {
                                 .push(Tween.to(fade,   -1, introDuration).target(0f))
                                 .push(Tween.to(height, -1, introDuration).target(0).ease(Back.OUT))
                 )
-                .push(Tween.call((type, source) -> drawText = true))
-                .pushPause(pauseDuration)
-                .push(
-                        Timeline.createParallel()
-                                .push(Tween.to(fade,   -1, outroDuration).target(1f))
-                                .push(Tween.to(height, -1, outroDuration).target(screenHeight / 2f).ease(Back.IN))
-                )
-                .setCallback((type, source) -> goToNextLevel(screen))
+                .setCallback((type, source) -> introComplete = true)
                 .start(screen.game.tween);
     }
 
     public void update(float dt) {
         scroll -= dt * scrollSpeed;
         stateTime += dt;
+
+        typingLabel.update(dt);
+        if (!typingLabel.hasEnded() && Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+            typingLabel.skipToTheEnd();
+        }
+
+        if (typingLabel.hasEnded() && introComplete && !outroStarted) {
+            outroStarted = true;
+            final float outroDuration = 1.5f;
+            final float screenHeight = screen.getWorldCamera().viewportHeight;
+            Timeline.createSequence()
+                    .push(
+                            Timeline.createParallel()
+                                    .push(Tween.to(fade,   -1, outroDuration).target(1f))
+                                    .push(Tween.to(height, -1, outroDuration).target(screenHeight / 2f).ease(Back.IN))
+                    )
+                    .setCallback((type, source) -> goToNextLevel(screen))
+                    .start(screen.game.tween);
+        }
     }
 
     public void render(SpriteBatch batch, OrthographicCamera camera) {
@@ -131,20 +151,20 @@ public class LevelTransition {
         float playerY = hCenter - playerKeyframe.getRegionHeight() / 2f - transitionHeightOffset;
         batch.draw(playerKeyframe, playerX, playerY);
 
-        // TODO - pull in typing label lib
-        if (drawText) {
-            float prevScaleX = assets.pixelFont16.getData().scaleX;
-            float prevScaleY = assets.pixelFont16.getData().scaleY;
-            assets.pixelFont16.getData().setScale(0.16f);
-            float prevLineHeight = assets.pixelFont16.getData().lineHeight;
-            assets.pixelFont16.getData().setLineHeight(60f);
-            {
-                assets.layout.setText(assets.pixelFont16, text, Color.FIREBRICK, (1f / 3f) * camera.viewportWidth, Align.right, false);
-                assets.pixelFont16.draw(batch, assets.layout, 0f, camera.viewportHeight / 2f + assets.layout.height / 2f);
-            }
-            assets.pixelFont16.getData().setScale(prevScaleX, prevScaleY);
-            assets.pixelFont16.getData().setLineHeight(prevLineHeight);
-        }
+        typingLabel.render(batch);
+//        if (drawText) {
+//            float prevScaleX = assets.pixelFont16.getData().scaleX;
+//            float prevScaleY = assets.pixelFont16.getData().scaleY;
+//            assets.pixelFont16.getData().setScale(0.16f);
+//            float prevLineHeight = assets.pixelFont16.getData().lineHeight;
+//            assets.pixelFont16.getData().setLineHeight(60f);
+//            {
+//                assets.layout.setText(assets.pixelFont16, text, Color.FIREBRICK, (1f / 3f) * camera.viewportWidth, Align.right, false);
+//                assets.pixelFont16.draw(batch, assets.layout, 0f, camera.viewportHeight / 2f + assets.layout.height / 2f);
+//            }
+//            assets.pixelFont16.getData().setScale(prevScaleX, prevScaleY);
+//            assets.pixelFont16.getData().setLineHeight(prevLineHeight);
+//        }
 
         // fade to black overlay
         batch.setColor(0f / 255f, 0f / 255f, 16 / 255f, fade.floatValue());
