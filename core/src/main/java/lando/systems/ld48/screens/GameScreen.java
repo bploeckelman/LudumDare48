@@ -17,6 +17,9 @@ import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.levels.Level;
 import lando.systems.ld48.levels.LevelDescriptor;
 import lando.systems.ld48.levels.SpawnEnemy;
+import lando.systems.ld48.levels.backgrounds.ParallaxBackground;
+import lando.systems.ld48.levels.backgrounds.ParallaxUtils;
+import lando.systems.ld48.levels.backgrounds.TextureRegionParallaxLayer;
 import lando.systems.ld48.physics.PhysicsComponent;
 import lando.systems.ld48.physics.PhysicsSystem;
 
@@ -24,6 +27,7 @@ public class GameScreen extends BaseScreen {
 
     public Level level;
     public Player player;
+    public ParallaxBackground background;
     public CaptureHandler captureHandler;
     public Array<EnemyEntity> enemies;
 
@@ -48,6 +52,12 @@ public class GameScreen extends BaseScreen {
         this.physicsSystem = new PhysicsSystem(this);
         this.physicsEntities = new Array<>();
         this.physicsEntities.add(player);
+
+        TiledMapTileLayer collisionLayer = level.getLayer(Level.LayerType.collision).tileLayer;
+        float levelWidth = collisionLayer.getWidth() * collisionLayer.getTileWidth();
+        float levelHeight = collisionLayer.getHeight() * collisionLayer.getTileHeight();
+        Vector2 scrollRatio = new Vector2(0.8f, 1.0f);
+        this.background = new ParallaxBackground(new TextureRegionParallaxLayer(game.assets.sunsetBackground, levelWidth, levelHeight, scrollRatio));
 
         // for testing
         for (SpawnEnemy spawner : this.level.getEnemySpawns()) {
@@ -147,7 +157,7 @@ public class GameScreen extends BaseScreen {
         {
             batch.begin();
             {
-                // draw distant background
+                background.render(batch, worldCamera);
             }
             batch.end();
 

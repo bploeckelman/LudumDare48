@@ -32,6 +32,7 @@ public class Assets implements Disposable {
     public Texture title;
 
     public TextureRegion whitePixel;
+    public TextureRegion sunsetBackground;
 
     public Animation<TextureRegion> cat;
     public Animation<TextureRegion> dog;
@@ -102,6 +103,7 @@ public class Assets implements Disposable {
         atlas = mgr.get("sprites/sprites.atlas");
 
         whitePixel = new TextureRegion(pixel);
+        sunsetBackground = new TextureRegion(atlas.findRegion("backgrounds/sunset"));
 
         cat = new Animation<>(0.1f, atlas.findRegions("pets/cat"), Animation.PlayMode.LOOP);
         dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);
