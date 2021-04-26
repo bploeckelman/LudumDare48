@@ -161,7 +161,7 @@ public class MovableEntity extends GameEntity {
             attackTime = 0;
             state = State.attacking;
             float x = direction == Direction.left ? -40 : 40;
-            screen.addBullet(this, position, new Vector2(x, 0), assets.bullet);
+            new Bullet(this, position, new Vector2(x, 0));
         }
     }
 

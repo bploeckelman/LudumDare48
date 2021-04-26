@@ -44,12 +44,6 @@ public class GameScreen extends BaseScreen {
 
     private Rectangle exitOverlapRectangle;
 
-    public static final Array<Bullet> activeBullets = new Array<Bullet>();
-    public static final Pool<Bullet> bulletsPool = Pools.get(Bullet.class, 500);
-    private Vector2 oldBulletPosition = new Vector2();
-    private Vector2 newBulletPosition = new Vector2();
-    private Vector2 bulletCollisionPoint = new Vector2();
-
     public GameScreen(Game game) {
         super(game);
         loadLevel(LevelDescriptor.introduction);
@@ -124,8 +118,6 @@ public class GameScreen extends BaseScreen {
             physicsSystem.update(dt);
             particles.update(dt);
 
-            updateBullets(dt);
-
             CameraConstraints.update(worldCamera, player, level);
 
             // pickup pickup-able entities
@@ -151,37 +143,6 @@ public class GameScreen extends BaseScreen {
                 }
             }
 
-        }
-    }
-
-    private void updateBullets(float dt) {
-        for(int i = activeBullets.size - 1; i >= 0; i--) {
-            Bullet b = activeBullets.get(i);
-            b.update(dt);
-
-            for (EnemyEntity enemy : enemies) {
-                if (b.checkCollision(enemy)) {
-                    b.alive = false;
-                    // very temp
-                    enemy.hitPoints -= 40;
-                    break;
-                }
-            }
-
-            if (b.alive) {
-                oldBulletPosition.set(b.position);
-                newBulletPosition.set(b.position);
-                newBulletPosition.add(b.velocity.x * b.bulletSpeed * dt, b.velocity.y * b.bulletSpeed * dt);
-                //check collision with the walls & water
-                if (level.checkCollision(oldBulletPosition, newBulletPosition, b.radius, bulletCollisionPoint)) {
-                    b.alive = false;
-                }
-            }
-
-            if (!b.alive) {
-                activeBullets.removeIndex(i);
-                bulletsPool.free(b);
-            }
         }
     }
 
@@ -219,10 +180,6 @@ public class GameScreen extends BaseScreen {
                     player.render(batch);
                     level.renderObjects(batch);
                     particles.draw(batch, Particles.Layer.foreground);
-
-                    for (Bullet b : activeBullets){
-                        b.render(batch);
-                    }
                 }
                 batch.end();
 
@@ -419,12 +376,6 @@ public class GameScreen extends BaseScreen {
 
         // todo - trigger a tween that locks input, fades to black, starts transition
         levelTransition = new LevelTransition(exit, this);
-    }
-
-    public void addBullet(GameEntity owner, Vector2 position, Vector2 dir, TextureRegion tex){
-        Bullet b = bulletsPool.obtain();
-        b.init(position, dir, owner, tex);
-        activeBullets.add(b);
     }
 
 }
