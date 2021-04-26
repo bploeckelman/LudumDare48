@@ -93,6 +93,7 @@ public class Assets implements Disposable {
     public Sound exampleSound;
     public Sound jumpSound;
     public Sound attackSound;
+    public Sound coinSound;
     public Sound deathSound;
     public Sound captureSound;
     public Sound uncaptureSound;
@@ -100,8 +101,10 @@ public class Assets implements Disposable {
     public Music exampleMusic;
     public Music introMusic;
     public Music level1Music;
+    public Music level1ElevatorMusic;
     public Music level1BossMusic;
     public Music level2Music;
+    public Music level2ElevatorMusic;
 
     public Assets() {
         this(Load.SYNC);
@@ -131,11 +134,16 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/example.wav", Sound.class);
             mgr.load("audio/sound/capture.ogg", Sound.class);
             mgr.load("audio/sound/uncapture.ogg", Sound.class);
+            mgr.load("audio/sound/coin.ogg", Sound.class);
+            mgr.load("audio/sound/jump.ogg", Sound.class);
+            mgr.load("audio/sound/attack.ogg", Sound.class);
 
             mgr.load("audio/music/intro.ogg", Music.class);
             mgr.load("audio/music/level1.ogg", Music.class);
             mgr.load("audio/music/level1-boss.ogg", Music.class);
             mgr.load("audio/music/level2.ogg", Music.class);
+            mgr.load("audio/music/elevator-to-level1.ogg", Music.class);
+            mgr.load("audio/music/elevator-to-level2.ogg", Music.class);
         }
 
         if (load == Load.SYNC) {
@@ -227,8 +235,8 @@ public class Assets implements Disposable {
         transitions.dreamy     = loadShader("shaders/transitions/default.vert", "shaders/transitions/dreamy.frag");
 
         exampleSound = mgr.get("audio/sound/example.wav", Sound.class);
-        jumpSound = mgr.get("audio/sound/example.wav", Sound.class);
-        attackSound = mgr.get("audio/sound/example.wav", Sound.class);
+        jumpSound = mgr.get("audio/sound/jump.ogg", Sound.class);
+        attackSound = mgr.get("audio/sound/attack.ogg", Sound.class);
         deathSound = mgr.get("audio/sound/example.wav", Sound.class);
         captureSound = mgr.get("audio/sound/capture.ogg", Sound.class);
         uncaptureSound = mgr.get("audio/sound/uncapture.ogg", Sound.class);
@@ -236,8 +244,10 @@ public class Assets implements Disposable {
         exampleMusic = mgr.get("audio/music/intro.ogg", Music.class);
         introMusic = mgr.get("audio/music/intro.ogg", Music.class);
         level1Music = mgr.get("audio/music/level1.ogg", Music.class);
+        level1ElevatorMusic = mgr.get("audio/music/elevator-to-level1.ogg", Music.class);
         level1BossMusic = mgr.get("audio/music/level1-boss.ogg", Music.class);
         level2Music = mgr.get("audio/music/level2.ogg", Music.class);
+        level2ElevatorMusic = mgr.get("audio/music/elevator-to-level2.ogg", Music.class);
 
         Transitions.shaders = new Array<>();
         Transitions.shaders.addAll(

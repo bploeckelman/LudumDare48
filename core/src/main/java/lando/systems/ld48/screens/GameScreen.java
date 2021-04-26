@@ -99,7 +99,7 @@ public class GameScreen extends BaseScreen {
         worldCamera.position.y = CameraConstraints.targetPos.y;
         worldCamera.update();
 
-        game.audio.playMusic(Audio.Musics.level2);
+        game.audio.playMusic(Audio.Musics.level1elevator);
     }
 
     private void resetPlayer(SpawnPlayer spawn) {
