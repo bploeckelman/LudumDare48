@@ -55,6 +55,7 @@ public class GameEntity implements PhysicsComponent {
     private Array<Rectangle> tiles = new Array<>();
 
     public int hitPoints = 100;
+    public int damage = 40;
     public boolean dead = false;
 
     protected float renderRotation = 0;
@@ -145,6 +146,10 @@ public class GameEntity implements PhysicsComponent {
 
     protected void updateState(State lastState) {
         // todo: handle state transitions here
+    }
+
+    public void adjustHitpoints(int value) {
+        this.hitPoints += value;
     }
 
     public void addToScreen(float x, float y) {

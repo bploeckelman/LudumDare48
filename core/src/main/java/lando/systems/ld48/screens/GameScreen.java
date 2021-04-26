@@ -34,6 +34,7 @@ public class GameScreen extends BaseScreen {
     public Array<EnemyEntity> enemies;
     public Array<PickupEntity> pickups;
     public Array<InteractableEntity> interactables;
+    public Array<Bullet> bullets;
 
     public PhysicsSystem physicsSystem;
     public Array<PhysicsComponent> physicsEntities;
@@ -61,6 +62,7 @@ public class GameScreen extends BaseScreen {
         this.enemies = new Array<>();
         this.pickups = new Array<>();
         this.interactables = new Array<>();
+        this.bullets = new Array<>();
         this.physicsSystem = new PhysicsSystem(this);
         this.physicsEntities = new Array<>();
         this.physicsEntities.add(player);
@@ -123,6 +125,8 @@ public class GameScreen extends BaseScreen {
             physicsSystem.update(dt);
             particles.update(dt);
 
+            checkBulletCollisions();
+
             CameraConstraints.update(worldCamera, player, level);
 
             // pickup pickup-able entities
@@ -159,7 +163,19 @@ public class GameScreen extends BaseScreen {
                     }
                 }
             }
+        }
+    }
 
+    private void checkBulletCollisions() {
+        for (int i = bullets.size - 1; i >= 0; i--) {
+            Bullet b = bullets.get(i);
+            for (EnemyEntity enemy : enemies) {
+                if (enemy.collisionBounds.contains(b.getPosition())) {
+                    enemy.adjustHitpoints(-b.damage);
+                    bullets.removeValue(b, true);
+                    physicsEntities.removeValue(b, true);
+                }
+            }
         }
     }
 
