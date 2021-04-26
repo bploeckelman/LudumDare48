@@ -1,6 +1,7 @@
 package lando.systems.ld48.entities.bosses.zuck;
 
 import com.badlogic.gdx.Gdx;
+import lando.systems.ld48.Audio;
 import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.entities.bosses.Boss;
 import lando.systems.ld48.entities.bosses.BossPhase;
@@ -19,6 +20,8 @@ public class MissilePhase extends BossPhase {
 
         zuck.animation = zuck.animations.talk;
         zuck.stateTime = 0f;
+
+        zuck.screen.game.audio.playSound(Audio.Sounds.laser);
 
         Gdx.app.log("missile phase", "started");
     }

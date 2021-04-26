@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld48.Audio;
 import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.entities.bosses.Boss;
 import lando.systems.ld48.entities.bosses.BossPhase;
@@ -52,7 +53,11 @@ public class LazerEyesPhase extends BossPhase {
         this.target.set(targetA);
         Timeline.createSequence()
                 .pushPause(2f)
-                .push(Tween.call((type, source) -> blastin = true))
+//                .push(Tween.call((type, source) -> blastin = true))
+                .push(Tween.call((type, source) -> {
+                    blastin = true;
+                    zuck.screen.game.audio.playSound(Audio.Sounds.laser);
+                }))
                 .push(Tween.to(target, Vector2Accessor.XY, 1.0f).target(targetB.x, targetB.y))//.ease(Quint.INOUT))
 //                .push(Tween.call((type, source) -> blastin = false))
 //                .pushPause(0.6f)
