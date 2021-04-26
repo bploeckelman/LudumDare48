@@ -22,7 +22,6 @@ public class MissilePhase extends BossPhase {
         zuck.stateTime = 0f;
 
 //        zuck.screen.game.audio.playSound(Audio.Sounds.laser);
-        zuck.screen.game.audio.playSound(Audio.Sounds.missile);
         Gdx.app.log("missile phase", "started");
     }
 
@@ -41,6 +40,7 @@ public class MissilePhase extends BossPhase {
             ZuckTank.Missile missile = new ZuckTank.Missile(zuck, velX, velY);
             zuck.missiles.add(missile);
             numShots--;
+            zuck.screen.game.audio.playSound(Audio.Sounds.missile);
 
             Gdx.app.log("missile phase", "shoot your shot");
         }

@@ -31,7 +31,7 @@ public class RamPhase extends BossPhase {
         this.timer = zuck.animation.getAnimationDuration() * 2f;
 
         Gdx.app.log("ram phase", "started");
-        zuck.screen.game.audio.playSound(Audio.Sounds.zuckRam);
+
     }
 
     @Override
@@ -61,7 +61,10 @@ public class RamPhase extends BossPhase {
                 zoom.x = zuck.position.x;
                 returnPosX = zuck.position.x;
                 Timeline.createSequence()
-                        .push(Tween.call((type, source) -> isZoomZoom = true))
+                        .push(Tween.call((type, source) -> {
+                            isZoomZoom = true;
+                            zuck.screen.game.audio.playSound(Audio.Sounds.zuckRam);
+                        }))
                         .push(Tween.to(zoom, Vector2Accessor.X, (1f / 4f) * timer).target(returnPosX - 250))
                         .push(Tween.to(zoom, Vector2Accessor.X, (3f / 4f) * timer).target(returnPosX))
                         .push(Tween.call((type, source) -> {
