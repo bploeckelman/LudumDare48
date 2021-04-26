@@ -69,7 +69,7 @@ public class LevelTransition {
             } break;
             case purgatory: {
                 background = screen.game.assets.levelTransitionPurgatory;
-                music = Audio.Musics.level1elevator;
+                music = Audio.Musics.intro;
             } break;
             case ending: {
                 background = screen.game.assets.levelTransitionMilitary;
@@ -199,7 +199,7 @@ public class LevelTransition {
                 music = Audio.Musics.level3;
             } break;
             case purgatory: {
-                music = Audio.Musics.level1;
+                music = Audio.Musics.intro;
             }
             case ending: {
                 music = Audio.Musics.level1boss;
