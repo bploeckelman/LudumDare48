@@ -147,7 +147,11 @@ public class Level {
             }
             else if ("spawn-interactable".equalsIgnoreCase(type)) {
                 SpawnInteractable.Type interactableType = SpawnInteractable.Type.valueOf((String) props.get("interactable-type"));
-                SpawnInteractable spawn = new SpawnInteractable(interactableType, x, y, gameScreen.game.assets);
+                int id = props.get("door-id", -1, Integer.class);
+                int targetId = props.get("target-id", -1, Integer.class);
+                // positioning is a little janky between where the object is in map and where it appears in game... do it live for now
+                x += 8;
+                SpawnInteractable spawn = new SpawnInteractable(interactableType, id, targetId, x, y, gameScreen.game.assets);
                 interactableSpawns.add(spawn);
             }
             else if ("exit".equalsIgnoreCase(type)) {

@@ -12,8 +12,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld48.Audio;
 import lando.systems.ld48.Game;
 import lando.systems.ld48.entities.*;
@@ -23,6 +21,7 @@ import lando.systems.ld48.levels.backgrounds.TextureRegionParallaxLayer;
 import lando.systems.ld48.particles.Particles;
 import lando.systems.ld48.physics.PhysicsComponent;
 import lando.systems.ld48.physics.PhysicsSystem;
+import lando.systems.ld48.utils.Calc;
 
 public class GameScreen extends BaseScreen {
 
@@ -44,7 +43,7 @@ public class GameScreen extends BaseScreen {
     public boolean leftPressed = false;
     public boolean downPressed = false;
 
-    private Rectangle exitOverlapRectangle;
+    private Rectangle overlapRectangle;
 
     public GameScreen(Game game) {
         super(game);
@@ -66,7 +65,7 @@ public class GameScreen extends BaseScreen {
         this.physicsSystem = new PhysicsSystem(this);
         this.physicsEntities = new Array<>();
         this.physicsEntities.add(player);
-        this.exitOverlapRectangle = new Rectangle();
+        this.overlapRectangle = new Rectangle();
 
         TiledMapTileLayer collisionLayer = level.getLayer(Level.LayerType.collision).tileLayer;
         float levelWidth = collisionLayer.getWidth() * collisionLayer.getTileWidth();
@@ -115,6 +114,10 @@ public class GameScreen extends BaseScreen {
         if (levelTransition != null) {
             levelTransition.update(dt);
         } else {
+            // stash player's current position pre-update in case we need to walk it back
+            float playerPrevPosX = Calc.floor(player.position.x);
+            float playerPrevPosY = Calc.floor(player.position.y);
+
             // loop in reverse so we don't get off when entity is removed
             for (int i = physicsEntities.size - 1; i >= 0; i--) {
                 physicsEntities.get(i).update(dt);
@@ -143,10 +146,27 @@ public class GameScreen extends BaseScreen {
             }
 
             // interact with interactable entities
-            if (player.capturedEnemy != null) {
-                for (InteractableEntity interactable : interactables) {
-                    if (player.collisionBounds.overlaps(interactable.collisionBounds)) {
+            for (InteractableEntity interactable : interactables) {
+                if (player.collisionBounds.overlaps(interactable.collisionBounds)) {
+                    // can't interact if we're a ghost
+                    if (player.capturedEnemy != null) {
                         interactable.interact();
+                    }
+
+                    // special case to keep players from passing through doors
+                    // when a door completes its 'interaction' (ie opens) it gets removed, so players can pass then
+                    // NOTE - this is super sketch, literally everything in the physics system would be made simpler
+                    //  if we operated only on integer boundaries and carried over remainders through frames
+                    if (interactable.type == SpawnInteractable.Type.door) {
+                        Intersector.intersectRectangles(player.collisionBounds, interactable.collisionBounds, overlapRectangle);
+                        boolean onYourLeft = (player.collisionBounds.x < interactable.collisionBounds.x);
+                        float sign = onYourLeft ? -1 : 1;
+                        float playerSeparationPosX = player.position.x + sign * overlapRectangle.width;
+                        player.setPosition(playerSeparationPosX, playerPrevPosY);
+                        player.collisionBounds.setPosition(
+                                playerSeparationPosX - Calc.floor(player.collisionBounds.width / 2f),
+                                playerPrevPosY - Calc.floor(player.collisionBounds.height / 2f));
+                        player.stop();
                     }
                 }
             }
@@ -155,10 +175,10 @@ public class GameScreen extends BaseScreen {
             // todo - this is abrupt, probably want to trigger an interaction animation like moving the player and making them face front, then spawning a particle system or something
             // todo - this is also a little dumb, probably want a more robust way to check for 'mostly overlapped' (vs 'any overlap' vs 'fully contained')
             if (player.capturedEnemy != null) {
-                if (Intersector.intersectRectangles(player.collisionBounds, level.getExit().bounds, exitOverlapRectangle)) {
+                if (Intersector.intersectRectangles(player.collisionBounds, level.getExit().bounds, overlapRectangle)) {
                     // lol, player got smaller so overlaps weren't counted anymore
                     float minOverlapArea = 200f;
-                    if (exitOverlapRectangle.area() >= minOverlapArea) {
+                    if (overlapRectangle.area() >= minOverlapArea) {
                         startLevelTransition(level.getExit());
                     }
                 }
@@ -238,6 +258,9 @@ public class GameScreen extends BaseScreen {
                     if (DebugFlags.renderPickupDebug) {
                         pickups.forEach(pickup -> pickup.renderDebug(batch));
                     }
+                    if (DebugFlags.renderInteractDebug) {
+                        interactables.forEach(interactable -> interactable.renderDebug(batch));
+                    }
                     if (DebugFlags.renderPhysicsDebug) {
                         physicsSystem.renderDebug(batch);
                     }
@@ -266,12 +289,13 @@ public class GameScreen extends BaseScreen {
     public boolean keyDown(int keyCode) {
         switch (keyCode) {
             // ----------------------
-            case Input.Keys.F1: DebugFlags.renderFpsDebug     = !DebugFlags.renderFpsDebug;     break;
-            case Input.Keys.F2: DebugFlags.renderLevelDebug   = !DebugFlags.renderLevelDebug;   break;
-            case Input.Keys.F3: DebugFlags.renderPlayerDebug  = !DebugFlags.renderPlayerDebug;  break;
-            case Input.Keys.F4: DebugFlags.renderEnemyDebug   = !DebugFlags.renderEnemyDebug;   break;
-            case Input.Keys.F5: DebugFlags.renderPickupDebug  = !DebugFlags.renderPickupDebug;  break;
-            case Input.Keys.F6: DebugFlags.renderPhysicsDebug = !DebugFlags.renderPhysicsDebug; break;
+            case Input.Keys.F1: DebugFlags.renderFpsDebug      = !DebugFlags.renderFpsDebug;      break;
+            case Input.Keys.F2: DebugFlags.renderLevelDebug    = !DebugFlags.renderLevelDebug;    break;
+            case Input.Keys.F3: DebugFlags.renderPlayerDebug   = !DebugFlags.renderPlayerDebug;   break;
+            case Input.Keys.F4: DebugFlags.renderEnemyDebug    = !DebugFlags.renderEnemyDebug;    break;
+            case Input.Keys.F5: DebugFlags.renderPickupDebug   = !DebugFlags.renderPickupDebug;   break;
+            case Input.Keys.F6: DebugFlags.renderInteractDebug = !DebugFlags.renderInteractDebug; break;
+            case Input.Keys.F7: DebugFlags.renderPhysicsDebug  = !DebugFlags.renderPhysicsDebug;  break;
             // ----------------------
             case Input.Keys.S:
             case Input.Keys.DOWN:
@@ -339,6 +363,7 @@ public class GameScreen extends BaseScreen {
         public static boolean renderPlayerDebug = false;
         public static boolean renderEnemyDebug = false;
         public static boolean renderPickupDebug = false;
+        public static boolean renderInteractDebug = false;
         public static boolean renderPhysicsDebug = false;
     }
 

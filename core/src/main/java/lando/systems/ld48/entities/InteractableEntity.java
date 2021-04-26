@@ -9,14 +9,18 @@ import lando.systems.ld48.utils.Callback;
 public class InteractableEntity extends GameEntity {
 
     public final SpawnInteractable.Type type;
+    public final int id;
+    public final int targetId;
 
     boolean completed = false;
     boolean active = false;
     Callback completionCallback;
 
-    public InteractableEntity(GameScreen screen, float x, float y, SpawnInteractable.Type type, Animation<TextureRegion> anim) {
+    public InteractableEntity(GameScreen screen, float x, float y, SpawnInteractable spawner, Animation<TextureRegion> anim) {
         super(screen, anim);
-        this.type = type;
+        this.type = spawner.type;
+        this.id = spawner.id;
+        this.targetId = spawner.targetId;
 
         float scale = 1f;
         float width = anim.getKeyFrames()[0].getRegionWidth();
@@ -25,11 +29,13 @@ public class InteractableEntity extends GameEntity {
 
         animationPaused = true;
 
-        // TODO: read some data from the spawner and build a completion callback based on that
-        //       eg. it's tied to some other interactable like a door, so the completion callback should trigger the door operation
-//        completionCallback = null;
         completionCallback = params -> {
-            screen.particles.interact(position.x, position.y);
+            if (type == SpawnInteractable.Type.lever) {
+                screen.particles.interact(position.x, position.y);
+            } else if (type == SpawnInteractable.Type.door) {
+                screen.particles.smoke(position.x, position.y);
+                removeFromScreen();
+            }
             return null;
         };
     }
@@ -46,8 +52,24 @@ public class InteractableEntity extends GameEntity {
     public void update(float dt) {
         boolean wasIncomplete = !completed;
         completed = animation.isAnimationFinished(stateTime);
-        if (wasIncomplete && completed && completionCallback != null) {
-            completionCallback.call();
+        if (wasIncomplete && completed) {
+            if (completionCallback != null) {
+                completionCallback.call();
+            }
+
+            // trigger target, if any
+            if (targetId != -1) {
+                for (InteractableEntity interactable : screen.interactables) {
+                    if (interactable.id == targetId) {
+                        interactable.interact();
+
+                        // uh... 'start interacting' callback I guess...
+                        if (interactable.type == SpawnInteractable.Type.door) {
+                            screen.particles.smoke(position.x, position.y);
+                        }
+                    }
+                }
+            }
         }
         super.update(dt);
     }

@@ -86,6 +86,7 @@ public class Assets implements Disposable {
 
     // interactables
     public Animation<TextureRegion> leverAnimation;
+    public Animation<TextureRegion> doorAnimation;
 
     public NinePatch debugNinePatch;
 
@@ -202,10 +203,11 @@ public class Assets implements Disposable {
         zuckTankRamTellAnimation = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-ram-tell/zuck-tank-ram-tell"), Animation.PlayMode.NORMAL);
         zuckTankRamActAnimation  = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-ram-state/zuck-tank-ram-state"), Animation.PlayMode.NORMAL);
 
-        dogeCoinAnimation  = new Animation<>(0.075f, atlas.findRegions("pickups/dogecoin/doge-coin"), Animation.PlayMode.LOOP);
-        bitCoinAnimation  = new Animation<>(0.075f, atlas.findRegions("pickups/bitcoin/bitcoin-coin"), Animation.PlayMode.LOOP);
+        dogeCoinAnimation  = new Animation<>(0.066f, atlas.findRegions("pickups/dogecoin/doge-coin"), Animation.PlayMode.LOOP);
+        bitCoinAnimation  = new Animation<>(0.066f, atlas.findRegions("pickups/bitcoin/bitcoin-coin"), Animation.PlayMode.LOOP);
 
-        leverAnimation = new Animation<>(0.1f, atlas.findRegions("interactables/lever"), Animation.PlayMode.NORMAL);
+        leverAnimation = new Animation<>(0.2f, atlas.findRegions("interactables/lever"), Animation.PlayMode.NORMAL);
+        doorAnimation  = new Animation<>(0.2f, atlas.findRegions("interactables/door"),  Animation.PlayMode.NORMAL);
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 6, 6, 6, 6);
 

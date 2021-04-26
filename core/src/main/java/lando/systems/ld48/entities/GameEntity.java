@@ -179,6 +179,12 @@ public class GameEntity implements PhysicsComponent {
         collisionCircle.setRadius(collisionBounds.width / 2f);
     }
 
+    public void stop() {
+        velocity.set(0, 0);
+        acceleration.set(0, 0);
+        impulse.set(0, 0, 0);
+    }
+
     public void render(SpriteBatch batch) {
         if (keyframe == null) return;
 
