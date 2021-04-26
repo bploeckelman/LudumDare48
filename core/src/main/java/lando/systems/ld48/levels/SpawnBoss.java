@@ -4,11 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.Assets;
-import lando.systems.ld48.entities.EnemyEntity;
 import lando.systems.ld48.entities.bosses.Boss;
 import lando.systems.ld48.entities.bosses.zuck.ZuckTank;
-import lando.systems.ld48.entities.enemies.Gray;
-import lando.systems.ld48.entities.enemies.Soldier;
 import lando.systems.ld48.screens.GameScreen;
 
 public class SpawnBoss {

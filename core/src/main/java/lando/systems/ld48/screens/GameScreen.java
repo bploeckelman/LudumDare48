@@ -264,6 +264,9 @@ public class GameScreen extends BaseScreen {
                     }
                     if (DebugFlags.renderEnemyDebug) {
                         enemies.forEach(enemy -> enemy.renderDebug(batch));
+                        if (boss != null) {
+                            boss.renderDebug(batch);
+                        }
                     }
                     if (DebugFlags.renderPickupDebug) {
                         pickups.forEach(pickup -> pickup.renderDebug(batch));
