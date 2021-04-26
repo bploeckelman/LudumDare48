@@ -2,6 +2,7 @@ package lando.systems.ld48.levels;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.Assets;
 import lando.systems.ld48.entities.EnemyEntity;
@@ -19,11 +20,25 @@ public class SpawnEnemy {
     public float size = Level.TILE_SIZE;
     public TextureRegion texture;
     public Type type;
+    EnemyEntity enemy;
+    float spawnTimer = 0;
 
     public SpawnEnemy(Type type, float x, float y, Assets assets) {
         this.type = type;
         this.pos = new Vector2(x, y);
         this.texture = assets.whitePixel;
+        spawnTimer = MathUtils.random(3f) + 5f;
+    }
+
+    public void update(float dt, GameScreen screen) {
+        if (enemy.dead){
+            spawnTimer -= dt;
+
+            if (spawnTimer <= 0) {
+                spawn(screen);
+                spawnTimer = MathUtils.random(5f) + 5f;
+            }
+        }
     }
 
     public void render(SpriteBatch batch) {
@@ -33,7 +48,7 @@ public class SpawnEnemy {
     }
 
     public void spawn(GameScreen screen) {
-        EnemyEntity enemy = null;
+        enemy = null;
         switch (type) {
             case soldier: {
                 enemy = new Soldier(screen, pos.x, pos.y);
