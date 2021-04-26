@@ -77,7 +77,7 @@ public class LevelTransition {
         this.typingLabel = new TypingLabel(assets.pixelFont16, assets.strings.get(exit.transitionString), 90, screenHeight - 90);
         this.typingLabel.setWidth((1f / 3f) * screenWidth);
         this.typingLabel.setFontScale(.16f);
-        this.typingLabel.setLineAlign(Align.right);
+        this.typingLabel.setLineAlign(Align.left);
         this.typingLabel.setX(0);
         this.typingLabel.setY(screenHeight / 2f + typingLabel.getHeight() / 2f - 15);
 
