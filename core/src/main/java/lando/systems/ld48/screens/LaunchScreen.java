@@ -10,10 +10,13 @@ public class LaunchScreen extends BaseScreen {
         super(game);
     }
 
+    private boolean hasSetScreen = false;
+
     @Override
     public void update(float dt) {
-        if (Gdx.input.justTouched()) {
+        if (Gdx.input.justTouched() && !hasSetScreen) {
             game.setScreen(new TitleScreen(game));
+            hasSetScreen = true;
         }
     }
 
