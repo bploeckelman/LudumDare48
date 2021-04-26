@@ -241,7 +241,7 @@ public class Level {
     }
 
     public void renderObjects(SpriteBatch batch) {
-        // ...
+        exit.render(batch);
     }
 
     private Color segmentColor = new Color();
@@ -254,7 +254,7 @@ public class Level {
             batch.draw(assets.whitePixel, segment.start.x, segment.start.y - width / 2f, 0, width / 2f, segment.delta.len(), width, 1, 1, segment.getRotation());
             batch.draw(assets.whitePixel, segment.start.x + segment.delta.x / 2, segment.start.y + segment.delta.y / 2, 0,0, 10, 1, 1, 1, segment.normal.angle());
         }
-        exit.render(batch);
+        exit.renderDebug(batch);
         playerSpawn.render(batch);
     }
 

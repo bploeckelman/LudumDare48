@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -87,6 +88,9 @@ public class Assets implements Disposable {
     // interactables
     public Animation<TextureRegion> leverAnimation;
     public Animation<TextureRegion> doorAnimation;
+
+    // misc
+    public Animation<TextureRegion> downArrowsAnimation;
 
     public NinePatch debugNinePatch;
 
@@ -220,6 +224,8 @@ public class Assets implements Disposable {
 
         leverAnimation = new Animation<>(0.2f, atlas.findRegions("interactables/lever"), Animation.PlayMode.NORMAL);
         doorAnimation  = new Animation<>(0.2f, atlas.findRegions("interactables/door"),  Animation.PlayMode.NORMAL);
+
+        downArrowsAnimation  = new Animation<>(0.2f, atlas.findRegions("world/elevator-indicator"),  Animation.PlayMode.LOOP);
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 6, 6, 6, 6);
 
