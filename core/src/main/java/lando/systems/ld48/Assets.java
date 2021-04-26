@@ -105,6 +105,8 @@ public class Assets implements Disposable {
     public Music level1BossMusic;
     public Music level2Music;
     public Music level2ElevatorMusic;
+    public Music level3Music;
+    public Music level3ElevatorMusic;
 
     public Assets() {
         this(Load.SYNC);
@@ -142,8 +144,10 @@ public class Assets implements Disposable {
             mgr.load("audio/music/level1.ogg", Music.class);
             mgr.load("audio/music/level1-boss.ogg", Music.class);
             mgr.load("audio/music/level2.ogg", Music.class);
+            mgr.load("audio/music/level3.ogg", Music.class);
             mgr.load("audio/music/elevator-to-level1.ogg", Music.class);
             mgr.load("audio/music/elevator-to-level2.ogg", Music.class);
+            mgr.load("audio/music/elevator-to-level3.ogg", Music.class);
         }
 
         if (load == Load.SYNC) {
@@ -249,6 +253,8 @@ public class Assets implements Disposable {
         level1BossMusic = mgr.get("audio/music/level1-boss.ogg", Music.class);
         level2Music = mgr.get("audio/music/level2.ogg", Music.class);
         level2ElevatorMusic = mgr.get("audio/music/elevator-to-level2.ogg", Music.class);
+        level3Music = mgr.get("audio/music/level3.ogg", Music.class);
+        level3ElevatorMusic = mgr.get("audio/music/elevator-to-level3.ogg", Music.class);
 
         Transitions.shaders = new Array<>();
         Transitions.shaders.addAll(
