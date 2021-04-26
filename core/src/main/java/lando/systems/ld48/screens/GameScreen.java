@@ -48,6 +48,7 @@ public class GameScreen extends BaseScreen {
     public boolean rightPressed = false;
     public boolean leftPressed = false;
     public boolean downPressed = false;
+    public boolean shiftPressed = false;
 
     private Rectangle overlapRectangle;
 
@@ -400,7 +401,7 @@ public class GameScreen extends BaseScreen {
             // ----------------------
             case Input.Keys.SHIFT_LEFT:
             case Input.Keys.SHIFT_RIGHT:
-                this.player.attack();
+                shiftPressed = true;
                 break;
         }
         return false;
@@ -425,6 +426,10 @@ public class GameScreen extends BaseScreen {
             case Input.Keys.UP:
             case Input.Keys.SPACE:
                 upPressed = false;
+                break;
+            case Input.Keys.SHIFT_LEFT:
+            case Input.Keys.SHIFT_RIGHT:
+                shiftPressed = false;
                 break;
         }
         return false;

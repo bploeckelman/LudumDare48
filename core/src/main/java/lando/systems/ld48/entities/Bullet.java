@@ -1,5 +1,6 @@
 package lando.systems.ld48.entities;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.*;
 import lando.systems.ld48.Audio;
 
@@ -8,6 +9,7 @@ public class Bullet extends GameEntity {
     public float bulletSpeed;
     public int damage;
     public GameEntity owner;
+    private float yInit;
 
     public Bullet(GameEntity owner, Vector2 pos) {
         super(owner.screen, owner.assets.cat);
@@ -22,6 +24,7 @@ public class Bullet extends GameEntity {
         initEntity(pos.x, pos.y, keyframe.getRegionWidth() * 0.15f, keyframe.getRegionHeight() * 0.15f);
 
         this.addToScreen(pos.x, pos.y);
+        yInit = pos.y;
     }
 
     @Override
@@ -29,12 +32,14 @@ public class Bullet extends GameEntity {
         velocity.set(bulletSpeed, 0);
         renderRotation += 270 * dt;
         super.update(dt);
+        if (this.position.y != yInit) { this.dead = true; }
     }
 
     // cheap, but ok.
     private int count = 0;
     @Override
     public void onCollision() {
+        if (this.dead) { return; }
         if (count++ > 2) {
             dead = true;
             screen.game.audio.playSound(Audio.Sounds.bulletHit);
@@ -46,4 +51,10 @@ public class Bullet extends GameEntity {
         super.addToScreen(x, y);
         screen.bullets.add(this);
     }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        if (!this.dead) { super.render(batch); }
+    }
+
 }

@@ -3,7 +3,6 @@ package lando.systems.ld48.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.Audio;
 import lando.systems.ld48.screens.GameScreen;
 
@@ -21,8 +20,9 @@ public class MovableEntity extends GameEntity {
     private float jumpKeyHeldTimer = 0f;
 
     private float attackCD = 0f;
-    protected float attackDuration = 0.5f;
     private float burstCD = 0f;
+    protected float attackDuration = 0.5f;
+    private float currentHeat = 0f;
     protected float attackHeat = 0.7f;
 
     private float deathTime = 1f;
@@ -80,7 +80,8 @@ public class MovableEntity extends GameEntity {
         }
 
         attackCD = Math.max(0, attackCD - dt);
-        burstCD = Math.max(0, burstCD);
+        burstCD = Math.max(0, burstCD - dt);
+        currentHeat = Math.max(0, currentHeat - dt);
 
         if (velocity.y < -50 || state == State.falling) {
             state = State.falling;
@@ -165,13 +166,13 @@ public class MovableEntity extends GameEntity {
     }
 
     public void attack() {
-        if (this.animationSet.AttackAnimation != null && this.attackCD == 0) {
+        if (this.animationSet.AttackAnimation != null && this.attackCD == 0 && burstCD == 0) {
             screen.game.audio.playSound(Audio.Sounds.attack);
             attackCD = attackDuration;
             new Bullet(this, position);
-            this.burstCD += attackHeat;
-            if (this.attackHeat > 2) {
-                this.attackCD = attackHeat;
+            this.currentHeat += attackHeat;
+            if (this.currentHeat > 2) {
+                this.burstCD = currentHeat;
             }
         }
     }

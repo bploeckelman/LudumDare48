@@ -85,6 +85,10 @@ public class Player extends MovableEntity {
             }
         }
 
+        if (this.screen.shiftPressed) {
+            this.attack();
+        }
+
         checkIfFellOffscreen();
     }
 
