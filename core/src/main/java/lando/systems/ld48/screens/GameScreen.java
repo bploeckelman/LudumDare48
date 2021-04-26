@@ -59,7 +59,7 @@ public class GameScreen extends BaseScreen {
         this.player = new Player(this, 0, 0);
         // ZUCK TESTING
 //        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.core, "introText"), this);
-        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.introduction, "introText"), this);
+        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.purgatory, LevelDescriptor.introduction, "introText"), this);
 
         Timeline.createSequence()
                 .pushPause(15f)

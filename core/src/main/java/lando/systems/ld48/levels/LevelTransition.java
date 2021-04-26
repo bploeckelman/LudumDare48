@@ -24,7 +24,7 @@ import lando.systems.ld48.ui.typinglabel.TypingLabel;
 
 public class LevelTransition {
 
-    public enum Type { military, organic, alien, ending }
+    public enum Type { military, organic, alien, purgatory, ending }
 
     private Type type;
     private Texture background;
@@ -66,6 +66,10 @@ public class LevelTransition {
             case alien: {
                 background = screen.game.assets.levelTransitionAlien;
                 music = Audio.Musics.level3elevator;
+            } break;
+            case purgatory: {
+                background = screen.game.assets.levelTransitionPurgatory;
+                music = Audio.Musics.level1elevator;
             } break;
             case ending: {
                 background = screen.game.assets.levelTransitionMilitary;
@@ -194,6 +198,9 @@ public class LevelTransition {
             case alien: {
                 music = Audio.Musics.level3;
             } break;
+            case purgatory: {
+                music = Audio.Musics.level1;
+            }
             case ending: {
                 music = Audio.Musics.level1boss;
             } break;
