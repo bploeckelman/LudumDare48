@@ -67,6 +67,11 @@ public class Player extends MovableEntity {
         if (isDead) return;
 
         this.jumpHeld = this.screen.upPressed;
+        if (this.hitPoints <= 0){
+            this.hitPoints = 100;
+            possess(null);
+            //TODO make him fly back
+        }
 
         super.update(dt);
 

@@ -90,13 +90,16 @@ public class Modal {
     Color textColor = new Color();
     public void render(SpriteBatch batch) {
         float alpha = currentInterval;
-        textColor.set(.2f, .2f, .2f, alpha);
         batch.setColor(0,0,0,.6f * alpha);
         batch.draw(assets.whitePixel, 0, 0, hudCamera.viewportWidth, hudCamera.viewportHeight);
-        batch.setColor(1f, 1f, 1f, alpha);
+        batch.setColor(.2f, .2f, .7f, alpha);
         assets.roundedBoxNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
         if (bounds.width > SIDE_MARGIN) {
             font.getData().setScale(currentScale);
+            textColor.set(0,0,0,alpha);
+            layout.setText(font, text, textColor, bounds.width - currentMargin, Align.center, true);
+            font.draw(batch, layout, bounds.x + currentMargin +2, bounds.y + bounds.height - currentMargin -2);
+            textColor.set(.8f,.8f,.8f,alpha);
             layout.setText(font, text, textColor, bounds.width - currentMargin, Align.center, true);
             font.draw(batch, layout, bounds.x + currentMargin, bounds.y + bounds.height - currentMargin);
         }

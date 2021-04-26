@@ -203,9 +203,18 @@ public class GameScreen extends BaseScreen {
     private void checkBulletCollisions() {
         for (int i = bullets.size - 1; i >= 0; i--) {
             Bullet b = bullets.get(i);
-            for (EnemyEntity enemy : enemies) {
-                if (enemy.collisionBounds.contains(b.getPosition())) {
-                    enemy.adjustHitpoints(-b.damage);
+            if (b.owner == player) {
+                for (EnemyEntity enemy : enemies) {
+                    if (enemy.collisionBounds.contains(b.getPosition())) {
+                        enemy.adjustHitpoints(-b.damage);
+                        bullets.removeValue(b, true);
+                        physicsEntities.removeValue(b, true);
+                    }
+                }
+            } else {
+                // enemy bullet
+                if (player.capturedEnemy != null && player.collisionBounds.contains(b.position)){
+                    player.adjustHitpoints(-b.damage);
                     bullets.removeValue(b, true);
                     physicsEntities.removeValue(b, true);
                 }
