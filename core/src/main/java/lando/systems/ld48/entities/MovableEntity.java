@@ -128,7 +128,7 @@ public class MovableEntity extends GameEntity {
 //            }
 //        }
 
-        if (this.attackCD != 0 && this.attackCD + this.animationSet.AttackAnimation.getAnimationDuration() > this.attackDuration) {
+        if (this.attackCD != 0 && this.animationSet.AttackAnimation != null && this.attackCD + this.animationSet.AttackAnimation.getAnimationDuration() > this.attackDuration) {
             this.keyframe = animationSet.AttackAnimation.getKeyFrame(attackDuration - attackCD);
         }
 

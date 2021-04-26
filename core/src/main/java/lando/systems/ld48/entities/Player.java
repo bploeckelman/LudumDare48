@@ -59,7 +59,10 @@ public class Player extends MovableEntity {
 
     @Override
     public float getGravityModifier() {
-        return (capturedEnemy == null) ? 0.1f : 1f;
+        if (capturedEnemy != null) { return 1f; }
+        if (this.screen.downPressed) { return 0.5f; }
+        if (this.screen.upPressed) { return 0f; }
+        return 0.1f;
     }
 
     @Override
@@ -72,8 +75,10 @@ public class Player extends MovableEntity {
         if (this.hitPoints <= 0){
             this.hitPoints = 100;
             possess(null);
-            velocity.set(0, 400);
+            velocity.set(0, 30);
         }
+
+        if (this.screen.upPressed && this.capturedEnemy == null) { this.velocity.set(this.velocity.x, Math.max(this.velocity.y, Math.min(this.velocity.y + 90 * dt, 60))); }
 
         super.update(dt);
 
@@ -199,6 +204,8 @@ public class Player extends MovableEntity {
     }
 
     public void possess(EnemyEntity enemy) {
+        // prevent the 'tutorial' popup if you've figured how to possess someone
+        screen.doorTutorialShown = true;
         if (capturedEnemy != null) {
             capturedEnemy.reset(imageBounds);
         }
@@ -219,6 +226,7 @@ public class Player extends MovableEntity {
             damage = 0;
             bulletSize = 0;
             bulletSpeed = 0;
+            attackHeat = 0;
         }
 
         setGrounded(false);

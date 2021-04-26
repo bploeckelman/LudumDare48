@@ -37,6 +37,7 @@ public class Assets implements Disposable {
     public Texture levelTransitionMilitary;
     public Texture levelTransitionOrganic;
     public Texture levelTransitionAlien;
+    public Texture levelTransitionPurgatory;
 
     public TextureRegion whitePixel;
     public TextureRegion sunsetBackground;
@@ -148,10 +149,11 @@ public class Assets implements Disposable {
         mgr = new AssetManager();
         {
             mgr.load(new AssetDescriptor<>("images/pixel.png", Texture.class));
-            mgr.load(new AssetDescriptor<>("images/title.png", Texture.class));
+            mgr.load(new AssetDescriptor<>("images/elon-flux-title-screen.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/elevator-military.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/elevator-organic.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/elevator-alien.png", Texture.class));
+            mgr.load(new AssetDescriptor<>("images/elevator-purgatory.png", Texture.class));
 
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
 
@@ -202,14 +204,16 @@ public class Assets implements Disposable {
         if (initialized) return 1f;
 
         pixel = mgr.get("images/pixel.png");
-        title = mgr.get("images/title.png");
+        title = mgr.get("images/elon-flux-title-screen.png");
 
         levelTransitionMilitary = mgr.get("images/elevator-military.png");
         levelTransitionOrganic  = mgr.get("images/elevator-organic.png");
         levelTransitionAlien    = mgr.get("images/elevator-alien.png");
+        levelTransitionPurgatory= mgr.get("images/elevator-purgatory.png");
         levelTransitionMilitary .setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         levelTransitionOrganic  .setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         levelTransitionAlien    .setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        levelTransitionPurgatory.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
         pixelFont16 = mgr.get("fonts/chevyray-rise-16.fnt");
 

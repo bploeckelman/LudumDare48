@@ -24,7 +24,7 @@ import lando.systems.ld48.ui.typinglabel.TypingLabel;
 
 public class LevelTransition {
 
-    public enum Type { military, organic, alien, ending }
+    public enum Type { military, organic, alien, purgatory, ending }
 
     private Type type;
     private Texture background;
@@ -66,6 +66,10 @@ public class LevelTransition {
             case alien: {
                 background = screen.game.assets.levelTransitionAlien;
                 music = Audio.Musics.level3elevator;
+            } break;
+            case purgatory: {
+                background = screen.game.assets.levelTransitionPurgatory;
+                music = Audio.Musics.level1elevator;
             } break;
             case ending: {
                 background = screen.game.assets.levelTransitionMilitary;
@@ -165,8 +169,9 @@ public class LevelTransition {
         batch.draw(platformKeyframe, platformX, platformY);
 
         TextureRegion playerKeyframe = player.animationSet.IdleAnimation.getKeyFrame(stateTime);
-        float playerX = wCenter - playerKeyframe.getRegionWidth() / 2f;
-        float playerY = hCenter - playerKeyframe.getRegionHeight() / 2f - transitionHeightOffset;
+        float scale = (player.capturedEnemy != null) ? player.capturedEnemy.scale : 0.75f;
+        float playerX = wCenter - (playerKeyframe.getRegionWidth() * scale) / 2f;
+        float playerY = hCenter - (playerKeyframe.getRegionHeight() * scale) / 2f - transitionHeightOffset;
         batch.draw(playerKeyframe, playerX, playerY);
 
         assets.debugNinePatch.draw(batch, this.typingLabel.getX() - 7.5f, this.typingLabel.getY() - (this.typingLabel.getHeight() + 10f), (1f / 3f) * screen.getWorldCamera().viewportWidth + 15f, this.typingLabel.getHeight() + 20f);
@@ -193,6 +198,9 @@ public class LevelTransition {
             case alien: {
                 music = Audio.Musics.level3;
             } break;
+            case purgatory: {
+                music = Audio.Musics.level1;
+            }
             case ending: {
                 music = Audio.Musics.level1boss;
             } break;
