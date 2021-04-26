@@ -54,6 +54,7 @@ public class GameEntity implements PhysicsComponent {
     private float maxVerticalVelocity = 1200f;
     private Array<Rectangle> tiles = new Array<>();
 
+    public int maxHitpoints = 100;
     public int hitPoints = 100;
     public int damage = 40;
     public boolean dead = false;

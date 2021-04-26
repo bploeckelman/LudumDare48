@@ -2,6 +2,7 @@ package lando.systems.ld48.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld48.Config;
 import lando.systems.ld48.levels.SpawnInteractable;
 import lando.systems.ld48.screens.GameScreen;
 
@@ -120,6 +122,25 @@ public class EnemyEntity extends MovableEntity {
             }
         }
     }
+
+    Rectangle hpRect = new Rectangle();
+    Color hpColor = new Color();
+    @Override
+    public void render(SpriteBatch batch){
+        super.render(batch);
+        hpRect.set(imageBounds.x, imageBounds.y + imageBounds.height + 2, imageBounds.width, 2);
+        float hpPercent = (float)hitPoints/maxHitpoints;
+        // TODO this will work or can be juiced up if there is time
+        batch.setColor(Color.BLACK);
+        batch.draw(assets.whitePixel, hpRect.x, hpRect.y, hpRect.width, hpRect.height);
+        hpColor.fromHsv(hpPercent * 120, 1f, 1f);
+        hpColor.a = 1f;
+        batch.setColor(hpColor);
+        batch.draw(assets.whitePixel, hpRect.x, hpRect.y, hpRect.width * hpPercent, hpRect.height);
+
+        batch.setColor(Color.WHITE);
+    }
+
 
     public void reset(Rectangle bounds) {
         targeted = false;
