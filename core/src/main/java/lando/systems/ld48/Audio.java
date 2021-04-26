@@ -27,7 +27,7 @@ public class Audio implements Disposable {
     }
 
     public enum Musics {
-        none, example, intro, level1, level1boss
+        none, example, intro, level1, level1boss, level2
     }
 
     public ObjectMap<Sounds, SoundContainer> sounds = new ObjectMap<>();
@@ -57,6 +57,7 @@ public class Audio implements Disposable {
         musics.put(Musics.intro, assets.introMusic);
         musics.put(Musics.level1, assets.level1Music);
         musics.put(Musics.level1boss, assets.level1BossMusic);
+        musics.put(Musics.level2, assets.level2Music);
 
         musicVolume = new MutableFloat(0);
         setMusicVolume(MUSIC_VOLUME, 2f);

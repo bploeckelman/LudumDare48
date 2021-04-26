@@ -89,6 +89,7 @@ public class Assets implements Disposable {
     public Music introMusic;
     public Music level1Music;
     public Music level1BossMusic;
+    public Music level2Music;
 
     public Assets() {
         this(Load.SYNC);
@@ -122,6 +123,7 @@ public class Assets implements Disposable {
             mgr.load("audio/music/intro.ogg", Music.class);
             mgr.load("audio/music/level1.ogg", Music.class);
             mgr.load("audio/music/level1-boss.ogg", Music.class);
+            mgr.load("audio/music/level2.ogg", Music.class);
         }
 
         if (load == Load.SYNC) {
@@ -214,6 +216,7 @@ public class Assets implements Disposable {
         introMusic = mgr.get("audio/music/intro.ogg", Music.class);
         level1Music = mgr.get("audio/music/level1.ogg", Music.class);
         level1BossMusic = mgr.get("audio/music/level1-boss.ogg", Music.class);
+        level2Music = mgr.get("audio/music/level2.ogg", Music.class);
 
         Transitions.shaders = new Array<>();
         Transitions.shaders.addAll(
