@@ -82,6 +82,7 @@ public class Audio implements Disposable {
         putSound(Sounds.laser, assets.pew2Sound);
         putSound(Sounds.laser, assets.pew3Sound);
         putSound(Sounds.laser, assets.pew4Sound);
+        putSound(Sounds.missile, assets.missileSound);
         putSound(Sounds.lever, assets.leverSound);
         putSound(Sounds.uncapture, assets.uncaptureSound);
         putSound(Sounds.zuckRam, assets.zuckRamSound);
