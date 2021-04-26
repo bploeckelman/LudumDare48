@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld48.levels.SpawnInteractable;
 import lando.systems.ld48.screens.GameScreen;
 
 public class EnemyEntity extends MovableEntity {
@@ -56,26 +57,52 @@ public class EnemyEntity extends MovableEntity {
 
     Array<Rectangle> tiles = new Array<>();
     Vector2 shootRay = new Vector2();
+    Rectangle testRectangle = new Rectangle();
     @Override
     public void update(float dt) {
         super.update(dt);
         attackDelay -= dt;
 
 
-        // TODO check for collideable object, like the door that can be removed
         if (direction == Direction.left){
-            tiles.clear();
             screen.level.getTiles(collisionBounds.x, collisionBounds.y, collisionBounds.x - 10, collisionBounds.y + collisionBounds.height, tiles);
             if (tiles.size > 0) {
                 velocity.x = 0;
                 direction = Direction.right;
             }
+            screen.level.getTiles(collisionBounds.x, collisionBounds.y - 4, collisionBounds.x - 10, collisionBounds.y - 1, tiles);
+            if (tiles.size == 0) {
+                velocity.x = 0;
+                direction = Direction.right;
+            }
+            testRectangle.set(collisionBounds.x - 10, collisionBounds.y, collisionBounds.width, collisionBounds.height);
+            for (InteractableEntity interactable : screen.interactables){
+                if (interactable.type == SpawnInteractable.Type.door){
+                    if (interactable.collisionBounds.overlaps(testRectangle)){
+                        velocity.x = 0;
+                        direction = Direction.right;
+                    }
+                }
+            }
         } else {
-            tiles.clear();
             screen.level.getTiles(collisionBounds.x + collisionBounds.width, collisionBounds.y, collisionBounds.x +collisionBounds.width + 10, collisionBounds.y + collisionBounds.height, tiles);
             if (tiles.size > 0) {
                 velocity.x = 0;
                 direction = Direction.left;
+            }
+            screen.level.getTiles(collisionBounds.x + collisionBounds.width, collisionBounds.y - 4, collisionBounds.x +collisionBounds.width + 10, collisionBounds.y - 1, tiles);
+            if (tiles.size == 0) {
+                velocity.x = 0;
+                direction = Direction.left;
+            }
+            testRectangle.set(collisionBounds.x + 10, collisionBounds.y, collisionBounds.width, collisionBounds.height);
+            for (InteractableEntity interactable : screen.interactables){
+                if (interactable.type == SpawnInteractable.Type.door){
+                    if (interactable.collisionBounds.overlaps(testRectangle)){
+                        velocity.x = 0;
+                        direction = Direction.left;
+                    }
+                }
             }
         }
 
