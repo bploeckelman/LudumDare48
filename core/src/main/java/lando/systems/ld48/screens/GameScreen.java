@@ -49,8 +49,8 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(Game game) {
         super(game);
-        loadLevel(LevelDescriptor.introduction);
-//        loadLevel(LevelDescriptor.core);
+        this.player = new Player(this, 0, 0);
+        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.introduction, "introText"), this);
     }
 
     public void loadLevel(LevelDescriptor levelDescriptor) {

@@ -21,7 +21,7 @@
   <object id="2" name="exit" type="exit" gid="117" x="368" y="160" width="16" height="16">
    <properties>
     <property name="target-level" value="test"/>
-    <property name="transition-text" value="introText"/>
+    <property name="transition-text" value="level1Text1"/>
     <property name="transition-type" value="military"/>
    </properties>
   </object>

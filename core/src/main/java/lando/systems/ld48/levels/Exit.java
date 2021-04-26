@@ -34,6 +34,12 @@ public class Exit {
         this.indicatorAnim = assets.downArrowsAnimation;
     }
 
+    public Exit (LevelTransition.Type levelTransitionType, LevelDescriptor targetLevel, String transitionString) {
+        this.levelTransitionType = levelTransitionType;
+        this.targetLevel = targetLevel;
+        this.transitionString = transitionString;
+    }
+
     public void render(SpriteBatch batch) {
         stateTime += Time.delta;
         TextureRegion keyframe = indicatorAnim.getKeyFrame(stateTime);
