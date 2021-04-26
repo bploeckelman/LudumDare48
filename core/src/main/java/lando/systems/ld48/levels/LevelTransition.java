@@ -125,7 +125,7 @@ public class LevelTransition {
 
     public void render(SpriteBatch batch, OrthographicCamera camera) {
         // black background
-        batch.setColor(0f / 255f, 0f / 255f, 16 / 255f, 1f);
+        batch.setColor(Color.BLACK);
         batch.draw(pixel, 0, 0, camera.viewportWidth, camera.viewportHeight);
         batch.setColor(Color.WHITE);
 
