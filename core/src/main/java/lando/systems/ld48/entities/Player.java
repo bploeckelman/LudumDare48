@@ -59,7 +59,10 @@ public class Player extends MovableEntity {
 
     @Override
     public float getGravityModifier() {
-        return (capturedEnemy == null) ? 0.1f : 1f;
+        if (capturedEnemy != null) { return 1f; }
+        if (this.screen.downPressed) { return 0.5f; }
+        if (this.screen.upPressed) { return 0f; }
+        return 0.1f;
     }
 
     @Override
@@ -74,6 +77,8 @@ public class Player extends MovableEntity {
             possess(null);
             velocity.set(0, 400);
         }
+
+        if (this.screen.upPressed && this.capturedEnemy == null) { this.velocity.set(this.velocity.x, (float) Math.max(this.velocity.y + 15 * dt, 40)); }
 
         super.update(dt);
 
