@@ -118,7 +118,7 @@ public class LevelTransition {
         stateTime += dt;
 
         typingLabel.update(dt);
-        if (!typingLabel.hasEnded() && Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+        if (!typingLabel.hasEnded() && (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY) || Gdx.input.justTouched())) {
             typingLabel.skipToTheEnd();
         }
 
