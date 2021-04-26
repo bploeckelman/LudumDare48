@@ -63,6 +63,13 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> grayFallAnimation;
     public Animation<TextureRegion> grayDieAnimation;
 
+    public Animation<TextureRegion> soldierAnimation;
+    public Animation<TextureRegion> soldierMoveAnimation;
+    public Animation<TextureRegion> soldierAttackAnimation;
+    public Animation<TextureRegion> soldierJumpAnimation;
+    public Animation<TextureRegion> soldierFallAnimation;
+    public Animation<TextureRegion> soldierDieAnimation;
+
     // zuck tank
     public Animation<TextureRegion> zuckTankMissileAnimation;
     public Animation<TextureRegion> zuckTankLowerAnimation;
@@ -179,6 +186,12 @@ public class Assets implements Disposable {
         grayFallAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.REVERSED);
         grayDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),   Animation.PlayMode.NORMAL);
 
+        soldierAnimation       = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-idle"),  Animation.PlayMode.LOOP);
+        soldierMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-run"),   Animation.PlayMode.LOOP);
+        soldierAttackAnimation = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-shoot"), Animation.PlayMode.NORMAL);
+        soldierJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("enemies/soldier/soldier-jump"),  Animation.PlayMode.NORMAL);
+        soldierFallAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-jump"),  Animation.PlayMode.REVERSED);
+        soldierDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-idle"),   Animation.PlayMode.NORMAL);
 
         zuckTankMissileAnimation = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-missile/zuck-missile"), Animation.PlayMode.NORMAL);
         zuckTankLowerAnimation   = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-lower/zuck-tank-lower"), Animation.PlayMode.NORMAL);

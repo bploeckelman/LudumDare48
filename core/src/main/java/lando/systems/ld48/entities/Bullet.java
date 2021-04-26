@@ -25,6 +25,7 @@ public class Bullet extends GameEntity {
 
     public void update(float dt) {
         velocity.set(bulletSpeed, 0);
+        renderRotation += 270 * dt;
         super.update(dt);
     }
 
