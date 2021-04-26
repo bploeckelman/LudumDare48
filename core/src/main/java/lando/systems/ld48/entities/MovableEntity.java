@@ -3,7 +3,6 @@ package lando.systems.ld48.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.Audio;
 import lando.systems.ld48.screens.GameScreen;
 
@@ -11,7 +10,6 @@ public class MovableEntity extends GameEntity {
 
     public static float JUMP_BONUS = 0.4f;
 
-    // todo: remove - exists in GameEntity
     private State lastState;
 
     private float fallTime = 0;
@@ -106,7 +104,7 @@ public class MovableEntity extends GameEntity {
 
         if (state != State.jumping && jumpTime >= 0.2 && state != State.attacking) {
             // stop if entity gets slow enough
-            if (Math.abs(velocity.x) < 10f && grounded) {
+            if (Math.abs(velocity.x) < 10f && isGrounded()) {
                 velocity.x = 0f;
                 state = State.standing;
             }
@@ -141,13 +139,13 @@ public class MovableEntity extends GameEntity {
         this.direction = direction;
         velocity.add(speed, 0);
 
-        if (state != State.jumping && jumpTime >= 0.2 && state != State.attacking && grounded) {
+        if (state != State.jumping && jumpTime >= 0.2 && state != State.attacking && isGrounded()) {
             state = State.walking;
         }
     }
 
     public void jump() {
-        if (state != State.jump && state != State.jumping && state != State.attacking && grounded) {
+        if (state != State.jump && state != State.jumping && state != State.attacking && isGrounded()) {
             screen.game.audio.playSound(Audio.Sounds.jump);
             jumpTime = 0;
             jumpKeyHeldTimer = 0;
@@ -156,12 +154,11 @@ public class MovableEntity extends GameEntity {
     }
 
     public void attack() {
-        if (this.state == State.standing || this.state == State.walking) {
+        if ((this.state == State.standing || this.state == State.walking) && this.animationSet.AttackAnimation != null) {
             screen.game.audio.playSound(Audio.Sounds.attack);
             attackTime = 0;
             state = State.attacking;
-            float x = direction == Direction.left ? -40 : 40;
-            new Bullet(this, position, new Vector2(x, 0));
+            new Bullet(this, position);
         }
     }
 

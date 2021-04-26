@@ -174,6 +174,9 @@ public class Particle implements Pool.Poolable, PhysicsComponent, QuadTreeable {
     }
 
     @Override
+    public boolean ignoreGravity() { return false; }
+
+    @Override
     public Vector2 getAcceleration() {
         return accel;
     }

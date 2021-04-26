@@ -12,6 +12,7 @@ public interface PhysicsComponent {
     Shape2D getCollisionBounds();
     Vector3 getImpulse();
     float getBounceScale();
+    boolean ignoreGravity();
     boolean isGrounded();
     void setGrounded(boolean grounded);
 

@@ -135,7 +135,7 @@ public class Player extends MovableEntity {
     }
 
     private boolean updateDeath(float dt) {
-        if (deathTime == -1 || !grounded) return false;
+        if (deathTime == -1 || !isGrounded()) return false;
 
         Animation<TextureRegion> deathAnimation = assets.playerDieAnimation;
         float duration = deathAnimation.getAnimationDuration();

@@ -352,7 +352,7 @@ public class GameScreen extends BaseScreen {
                 targetPos.y = playerY + marginVert;
             }
 
-            if (player.grounded) {
+            if (player.isGrounded()) {
                 if (playerY > targetPos.y + marginVert) {
                     targetPos.y = playerY - marginVert;
                 }

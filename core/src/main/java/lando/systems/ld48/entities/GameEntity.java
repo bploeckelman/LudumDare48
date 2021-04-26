@@ -39,6 +39,7 @@ public class GameEntity implements PhysicsComponent {
     public Vector2 velocity = new Vector2();
     public Vector2 acceleration = new Vector2();
     public float bounceScale = 0.8f;
+    public boolean ignoreGravity = false;
 
     public Rectangle imageBounds = new Rectangle();
     public Rectangle collisionBounds = new Rectangle();
@@ -46,7 +47,7 @@ public class GameEntity implements PhysicsComponent {
 
     public Vector3 impulse = new Vector3();
 
-    public boolean grounded;
+    private boolean grounded;
 
     protected float stateTime;
     protected float maxHorizontalVelocity = 100f;
@@ -62,7 +63,7 @@ public class GameEntity implements PhysicsComponent {
 
     // bullet hacks
     public float bulletTimeToLive = 10;
-    public float bulletSpeed = 5;
+    public float bulletSpeed = 200;
     public float bulletSize = 5;
 
     GameEntity(GameScreen screen, Animation<TextureRegion> animation) {
@@ -228,6 +229,11 @@ public class GameEntity implements PhysicsComponent {
     @Override
     public float getBounceScale() {
         return bounceScale;
+    }
+
+    @Override
+    public boolean ignoreGravity() {
+        return ignoreGravity;
     }
 
     @Override
