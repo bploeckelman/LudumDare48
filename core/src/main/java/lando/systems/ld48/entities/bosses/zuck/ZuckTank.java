@@ -1,5 +1,6 @@
 package lando.systems.ld48.entities.bosses.zuck;
 
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,11 +31,15 @@ public class ZuckTank extends Boss {
     boolean alive;
     BossPhase currentPhase;
 
-    int numHits;
-
     Animation<TextureRegion> animation;
     Animations animations;
     float stateTime;
+    MutableFloat alpha = new MutableFloat(1f);
+
+    int numHits;
+    final int numHitsToBeKilled = 10;
+
+    boolean flip = false;
 
     static class Animations {
         public Animation<TextureRegion> missile;
@@ -118,6 +123,10 @@ public class ZuckTank extends Boss {
             }
         }
 
+        if (numHits == numHitsToBeKilled && !(currentPhase instanceof DeathPhase)) {
+            currentPhase = new DeathPhase(this);
+        }
+
         if (currentPhase != null) {
             currentPhase.update(dt);
             if (currentPhase.isComplete()) {
@@ -134,7 +143,16 @@ public class ZuckTank extends Boss {
     @Override
     public void render(SpriteBatch batch) {
         TextureRegion keyframe = animation.getKeyFrame(stateTime);
+        // handle death throes
+        if (flip) {
+            flip = false;
+            for (TextureRegion frame : animation.getKeyFrames()) {
+                frame.flip(true, false);
+            }
+        }
+        batch.setColor(1f, 1f, 1f, alpha.floatValue());
         batch.draw(keyframe, imageBounds.x, imageBounds.y, imageBounds.width, imageBounds.height);
+        batch.setColor(Color.WHITE);
 
         missiles.forEach(missile -> missile.draw(batch));
 

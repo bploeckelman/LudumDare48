@@ -10,6 +10,8 @@ import lando.systems.ld48.screens.GameScreen;
 
 public class SpawnInteractable {
 
+    public boolean interactionDisabled = false;
+
     public enum Type { lever, door }
 
     public int id;
@@ -42,6 +44,7 @@ public class SpawnInteractable {
             case door:  anim = screen.game.assets.doorAnimation;  break;
         }
         InteractableEntity entity = new InteractableEntity(screen, pos.x, pos.y, this, anim);
+        entity.disabled = interactionDisabled;
         entity.addToScreen(pos.x, pos.y + size);
     }
 

@@ -12,6 +12,8 @@ public class InteractableEntity extends GameEntity {
     public final int id;
     public final int targetId;
 
+    public boolean disabled = false;
+
     boolean completed = false;
     boolean active = false;
     Callback completionCallback;
@@ -41,6 +43,7 @@ public class InteractableEntity extends GameEntity {
     }
 
     public void interact() {
+        if (disabled) return;
         if (completed) return;
         if (active) return;
         active = true;

@@ -56,6 +56,7 @@ public class GameScreen extends BaseScreen {
     }
 
     public void loadLevel(LevelDescriptor levelDescriptor) {
+        this.boss = null;
         this.level = new Level(levelDescriptor, this);
         this.levelTransition = null;
 

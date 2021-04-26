@@ -157,9 +157,11 @@ public class Level {
                 SpawnInteractable.Type interactableType = SpawnInteractable.Type.valueOf((String) props.get("interactable-type"));
                 int id = props.get("door-id", -1, Integer.class);
                 int targetId = props.get("target-id", -1, Integer.class);
+                boolean disabled = props.get("disabled", false, Boolean.class);
                 // positioning is a little janky between where the object is in map and where it appears in game... do it live for now
                 x += 8;
                 SpawnInteractable spawn = new SpawnInteractable(interactableType, id, targetId, x, y, gameScreen.game.assets);
+                spawn.interactionDisabled = disabled;
                 interactableSpawns.add(spawn);
             }
             else if ("exit".equalsIgnoreCase(type)) {

@@ -32,6 +32,7 @@
   </object>
   <object id="4" name="door" type="spawn-interactable" gid="117" x="464" y="304" width="16" height="48">
    <properties>
+    <property name="disabled" type="bool" value="true"/>
     <property name="door-id" type="int" value="1"/>
     <property name="interactable-type" value="door"/>
    </properties>
