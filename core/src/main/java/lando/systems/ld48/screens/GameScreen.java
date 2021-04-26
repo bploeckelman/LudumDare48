@@ -61,7 +61,7 @@ public class GameScreen extends BaseScreen {
         this.player = new Player(this, 0, 0);
         // ROSSMAN: swap comments for boss testing
 //        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.musk_arena, "introText"), this);
-        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.purgatory, LevelDescriptor.introduction, "introText"), this);
+        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.purgatory, LevelDescriptor.introduction, "exposition"), this);
 
         Timeline.createSequence()
                 .pushPause(15f)
@@ -92,11 +92,13 @@ public class GameScreen extends BaseScreen {
         Vector2 scrollRatio = new Vector2(0.75f, 1.0f);
         TextureRegion backTexture;
         switch (levelDescriptor) {
-            default:
-            case test:  backTexture = game.assets.sunsetBackground; break;
-            case test2: backTexture = game.assets.desertBackground; break;
-            case test3: backTexture = game.assets.desertBackground; break;
-            case musk_arena:  backTexture = game.assets.coreBackground; break;
+            case introduction: backTexture = game.assets.sunsetBackground; break;
+            case military:     backTexture = game.assets.coreBackground; break;
+            case zuck_arena:   backTexture = game.assets.coreBackground; break;
+            case alien:        backTexture = game.assets.desertBackground; break;
+            case reptilian:    backTexture = game.assets.desertBackground; break;
+            case musk_arena:   backTexture = game.assets.coreBackground; break;
+            default:           backTexture = game.assets.desertBackground; break;
         }
         TextureRegionParallaxLayer parallax = new TextureRegionParallaxLayer(backTexture, levelWidth, levelHeight, scrollRatio);
         this.background = new ParallaxBackground(parallax);

@@ -3,13 +3,11 @@ package lando.systems.ld48.levels;
 public enum LevelDescriptor {
 
       introduction("levels/introduction.tmx")
-    , test("levels/test.tmx")
-    , test2("levels/test2.tmx")
-    , test3("levels/test3.tmx")
-    , reptilians("levels/reptilians.tmx")
-    , core("levels/core.tmx")
-    , musk_arena("levels/musk-arena.tmx")
+    , military("levels/military.tmx")
     , zuck_arena("levels/zuck-arena.tmx")
+    , alien("levels/alien.tmx")
+    , reptilian("levels/reptilian.tmx")
+    , musk_arena("levels/musk-arena.tmx")
     , ending("")
     ;
 
