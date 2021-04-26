@@ -75,10 +75,10 @@ public class Player extends MovableEntity {
         if (this.hitPoints <= 0){
             this.hitPoints = 100;
             possess(null);
-            velocity.set(0, 400);
+            velocity.set(0, 30);
         }
 
-        if (this.screen.upPressed && this.capturedEnemy == null) { this.velocity.set(this.velocity.x, (float) Math.max(this.velocity.y + 15 * dt, 40)); }
+        if (this.screen.upPressed && this.capturedEnemy == null) { this.velocity.set(this.velocity.x, Math.max(this.velocity.y, Math.min(this.velocity.y + 90 * dt, 60))); }
 
         super.update(dt);
 
