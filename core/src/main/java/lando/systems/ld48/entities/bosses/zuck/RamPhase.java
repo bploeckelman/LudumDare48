@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld48.Audio;
 import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.entities.bosses.Boss;
 import lando.systems.ld48.entities.bosses.BossPhase;
@@ -30,6 +31,7 @@ public class RamPhase extends BossPhase {
         this.timer = zuck.animation.getAnimationDuration() * 2f;
 
         Gdx.app.log("ram phase", "started");
+        zuck.screen.game.audio.playSound(Audio.Sounds.zuckRam);
     }
 
     @Override

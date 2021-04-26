@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
+import lando.systems.ld48.Audio;
 import lando.systems.ld48.entities.InteractableEntity;
 import lando.systems.ld48.entities.bosses.Boss;
 import lando.systems.ld48.entities.bosses.BossPhase;
@@ -26,6 +27,8 @@ public class DeathPhase extends BossPhase {
         zuck.animation = zuck.animations.talk;
         zuck.animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         zuck.stateTime = 0f;
+
+//        zuck.screen.game.audio.playSound(Audio.Sounds.death);
 
         // TODO: flip horizontally repeatedly
 
@@ -54,7 +57,9 @@ public class DeathPhase extends BossPhase {
                         zuck.screen.particles.smoke(zuck.position.x, zuck.position.y);
                         zuck.removeFromScreen();
                         complete = true;
-                    }))
+                zuck.screen.game.audio.playSound(Audio.Sounds.death);
+
+            }))
                     .start(zuck.screen.game.tween);
         } else {
             // flip back and forth crazily

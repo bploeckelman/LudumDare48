@@ -21,8 +21,8 @@ public class MissilePhase extends BossPhase {
         zuck.animation = zuck.animations.talk;
         zuck.stateTime = 0f;
 
-        zuck.screen.game.audio.playSound(Audio.Sounds.laser);
-
+//        zuck.screen.game.audio.playSound(Audio.Sounds.laser);
+        zuck.screen.game.audio.playSound(Audio.Sounds.missile);
         Gdx.app.log("missile phase", "started");
     }
 

@@ -2,6 +2,7 @@ package lando.systems.ld48.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import lando.systems.ld48.Audio;
 import lando.systems.ld48.levels.SpawnInteractable;
 import lando.systems.ld48.screens.GameScreen;
 import lando.systems.ld48.utils.Callback;
@@ -33,9 +34,14 @@ public class InteractableEntity extends GameEntity {
 
         completionCallback = params -> {
             if (type == SpawnInteractable.Type.lever) {
+                screen.game.audio.playSound(Audio.Sounds.lever);
+
                 screen.particles.interact(position.x, position.y);
             } else if (type == SpawnInteractable.Type.door) {
+                screen.game.audio.playSound(Audio.Sounds.door);
+
                 screen.particles.smoke(position.x, position.y);
+
                 removeFromScreen();
             }
             return null;
