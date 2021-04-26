@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.ld48.Audio;
 import lando.systems.ld48.Game;
 import lando.systems.ld48.entities.*;
+import lando.systems.ld48.entities.bosses.Boss;
 import lando.systems.ld48.levels.*;
 import lando.systems.ld48.levels.backgrounds.ParallaxBackground;
 import lando.systems.ld48.levels.backgrounds.TextureRegionParallaxLayer;
@@ -27,6 +28,7 @@ public class GameScreen extends BaseScreen {
 
     public Level level;
     public Player player;
+    public Boss boss;
     public LevelTransition levelTransition;
     public ParallaxBackground background;
     public CaptureHandler captureHandler;
@@ -81,6 +83,9 @@ public class GameScreen extends BaseScreen {
         this.background = new ParallaxBackground(new TextureRegionParallaxLayer(backTexture, levelWidth, levelHeight, scrollRatio));
 
         // immediately spawn stuff, probably not enough time to get clever spawning setup
+        for (SpawnBoss spawner : this.level.getBossSpawns()) {
+            spawner.spawn(this);
+        }
         for (SpawnEnemy spawner : this.level.getEnemySpawns()) {
             spawner.spawn(this);
         }
@@ -127,7 +132,9 @@ public class GameScreen extends BaseScreen {
             level.update(dt);
             physicsSystem.update(dt);
             particles.update(dt);
-
+            if (boss != null) {
+                boss.update(dt);
+            }
             checkBulletCollisions();
 
             CameraConstraints.update(worldCamera, player, level);
@@ -230,6 +237,9 @@ public class GameScreen extends BaseScreen {
                         }
                     });
                     particles.draw(batch, Particles.Layer.middle);
+                    if (boss != null) {
+                        boss.render(batch);
+                    }
                     player.render(batch);
                     level.renderObjects(batch);
                     particles.draw(batch, Particles.Layer.foreground);
@@ -397,6 +407,9 @@ public class GameScreen extends BaseScreen {
                 if (playerY > targetPos.y + marginVert) {
                     targetPos.y = playerY - marginVert;
                 }
+            } else if (player.capturedEnemy == null) {
+                // follow closely while ghostly
+                targetPos.y = playerY;
             } else {
                 if (playerY > targetPos.y + marginVertJump) {
                     targetPos.y = playerY - marginVertJump;

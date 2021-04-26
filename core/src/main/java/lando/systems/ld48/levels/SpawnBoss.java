@@ -5,44 +5,42 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.Assets;
 import lando.systems.ld48.entities.EnemyEntity;
+import lando.systems.ld48.entities.bosses.Boss;
+import lando.systems.ld48.entities.bosses.zuck.ZuckTank;
 import lando.systems.ld48.entities.enemies.Gray;
 import lando.systems.ld48.entities.enemies.Soldier;
 import lando.systems.ld48.screens.GameScreen;
 
-public class SpawnEnemy {
+public class SpawnBoss {
 
-    public enum Type { soldier, alien, zuck }
+    public enum Type { zuck }
 
     public Vector2 pos;
     public float size = Level.TILE_SIZE;
     public TextureRegion texture;
-    public Type type;
+    public SpawnBoss.Type type;
 
-    public SpawnEnemy(Type type, float x, float y, Assets assets) {
+    public SpawnBoss(SpawnBoss.Type type, float x, float y, Assets assets) {
         this.type = type;
         this.pos = new Vector2(x, y);
         this.texture = assets.whitePixel;
     }
 
     public void render(SpriteBatch batch) {
-        batch.setColor(1f, 1f, 0f, 0.5f);
+        batch.setColor(1f, 0f, 1f, 0.8f);
         batch.draw(texture, pos.x, pos.y, size, size);
         batch.setColor(1f, 1f, 1f, 1f);
     }
 
     public void spawn(GameScreen screen) {
-        EnemyEntity enemy = null;
+        Boss boss = null;
         switch (type) {
-            case soldier: {
-                enemy = new Soldier(screen, pos.x, pos.y);
-            } break;
-            case alien: {
-                enemy = new Gray(screen, pos.x, pos.y);
-            } break;
+            case zuck: boss = new ZuckTank(screen, pos.x, pos.y); break;
+//            case musk: boss = new MuskKrang(screen, pos.x, pos.y); break;
         }
 
-        if (enemy == null) return;
-        enemy.addToScreen(pos.x, pos.y + size);
+        if (boss == null) return;
+        boss.addToScreen();
     }
 
 }
