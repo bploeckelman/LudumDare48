@@ -95,13 +95,25 @@ public class Assets implements Disposable {
     public NinePatch debugNinePatch;
     public NinePatch roundedBoxNinePatch;
 
-    public Sound exampleSound;
-    public Sound jumpSound;
     public Sound attackSound;
+    public Sound bulletHitSound;
+    public Sound captureSound;
     public Sound coinSound;
     public Sound deathSound;
-    public Sound captureSound;
+    public Sound doorSound;
+    public Sound exampleSound;
+    public Sound jumpSound;
+    public Sound leverSound;
+    public Sound missileSound;
+    public Sound pew1Sound;
+    public Sound pew2Sound;
+    public Sound pew3Sound;
+    public Sound pew4Sound;
     public Sound uncaptureSound;
+    public Sound zuckRamSound;
+    public Sound zuckTank1Sound;
+    public Sound zuckTank2Sound;
+    public Sound zuckTank3Sound;
 
     public Music exampleMusic;
     public Music introMusic;
@@ -138,12 +150,27 @@ public class Assets implements Disposable {
 
             mgr.load("i18n/strings", I18NBundle.class);
 
-            mgr.load("audio/sound/example.wav", Sound.class);
-            mgr.load("audio/sound/capture.ogg", Sound.class);
-            mgr.load("audio/sound/uncapture.ogg", Sound.class);
-            mgr.load("audio/sound/coin.ogg", Sound.class);
-            mgr.load("audio/sound/jump.ogg", Sound.class);
             mgr.load("audio/sound/attack.ogg", Sound.class);
+            mgr.load("audio/sound/bullethit.ogg", Sound.class);
+            mgr.load("audio/sound/capture.ogg", Sound.class);
+            mgr.load("audio/sound/coin.ogg", Sound.class);
+            mgr.load("audio/sound/die.ogg", Sound.class);
+            mgr.load("audio/sound/door.ogg", Sound.class);
+            mgr.load("audio/sound/example.wav", Sound.class);
+            mgr.load("audio/sound/jump.ogg", Sound.class);
+            mgr.load("audio/sound/lever.ogg", Sound.class);
+            mgr.load("audio/sound/missile.ogg", Sound.class);
+            mgr.load("audio/sound/pew.ogg", Sound.class);
+            mgr.load("audio/sound/pew1.ogg", Sound.class);
+            mgr.load("audio/sound/pew2.ogg", Sound.class);
+            mgr.load("audio/sound/pew3.ogg", Sound.class);
+            mgr.load("audio/sound/pew4.ogg", Sound.class);
+            mgr.load("audio/sound/popout.ogg", Sound.class);
+            mgr.load("audio/sound/uncapture.ogg", Sound.class);
+            mgr.load("audio/sound/zuckram.ogg", Sound.class);
+            mgr.load("audio/sound/zucktank1.ogg", Sound.class);
+            mgr.load("audio/sound/zucktank2.ogg", Sound.class);
+            mgr.load("audio/sound/zucktank3.ogg", Sound.class);
 
             mgr.load("audio/music/intro.ogg", Music.class);
             mgr.load("audio/music/level1.ogg", Music.class);
@@ -246,13 +273,25 @@ public class Assets implements Disposable {
         transitions.cube       = loadShader("shaders/transitions/default.vert", "shaders/transitions/cube.frag");
         transitions.dreamy     = loadShader("shaders/transitions/default.vert", "shaders/transitions/dreamy.frag");
 
+        attackSound = mgr.get("audio/sound/attack.ogg", Sound.class);
+        bulletHitSound = mgr.get("audio/sound/bullethit.ogg", Sound.class);
+        captureSound = mgr.get("audio/sound/capture.ogg", Sound.class);
+        coinSound = mgr.get("audio/sound/coin.ogg", Sound.class);
+        deathSound = mgr.get("audio/sound/die.ogg", Sound.class);
+        doorSound = mgr.get("audio/sound/door.ogg", Sound.class);
         exampleSound = mgr.get("audio/sound/example.wav", Sound.class);
         jumpSound = mgr.get("audio/sound/jump.ogg", Sound.class);
-        coinSound = mgr.get("audio/sound/coin.ogg", Sound.class);
-        attackSound = mgr.get("audio/sound/attack.ogg", Sound.class);
-        deathSound = mgr.get("audio/sound/example.wav", Sound.class);
-        captureSound = mgr.get("audio/sound/capture.ogg", Sound.class);
+        leverSound = mgr.get("audio/sound/lever.ogg", Sound.class);
+        missileSound = mgr.get("audio/sound/missile.ogg", Sound.class);
+        pew1Sound = mgr.get("audio/sound/pew1.ogg", Sound.class);
+        pew2Sound = mgr.get("audio/sound/pew2.ogg", Sound.class);
+        pew3Sound = mgr.get("audio/sound/pew3.ogg", Sound.class);
+        pew4Sound = mgr.get("audio/sound/pew4.ogg", Sound.class);
         uncaptureSound = mgr.get("audio/sound/uncapture.ogg", Sound.class);
+        zuckRamSound = mgr.get("audio/sound/zuckram.ogg", Sound.class);
+        zuckTank1Sound = mgr.get("audio/sound/zucktank1.ogg", Sound.class);
+        zuckTank2Sound = mgr.get("audio/sound/zucktank2.ogg", Sound.class);
+        zuckTank3Sound = mgr.get("audio/sound/zucktank3.ogg", Sound.class);
 
         exampleMusic = mgr.get("audio/music/intro.ogg", Music.class);
         introMusic = mgr.get("audio/music/intro.ogg", Music.class);

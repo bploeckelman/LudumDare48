@@ -23,11 +23,34 @@ public class Audio implements Disposable {
 
     // none should not have a sound
     public enum Sounds {
-        none, example, jump, attack, death, capture, uncapture, bulletHit, coin
+        none,
+        attack,
+        bulletHit,
+        capture,
+        coin,
+        death,
+        door,
+        example,
+        jump,
+        laser,
+        lever,
+        missile,
+        uncapture,
+        zuckRam,
+        zuckTank
     }
 
     public enum Musics {
-        none, example, intro, level1, level1boss, level2,level1elevator,level2elevator,level3,level3elevator
+        none,
+        example,
+        intro,
+        level1,
+        level1boss,
+        level2,
+        level1elevator,
+        level2elevator,
+        level3,
+        level3elevator
     }
 
     public ObjectMap<Sounds, SoundContainer> sounds = new ObjectMap<>();
@@ -46,13 +69,24 @@ public class Audio implements Disposable {
         this.tween = game.tween;
 
         putSound(Sounds.none, assets.exampleSound);
-        putSound(Sounds.example, assets.exampleSound);
-        putSound(Sounds.coin, assets.coinSound);
-        putSound(Sounds.jump, assets.jumpSound);
         putSound(Sounds.attack, assets.attackSound);
-        putSound(Sounds.death, assets.deathSound);
+        putSound(Sounds.bulletHit, assets.bulletHitSound);
+        putSound(Sounds.example, assets.exampleSound);
         putSound(Sounds.capture, assets.captureSound);
+        putSound(Sounds.coin, assets.coinSound);
+        putSound(Sounds.death, assets.deathSound);
+        putSound(Sounds.jump, assets.jumpSound);
+        putSound(Sounds.laser, assets.pew1Sound);
+        putSound(Sounds.laser, assets.pew2Sound);
+        putSound(Sounds.laser, assets.pew3Sound);
+        putSound(Sounds.laser, assets.pew4Sound);
+        putSound(Sounds.lever, assets.leverSound);
         putSound(Sounds.uncapture, assets.uncaptureSound);
+        putSound(Sounds.zuckRam, assets.zuckRamSound);
+        putSound(Sounds.zuckTank, assets.zuckTank1Sound);
+        putSound(Sounds.zuckTank, assets.zuckTank2Sound);
+        putSound(Sounds.zuckTank, assets.zuckTank3Sound);
+
 
         musics.put(Musics.example, assets.exampleMusic);
         musics.put(Musics.intro, assets.introMusic);
