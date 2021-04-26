@@ -161,9 +161,31 @@ public class Player extends MovableEntity {
 
         capturedEnemy = enemy;
 
-        animationSet = (capturedEnemy != null) ? capturedEnemy.animationSet : defaultAnimationSet;
-        jumpVelocity = (capturedEnemy != null) ? /*capturedEnemy.jumpVelocity*/ 200 : 0;
+        float scale = SCALE;
+        if (capturedEnemy != null) {
+            animationSet = capturedEnemy.animationSet;
+            jumpVelocity = (capturedEnemy.jumpVelocity > 0) ? capturedEnemy.jumpVelocity : 150;
+            damage = capturedEnemy.damage;
+            bulletSize = capturedEnemy.bulletSize;
+            bulletSpeed = capturedEnemy.bulletSpeed;
+            scale = capturedEnemy.scale;
+        } else {
+            animationSet = defaultAnimationSet;
+            jumpVelocity = 0;
+            damage = 0;
+            bulletSize = 0;
+            bulletSpeed = 0;
+        }
+
+        setGrounded(false);
         state = State.standing;
-        animation = animationSet.IdleAnimation;
+        setAnimation(animationSet.IdleAnimation);
+
+        float height = keyframe.getRegionHeight() * scale;
+
+        float y = position.y + (height - imageBounds.height)/2;
+
+        initEntity(position.x, y, keyframe.getRegionWidth() * scale, height);
+
     }
 }

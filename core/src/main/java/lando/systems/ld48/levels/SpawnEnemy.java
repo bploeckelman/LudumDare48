@@ -6,12 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.Assets;
 import lando.systems.ld48.entities.EnemyEntity;
 import lando.systems.ld48.entities.enemies.Gray;
+import lando.systems.ld48.entities.enemies.Soldier;
 import lando.systems.ld48.entities.enemies.ZuckTank;
 import lando.systems.ld48.screens.GameScreen;
 
 public class SpawnEnemy {
 
-    public enum Type { alien, zuck }
+    public enum Type { soldier, alien, zuck }
 
     public Vector2 pos;
     public float size = Level.TILE_SIZE;
@@ -33,6 +34,9 @@ public class SpawnEnemy {
     public void spawn(GameScreen screen) {
         EnemyEntity enemy = null;
         switch (type) {
+            case soldier: {
+                enemy = new Soldier(screen, pos.x, pos.y);
+            } break;
             // todo - add more cases when we have more enemy types
             case alien: {
                 enemy = new Gray(screen, pos.x, pos.y);

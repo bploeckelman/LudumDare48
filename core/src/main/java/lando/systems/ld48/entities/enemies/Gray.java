@@ -15,9 +15,10 @@ public class Gray extends EnemyEntity {
         super(screen, screen.game.assets.grayAnimation, SCALE, x, y);
 
         animationSet.MoveAnimation = assets.grayMoveAnimation;
-        animationSet.JumpAnimation = assets.grayJumpAnimation;
         animationSet.FallAnimation = assets.grayFallAnimation;
         animationSet.AttackAnimation = assets.grayAttackAnimation;
         animationSet.DieAnimation = assets.grayDieAnimation;
+
+        setJump(assets.grayJumpAnimation, 250);
     }
 }

@@ -70,7 +70,7 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> soldierFallAnimation;
     public Animation<TextureRegion> soldierDieAnimation;
 
-    // zuck tank
+    // zuck tank - intellij doesn't like zuck..
     public Animation<TextureRegion> zuckTankMissileAnimation;
     public Animation<TextureRegion> zuckTankLowerAnimation;
     public Animation<TextureRegion> zuckTankTalkAnimation;
