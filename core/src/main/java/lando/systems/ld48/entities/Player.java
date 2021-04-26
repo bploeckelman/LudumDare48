@@ -226,6 +226,7 @@ public class Player extends MovableEntity {
             damage = 0;
             bulletSize = 0;
             bulletSpeed = 0;
+            attackHeat = 0;
         }
 
         setGrounded(false);
