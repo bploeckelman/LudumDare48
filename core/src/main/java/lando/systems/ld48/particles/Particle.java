@@ -198,9 +198,10 @@ public class Particle implements Pool.Poolable, PhysicsComponent, QuadTreeable {
     }
 
     @Override
-    public void setGrounded(boolean grounded) {
+    public void setGrounded(boolean grounded) { }
 
-    }
+    @Override
+    public void onCollision() { }
 
     @Override
     public void reset() {

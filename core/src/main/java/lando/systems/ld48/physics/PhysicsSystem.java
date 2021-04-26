@@ -156,6 +156,7 @@ public class PhysicsSystem {
                         dtUsed = dtLeft * MathUtils.clamp(1f - c.t, 0, 1f);
 //                        moveVector.scl(MathUtils.clamp(1f - c.t, 0, 1f));
                         hadCollision = true;
+                        obj.onCollision();
                         break;
                     }
                 }

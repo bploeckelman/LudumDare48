@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.screens.GameScreen;
 
 public class EnemyEntity extends MovableEntity {
@@ -58,5 +59,4 @@ public class EnemyEntity extends MovableEntity {
 
         return super.getEffectColor();
     }
-
 }

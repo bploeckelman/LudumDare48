@@ -15,6 +15,7 @@ public interface PhysicsComponent {
     float getGravityModifier();
     boolean isGrounded();
     void setGrounded(boolean grounded);
+    void onCollision();
 
     void update(float dt);
     void render(SpriteBatch batch);

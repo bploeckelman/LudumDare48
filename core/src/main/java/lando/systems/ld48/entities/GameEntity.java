@@ -271,4 +271,6 @@ public class GameEntity implements PhysicsComponent {
         this.grounded = grounded;
     }
 
+    @Override
+    public void onCollision() { }
 }

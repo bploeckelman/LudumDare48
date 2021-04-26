@@ -1,6 +1,7 @@
 package lando.systems.ld48.entities;
 
 import com.badlogic.gdx.math.*;
+import lando.systems.ld48.Audio;
 
 public class Bullet extends GameEntity {
 
@@ -23,10 +24,21 @@ public class Bullet extends GameEntity {
         this.addToScreen(pos.x, pos.y);
     }
 
+    @Override
     public void update(float dt) {
         velocity.set(bulletSpeed, 0);
         renderRotation += 270 * dt;
         super.update(dt);
+    }
+
+    // cheap, but ok.
+    private int count = 0;
+    @Override
+    public void onCollision() {
+        if (count++ > 2) {
+            dead = true;
+            screen.game.audio.playSound(Audio.Sounds.bulletHit);
+        }
     }
 
     @Override
