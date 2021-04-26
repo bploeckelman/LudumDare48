@@ -236,6 +236,7 @@ public class Assets implements Disposable {
 
         exampleSound = mgr.get("audio/sound/example.wav", Sound.class);
         jumpSound = mgr.get("audio/sound/jump.ogg", Sound.class);
+        coinSound = mgr.get("audio/sound/coin.ogg", Sound.class);
         attackSound = mgr.get("audio/sound/attack.ogg", Sound.class);
         deathSound = mgr.get("audio/sound/example.wav", Sound.class);
         captureSound = mgr.get("audio/sound/capture.ogg", Sound.class);

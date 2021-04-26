@@ -138,8 +138,8 @@ public class GameScreen extends BaseScreen {
                     PickupEntity pickup = pickups.get(i);
                     if (player.collisionBounds.overlaps(pickup.collisionBounds)) {
                         // TODO: make a counter for the hud or something
-                        // TODO: play a sound
                         particles.pickup(pickup.position.x, pickup.position.y, pickup.type);
+                        game.audio.playSound(Audio.Sounds.coin);
                         pickup.removeFromScreen();
                     }
                 }
