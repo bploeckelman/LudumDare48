@@ -165,8 +165,9 @@ public class LevelTransition {
         batch.draw(platformKeyframe, platformX, platformY);
 
         TextureRegion playerKeyframe = player.animationSet.IdleAnimation.getKeyFrame(stateTime);
-        float playerX = wCenter - playerKeyframe.getRegionWidth() / 2f;
-        float playerY = hCenter - playerKeyframe.getRegionHeight() / 2f - transitionHeightOffset;
+        float scale = (player.capturedEnemy != null) ? player.capturedEnemy.scale : 0.75f;
+        float playerX = wCenter - (playerKeyframe.getRegionWidth() * scale) / 2f;
+        float playerY = hCenter - (playerKeyframe.getRegionHeight() * scale) / 2f - transitionHeightOffset;
         batch.draw(playerKeyframe, playerX, playerY);
 
         assets.debugNinePatch.draw(batch, this.typingLabel.getX() - 7.5f, this.typingLabel.getY() - (this.typingLabel.getHeight() + 10f), (1f / 3f) * screen.getWorldCamera().viewportWidth + 15f, this.typingLabel.getHeight() + 20f);
