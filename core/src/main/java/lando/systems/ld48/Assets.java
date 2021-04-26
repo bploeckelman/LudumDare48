@@ -42,6 +42,7 @@ public class Assets implements Disposable {
     public TextureRegion whitePixel;
     public TextureRegion sunsetBackground;
     public TextureRegion desertBackground;
+    public TextureRegion coreBackground;
 
     public TextureRegion bullet;
 
@@ -222,6 +223,7 @@ public class Assets implements Disposable {
         whitePixel = new TextureRegion(pixel);
         sunsetBackground = new TextureRegion(atlas.findRegion("backgrounds/sunset"));
         desertBackground = new TextureRegion(atlas.findRegion("backgrounds/desert"));
+        coreBackground   = new TextureRegion(atlas.findRegion("backgrounds/core"));
 
         bullet = new TextureRegion(atlas.findRegion("pets/cat"));
 

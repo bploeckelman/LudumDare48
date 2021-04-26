@@ -10,7 +10,7 @@ import lando.systems.ld48.screens.GameScreen;
 
 public class SpawnBoss {
 
-    public enum Type { zuck }
+    public enum Type { zuck, musk }
 
     public Vector2 pos;
     public float size = Level.TILE_SIZE;
@@ -32,6 +32,7 @@ public class SpawnBoss {
     public void spawn(GameScreen screen) {
         Boss boss = null;
         switch (type) {
+            default:
             case zuck: boss = new ZuckTank(screen, pos.x, pos.y); break;
 //            case musk: boss = new MuskKrang(screen, pos.x, pos.y); break;
         }

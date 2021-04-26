@@ -8,6 +8,8 @@ public enum LevelDescriptor {
     , test3("levels/test3.tmx")
     , reptilians("levels/reptilians.tmx")
     , core("levels/core.tmx")
+    , musk_arena("levels/musk-arena.tmx")
+    , zuck_arena("levels/zuck-arena.tmx")
     , ending("")
     ;
 

@@ -57,8 +57,8 @@ public class GameScreen extends BaseScreen {
     public GameScreen(Game game) {
         super(game);
         this.player = new Player(this, 0, 0);
-        // ZUCK TESTING
-//        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.core, "introText"), this);
+        // ROSSMAN: swap comments for boss testing
+//        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.musk_arena, "introText"), this);
         this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.purgatory, LevelDescriptor.introduction, "introText"), this);
 
         Timeline.createSequence()
@@ -94,6 +94,7 @@ public class GameScreen extends BaseScreen {
             case test:  backTexture = game.assets.sunsetBackground; break;
             case test2: backTexture = game.assets.desertBackground; break;
             case test3: backTexture = game.assets.desertBackground; break;
+            case core:  backTexture = game.assets.coreBackground; break;
         }
         this.background = new ParallaxBackground(new TextureRegionParallaxLayer(backTexture, levelWidth, levelHeight, scrollRatio));
 
@@ -227,8 +228,6 @@ public class GameScreen extends BaseScreen {
                 .pushPause(1f)
                 .push(Tween.call((type, source) -> generalModal = new Modal(game.assets, game.assets.strings.get("tutorial"), getWindowCamera())))
                 .start(game.tween);
-
-
     }
 
     private boolean handleModal(float dt) {
