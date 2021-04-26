@@ -46,7 +46,6 @@ public class LevelTransition {
     private boolean outroStarted = false;
 
     private TypingLabel typingLabel;
-    private String transitionText;
 
     public LevelTransition(Exit exit, GameScreen screen) {
         this.type = exit.levelTransitionType;
@@ -54,10 +53,10 @@ public class LevelTransition {
         switch (type) {
             default:
             //TODO: update transition text to fit the lore, update transitionText as necessary. May need to move transitionText to more appropriate place
-            case military: background = screen.game.assets.levelTransitionMilitary; transitionText = "level1Text"; break;
-            case organic:  background = screen.game.assets.levelTransitionOrganic;  transitionText = "level2Text"; break;
-            case alien:    background = screen.game.assets.levelTransitionAlien;    transitionText = "level3Text"; break;
-            case ending:   background = screen.game.assets.levelTransitionMilitary; transitionText = "endingText"; break;
+            case military: background = screen.game.assets.levelTransitionMilitary; break;
+            case organic:  background = screen.game.assets.levelTransitionOrganic;  break;
+            case alien:    background = screen.game.assets.levelTransitionAlien;    break;
+            case ending:   background = screen.game.assets.levelTransitionMilitary; break;
         }
 
         this.screen = screen;
@@ -75,7 +74,7 @@ public class LevelTransition {
         final float screenWidth  = screen.getWorldCamera().viewportWidth;
         final float screenHeight = screen.getWorldCamera().viewportHeight;
 
-        this.typingLabel = new TypingLabel(assets.pixelFont16, assets.strings.get(transitionText), 90, screenHeight - 90);
+        this.typingLabel = new TypingLabel(assets.pixelFont16, assets.strings.get(exit.transitionString), 90, screenHeight - 90);
         this.typingLabel.setWidth((1f / 3f) * screenWidth);
         this.typingLabel.setFontScale(.16f);
         this.typingLabel.setLineAlign(Align.right);

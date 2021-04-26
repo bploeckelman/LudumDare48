@@ -11,6 +11,7 @@ public class Exit {
     public Vector2 pos;
     public LevelTransition.Type levelTransitionType;
     public LevelDescriptor targetLevel;
+    public String transitionString;
     public TextureRegion texture;
     public Rectangle bounds;
     public float size = Level.TILE_SIZE;
@@ -18,12 +19,14 @@ public class Exit {
     public Exit(float x, float y,
                 LevelTransition.Type levelTransitionType,
                 LevelDescriptor targetLevel,
+                String transitionString,
                 Assets assets) {
         this.pos = new Vector2(x, y);
         this.texture = assets.whitePixel;
         this.levelTransitionType = levelTransitionType;
         this.targetLevel = targetLevel;
         this.bounds = new Rectangle(pos.x, pos.y, size, size);
+        this.transitionString = transitionString;
     }
 
     public void render(SpriteBatch batch) {

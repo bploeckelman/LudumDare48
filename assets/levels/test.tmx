@@ -22,6 +22,7 @@
    <properties>
     <property name="target-level" value="test2"/>
     <property name="transition-type" value="military"/>
+    <property name="transition-text" value="level1Text1"/>
    </properties>
   </object>
   <object id="3" name="alien" type="spawn-enemy" gid="97" x="240" y="160" width="16" height="16">

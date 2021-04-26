@@ -153,7 +153,8 @@ public class Level {
             else if ("exit".equalsIgnoreCase(type)) {
                 LevelTransition.Type transitionType = LevelTransition.Type.valueOf((String) props.get("transition-type"));
                 LevelDescriptor targetLevel = LevelDescriptor.valueOf((String) props.get("target-level"));
-                exit = new Exit(x, y, transitionType, targetLevel, assets);
+                String transitionString = String.valueOf(props.get("transition-text"));
+                exit = new Exit(x, y, transitionType, targetLevel, transitionString, assets);
             }
         }
 

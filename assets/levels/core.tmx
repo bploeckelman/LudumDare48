@@ -27,6 +27,7 @@
    <properties>
     <property name="target-level" value="test"/>
     <property name="transition-type" value="alien"/>
+    <property name="transition-text" value="level2Text1"/>
    </properties>
   </object>
  </objectgroup>
