@@ -1,5 +1,7 @@
 package lando.systems.ld48.screens;
 
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -22,7 +24,9 @@ import lando.systems.ld48.levels.backgrounds.TextureRegionParallaxLayer;
 import lando.systems.ld48.particles.Particles;
 import lando.systems.ld48.physics.PhysicsComponent;
 import lando.systems.ld48.physics.PhysicsSystem;
+import lando.systems.ld48.ui.Modal;
 import lando.systems.ld48.utils.Calc;
+import lando.systems.ld48.utils.accessors.Vector2Accessor;
 
 public class GameScreen extends BaseScreen {
 
@@ -47,12 +51,19 @@ public class GameScreen extends BaseScreen {
 
     private Rectangle overlapRectangle;
 
+    public Modal generalModal;
+
     public GameScreen(Game game) {
         super(game);
         this.player = new Player(this, 0, 0);
         // ZUCK TESTING
 //        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.core, "introText"), this);
         this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.introduction, "introText"), this);
+
+        Timeline.createSequence()
+                .pushPause(15f)
+                .push(Tween.call((type, source) -> showDoorTutorial()))
+                .start(game.tween);
     }
 
     public void loadLevel(LevelDescriptor levelDescriptor) {
@@ -127,6 +138,9 @@ public class GameScreen extends BaseScreen {
                 player.updateOffScreen(dt);
                 return;
             }
+
+            if (handleModal(dt)) { return; }
+
             // stash player's current position pre-update in case we need to walk it back
             float playerPrevPosX = Calc.floor(player.position.x);
             float playerPrevPosY = Calc.floor(player.position.y);
@@ -182,6 +196,7 @@ public class GameScreen extends BaseScreen {
                                 playerSeparationPosX - Calc.floor(player.collisionBounds.width / 2f),
                                 playerPrevPosY - Calc.floor(player.collisionBounds.height / 2f));
                         player.stop();
+                        showDoorTutorial();
                     }
                 }
             }
@@ -199,6 +214,31 @@ public class GameScreen extends BaseScreen {
                 }
             }
         }
+    }
+
+    private boolean doorTutorialShown = false;
+    private void showDoorTutorial() {
+        if (doorTutorialShown) { return; }
+
+        doorTutorialShown = true;
+
+        Timeline.createSequence()
+                .pushPause(1f)
+                .push(Tween.call((type, source) -> generalModal = new Modal(game.assets, game.assets.strings.get("tutorial"), getWindowCamera())))
+                .start(game.tween);
+
+
+    }
+
+    private boolean handleModal(float dt) {
+        if (generalModal != null) {
+            generalModal.update(dt);
+            if (generalModal.isComplete()) {
+                generalModal = null;
+            }
+            return true;
+        }
+        return false;
     }
 
     private void checkBulletCollisions() {
@@ -309,6 +349,10 @@ public class GameScreen extends BaseScreen {
             // draw overlay ui stuff
             if (player.isOffScreen){
                 player.renderOffScreenMessage(batch);
+            }
+
+            if (generalModal != null) {
+                generalModal.render(batch);
             }
         }
         batch.end();

@@ -20,19 +20,19 @@
   <object id="1" name="spawn-player" type="spawn-player" gid="57" x="42.821" y="98.589" width="16" height="16"/>
   <object id="2" name="exit" type="exit" gid="57" x="576" y="112" width="16" height="16">
    <properties>
-    <property name="target-level" value="core"/>
-    <property name="transition-type" value="alien"/>
+    <property name="target-level" value="ending"/>
+    <property name="transition-type" value="ending"/>
     <property name="transition-text" value="level2Text1"/>
    </properties>
   </object>
-  <object id="3" name="alien" type="spawn-enemy" gid="57" x="320.333" y="207.333" width="16" height="16">
+  <object id="3" name="reptilian" type="spawn-enemy" gid="57" x="320.333" y="207.333" width="16" height="16">
    <properties>
-    <property name="enemy-type" value="alien"/>
+    <property name="enemy-type" value="reptilian"/>
    </properties>
   </object>
-  <object id="4" name="alien" type="spawn-enemy" gid="57" x="368" y="144" width="16" height="16">
+  <object id="4" name="reptilianBaby" type="spawn-enemy" gid="57" x="368" y="144" width="16" height="16">
    <properties>
-    <property name="enemy-type" value="alien"/>
+    <property name="enemy-type" value="reptilianBaby"/>
    </properties>
   </object>
   <object id="6" name="alien" type="spawn-enemy" gid="57" x="288.667" y="79" width="16" height="16">

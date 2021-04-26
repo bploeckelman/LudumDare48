@@ -63,8 +63,11 @@ public class Level {
     private Array<SpawnPickup> pickupSpawns;
     private Array<SpawnInteractable> interactableSpawns;
 
+    private GameScreen gameScreen;
+
     public Level(LevelDescriptor levelDescriptor, GameScreen gameScreen) {
         Gdx.app.log("Level", "Loading: " + levelDescriptor);
+        this.gameScreen = gameScreen;
 
         this.assets = gameScreen.game.assets;
         this.currentLevel = levelDescriptor;
@@ -185,7 +188,9 @@ public class Level {
     }
 
     public void update(float dt) {
-
+        for (SpawnEnemy spawner : enemySpawns){
+            spawner.update(dt, gameScreen);
+        }
     }
 
     public Exit getExit() {
