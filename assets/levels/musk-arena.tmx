@@ -26,7 +26,7 @@
   <object id="3" name="exit" type="exit" gid="117" x="864" y="288" width="16" height="16">
    <properties>
     <property name="target-level" value="ending"/>
-    <property name="transition-text" value="level2Text1"/>
+    <property name="transition-text" value="epilogue"/>
     <property name="transition-type" value="ending"/>
    </properties>
   </object>
