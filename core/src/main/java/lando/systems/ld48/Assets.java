@@ -155,7 +155,7 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/capture.ogg", Sound.class);
             mgr.load("audio/sound/coin.ogg", Sound.class);
             mgr.load("audio/sound/die.ogg", Sound.class);
-            mgr.load("audio/sound/door.ogg", Sound.class);
+            mgr.load("audio/sound/dooropen.ogg", Sound.class);
             mgr.load("audio/sound/example.wav", Sound.class);
             mgr.load("audio/sound/jump.ogg", Sound.class);
             mgr.load("audio/sound/lever.ogg", Sound.class);
@@ -278,7 +278,7 @@ public class Assets implements Disposable {
         captureSound = mgr.get("audio/sound/capture.ogg", Sound.class);
         coinSound = mgr.get("audio/sound/coin.ogg", Sound.class);
         deathSound = mgr.get("audio/sound/die.ogg", Sound.class);
-        doorSound = mgr.get("audio/sound/door.ogg", Sound.class);
+        doorSound = mgr.get("audio/sound/dooropen.ogg", Sound.class);
         exampleSound = mgr.get("audio/sound/example.wav", Sound.class);
         jumpSound = mgr.get("audio/sound/jump.ogg", Sound.class);
         leverSound = mgr.get("audio/sound/lever.ogg", Sound.class);

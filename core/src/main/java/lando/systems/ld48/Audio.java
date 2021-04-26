@@ -35,6 +35,7 @@ public class Audio implements Disposable {
         laser,
         lever,
         missile,
+        popout,
         uncapture,
         zuckRam,
         zuckTank
