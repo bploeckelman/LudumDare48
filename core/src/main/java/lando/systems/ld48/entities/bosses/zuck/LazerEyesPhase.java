@@ -51,7 +51,7 @@ public class LazerEyesPhase extends BossPhase {
 
         this.target.set(targetA);
         Timeline.createSequence()
-                .pushPause(1f)
+                .pushPause(2f)
                 .push(Tween.call((type, source) -> blastin = true))
                 .push(Tween.to(target, Vector2Accessor.XY, 1.0f).target(targetB.x, targetB.y))//.ease(Quint.INOUT))
 //                .push(Tween.call((type, source) -> blastin = false))

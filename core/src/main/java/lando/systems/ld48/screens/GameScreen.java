@@ -50,6 +50,8 @@ public class GameScreen extends BaseScreen {
     public GameScreen(Game game) {
         super(game);
         this.player = new Player(this, 0, 0);
+        // ZUCK TESTING
+//        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.core, "introText"), this);
         this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.introduction, "introText"), this);
     }
 

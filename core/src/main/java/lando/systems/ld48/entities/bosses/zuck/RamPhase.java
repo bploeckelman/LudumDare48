@@ -19,7 +19,7 @@ public class RamPhase extends BossPhase {
     private boolean isZoomZoom;
 
     public RamPhase(Boss boss) {
-        super(boss, () -> new IdlePhase(boss));
+        super(boss, () -> new MissilePhase(boss));
         this.zuck = (ZuckTank) boss;
         this.iFramesTimer = 0f;
         this.zoom = new Vector2();

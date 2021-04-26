@@ -211,9 +211,9 @@ public class Assets implements Disposable {
         soldierFallAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-jump"),  Animation.PlayMode.REVERSED);
         soldierDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-idle"),   Animation.PlayMode.NORMAL);
 
-        zuckTankMissileAnimation = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-missile/zuck-missile"), Animation.PlayMode.NORMAL);
+        zuckTankMissileAnimation = new Animation<>(0.3f, atlas.findRegions("bosses/zuck-tank/zuck-tank-missile/zuck-missile"), Animation.PlayMode.NORMAL);
         zuckTankLowerAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-lower/zuck-tank-lower"), Animation.PlayMode.NORMAL);
-        zuckTankTalkAnimation    = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-talk/zuck-tank-talk"), Animation.PlayMode.NORMAL);
+        zuckTankTalkAnimation    = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-talk/zuck-tank-talk"), Animation.PlayMode.LOOP);
         zuckTankIdleAAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-idle-a/zuck-tank-idle-a"), Animation.PlayMode.LOOP_PINGPONG);
         zuckTankIdleBAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-idle-b/zuck-tank-idle-b"), Animation.PlayMode.LOOP_PINGPONG);
         zuckTankShootAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-shoot/zuck-tank-shoot"), Animation.PlayMode.NORMAL);

@@ -4,10 +4,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld48.Assets;
 import lando.systems.ld48.entities.Bullet;
+import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.entities.bosses.Boss;
 import lando.systems.ld48.entities.bosses.BossPhase;
 import lando.systems.ld48.screens.GameScreen;
@@ -20,6 +24,8 @@ public class ZuckTank extends Boss {
     final Vector2 position;
     final Rectangle imageBounds;
     final Rectangle collisionBounds;
+
+    final Array<Missile> missiles;
 
     boolean alive;
     BossPhase currentPhase;
@@ -60,6 +66,7 @@ public class ZuckTank extends Boss {
         this.position = new Vector2();
         this.imageBounds = new Rectangle();
         this.collisionBounds = new Rectangle();
+        this.missiles = new Array<>();
 
         setPosition(x, y);
 
@@ -96,6 +103,21 @@ public class ZuckTank extends Boss {
             }
         }
 
+        // check for missiles hitting player or going out of bounds or something?
+        Player player = screen.player;
+        for (int i = missiles.size - 1; i >= 0; i--) {
+            Missile missile = missiles.get(i);
+            missile.update(dt);
+            if (Intersector.overlaps(missile.bounds, player.collisionBounds)) {
+                player.hitPoints -= 5;
+                screen.particles.physics(missile.bounds.x, missile.bounds.y);
+                missiles.removeIndex(i);
+            }
+            if (missile.lifetime <= 0) {
+                missiles.removeIndex(i);
+            }
+        }
+
         if (currentPhase != null) {
             currentPhase.update(dt);
             if (currentPhase.isComplete()) {
@@ -113,6 +135,9 @@ public class ZuckTank extends Boss {
     public void render(SpriteBatch batch) {
         TextureRegion keyframe = animation.getKeyFrame(stateTime);
         batch.draw(keyframe, imageBounds.x, imageBounds.y, imageBounds.width, imageBounds.height);
+
+        missiles.forEach(missile -> missile.draw(batch));
+
         if (currentPhase != null) {
             currentPhase.render(batch);
         }
@@ -136,6 +161,33 @@ public class ZuckTank extends Boss {
     public void removeFromScreen() {
         if (screen.boss == this) {
             screen.boss = null;
+        }
+    }
+
+    static class Missile {
+        public Circle bounds = new Circle();
+        public Vector2 velocity = new Vector2();
+        public float speed = 300f;
+        public TextureRegion keyframe = null;
+        public Animation<TextureRegion> missileAnim = null;
+        public float stateTime = 0f;
+        public float lifetime = 5f;
+        public Missile(ZuckTank zuck, float velX, float velY) {
+            bounds.set(zuck.position.x, zuck.position.y, 22f);
+            velocity.set(velX, velY).nor();
+            missileAnim = zuck.animations.missile;
+        }
+        public void update(float dt) {
+            lifetime -= dt;
+            stateTime += dt;
+            keyframe = missileAnim.getKeyFrame(stateTime);
+            float speedX = speed * velocity.x * dt;
+            float speedY = speed * velocity.y * dt;
+            bounds.setPosition(bounds.x + speedX, bounds.y + speedY);
+        }
+        public void draw(SpriteBatch batch) {
+            if (keyframe == null) return;
+            batch.draw(keyframe, bounds.x - keyframe.getRegionWidth() / 2f, bounds.y - keyframe.getRegionHeight() / 2f);
         }
     }
 
