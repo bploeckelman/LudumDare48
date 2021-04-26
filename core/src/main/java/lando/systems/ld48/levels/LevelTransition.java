@@ -93,7 +93,7 @@ public class LevelTransition {
         this.typingLabel.setWidth((1f / 3f) * screenWidth);
         this.typingLabel.setFontScale(.16f);
         this.typingLabel.setLineAlign(Align.left);
-        this.typingLabel.setX(0);
+        this.typingLabel.setX(15f);
         this.typingLabel.setY(screenHeight / 2f + typingLabel.getHeight() / 2f - 15);
 
         // setup transition
@@ -139,7 +139,7 @@ public class LevelTransition {
 
     public void render(SpriteBatch batch, OrthographicCamera camera) {
         // black background
-        batch.setColor(Color.BLACK);
+        batch.setColor(0f / 255f, 0f / 255f, 16 / 255f, 1f);
         batch.draw(pixel, 0, 0, camera.viewportWidth, camera.viewportHeight);
         batch.setColor(Color.WHITE);
 
@@ -169,6 +169,10 @@ public class LevelTransition {
         float playerY = hCenter - playerKeyframe.getRegionHeight() / 2f - transitionHeightOffset;
         batch.draw(playerKeyframe, playerX, playerY);
 
+        assets.debugNinePatch.draw(batch, this.typingLabel.getX() - 7.5f, this.typingLabel.getY() - (this.typingLabel.getHeight() + 10f), (1f / 3f) * screen.getWorldCamera().viewportWidth + 15f, this.typingLabel.getHeight() + 20f);
+        batch.setColor(64f / 255f, 64f / 255f, 64f / 255f, 0.5f);
+        batch.draw(assets.whitePixel, this.typingLabel.getX() - 7.5f, this.typingLabel.getY() - (this.typingLabel.getHeight() + 10f), (1f / 3f) * screen.getWorldCamera().viewportWidth + 15f, this.typingLabel.getHeight() + 20f);
+        batch.setColor(Color.WHITE);
         typingLabel.render(batch);
 
         // fade to black overlay
