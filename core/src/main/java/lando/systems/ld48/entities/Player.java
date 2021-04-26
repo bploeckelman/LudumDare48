@@ -23,6 +23,7 @@ public class Player extends MovableEntity {
     public boolean capturing = false;
     public float captureProgress = 0;
     private Progress captureProgressBar;
+    private Progress overheatBar;
 
     private AnimationSet defaultAnimationSet;
     public boolean isOffScreen;
@@ -45,6 +46,7 @@ public class Player extends MovableEntity {
         defaultAnimationSet = animationSet;
 
         captureProgressBar = new Progress(assets);
+        overheatBar = new Progress(assets, true);
     }
 
     @Override
@@ -99,6 +101,11 @@ public class Player extends MovableEntity {
         if (captureProgress > 0) {
             captureProgressBar.draw(batch, captureProgress, imageBounds.x,
                     imageBounds.y + imageBounds.height + 5, imageBounds.width, 2);
+        }
+
+        if (this.currentHeat > 0) {
+            overheatBar.draw(batch, Math.min(currentHeat/2, 1), imageBounds.x - 5,
+                    imageBounds.y, 1, imageBounds.height);
         }
     }
 

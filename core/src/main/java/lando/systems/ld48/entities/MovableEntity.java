@@ -20,9 +20,9 @@ public class MovableEntity extends GameEntity {
     private float jumpKeyHeldTimer = 0f;
 
     private float attackCD = 0f;
-    private float burstCD = 0f;
+    protected float burstCD = 0f;
     protected float attackDuration = 0.5f;
-    private float currentHeat = 0f;
+    protected float currentHeat = 0f;
     protected float attackHeat = 0.7f;
 
     private float deathTime = 1f;
