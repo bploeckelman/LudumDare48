@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 import lando.systems.ld48.Assets;
+import lando.systems.ld48.Audio;
 import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.screens.EndScreen;
 import lando.systems.ld48.screens.GameScreen;
@@ -30,6 +31,7 @@ public class LevelTransition {
     private LevelDescriptor targetLevel;
     private Assets assets;
     private GameScreen screen;
+    private Audio.Musics music;
 
     private Player player;
     private TextureRegion pixel;
@@ -53,11 +55,24 @@ public class LevelTransition {
         switch (type) {
             default:
             //TODO: update transition text to fit the lore, update transitionText as necessary. May need to move transitionText to more appropriate place
-            case military: background = screen.game.assets.levelTransitionMilitary; break;
-            case organic:  background = screen.game.assets.levelTransitionOrganic;  break;
-            case alien:    background = screen.game.assets.levelTransitionAlien;    break;
-            case ending:   background = screen.game.assets.levelTransitionMilitary; break;
+            case military: {
+                background = screen.game.assets.levelTransitionMilitary;
+                music = Audio.Musics.level1elevator;
+            } break;
+            case organic: {
+                background = screen.game.assets.levelTransitionOrganic;
+                music = Audio.Musics.level2elevator;
+            } break;
+            case alien: {
+                background = screen.game.assets.levelTransitionAlien;
+                music = Audio.Musics.level3elevator;
+            } break;
+            case ending: {
+                background = screen.game.assets.levelTransitionMilitary;
+                music = Audio.Musics.level1boss;
+            } break;
         }
+        screen.game.audio.playMusic(music, true);
 
         this.screen = screen;
         this.assets = screen.game.assets;
@@ -155,19 +170,6 @@ public class LevelTransition {
         batch.draw(playerKeyframe, playerX, playerY);
 
         typingLabel.render(batch);
-//        if (drawText) {
-//            float prevScaleX = assets.pixelFont16.getData().scaleX;
-//            float prevScaleY = assets.pixelFont16.getData().scaleY;
-//            assets.pixelFont16.getData().setScale(0.16f);
-//            float prevLineHeight = assets.pixelFont16.getData().lineHeight;
-//            assets.pixelFont16.getData().setLineHeight(60f);
-//            {
-//                assets.layout.setText(assets.pixelFont16, text, Color.FIREBRICK, (1f / 3f) * camera.viewportWidth, Align.right, false);
-//                assets.pixelFont16.draw(batch, assets.layout, 0f, camera.viewportHeight / 2f + assets.layout.height / 2f);
-//            }
-//            assets.pixelFont16.getData().setScale(prevScaleX, prevScaleY);
-//            assets.pixelFont16.getData().setLineHeight(prevLineHeight);
-//        }
 
         // fade to black overlay
         batch.setColor(0f / 255f, 0f / 255f, 16 / 255f, fade.floatValue());
@@ -176,6 +178,23 @@ public class LevelTransition {
     }
 
     private void goToNextLevel(GameScreen screen) {
+        switch (type) {
+            default:
+            case military: {
+                music = Audio.Musics.level1;
+            } break;
+            case organic: {
+                music = Audio.Musics.level2;
+            } break;
+            case alien: {
+                music = Audio.Musics.level3;
+            } break;
+            case ending: {
+                music = Audio.Musics.level1boss;
+            } break;
+        }
+        screen.game.audio.playMusic(music, true);
+
         if (this.type == LevelTransition.Type.ending && this.targetLevel == LevelDescriptor.ending) {
             screen.game.setScreen(new EndScreen(screen.game));
         } else {
