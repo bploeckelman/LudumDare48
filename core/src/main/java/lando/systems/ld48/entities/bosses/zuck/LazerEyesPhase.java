@@ -2,15 +2,17 @@ package lando.systems.ld48.entities.bosses.zuck;
 
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.equations.Quint;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.entities.Player;
 import lando.systems.ld48.entities.bosses.Boss;
 import lando.systems.ld48.entities.bosses.BossPhase;
+import lando.systems.ld48.levels.Level;
 import lando.systems.ld48.utils.accessors.Vector2Accessor;
 
 public class LazerEyesPhase extends BossPhase {
@@ -25,7 +27,7 @@ public class LazerEyesPhase extends BossPhase {
     private float iFramesTimer;
 
     public LazerEyesPhase(Boss boss) {
-        super(boss, () -> new ZuckPhase3(boss));
+        super(boss, () -> new RamPhase(boss));
         this.zuck = (ZuckTank) boss;
         this.complete = false;
         this.target = new Vector2();
@@ -40,28 +42,36 @@ public class LazerEyesPhase extends BossPhase {
 
         this.blastin = false;
 
-        Vector2 targetA = new Vector2(zuck.position.x, zuck.position.y - zuck.imageBounds.height / 2f);
-        Vector2 targetB = new Vector2(zuck.position.x - 500f, zuck.position.y);
-        Vector2 targetC = new Vector2(zuck.position.x, zuck.position.y + zuck.imageBounds.height + zuck.imageBounds.height / 2f);
+        TiledMapTileLayer tileLayer = zuck.screen.level.getLayer(Level.LayerType.collision).tileLayer;
+        float mapHeight = tileLayer.getHeight() * tileLayer.getTileHeight();
+        Vector2 targetA = new Vector2(zuck.position.x, 0);
+        Vector2 targetB = new Vector2(0, 0);
+        Vector2 targetC = new Vector2(0, mapHeight);
+        Vector2 targetD = new Vector2(zuck.position.x, mapHeight);
 
         this.target.set(targetA);
         Timeline.createSequence()
                 .pushPause(1f)
                 .push(Tween.call((type, source) -> blastin = true))
-                .push(Tween.to(target, Vector2Accessor.XY, 2f).target(targetB.x, targetB.y).ease(Quint.INOUT))
-                .push(Tween.to(target, Vector2Accessor.XY, 1.33f).target(targetC.x, targetC.y).ease(Quint.INOUT))
-                .push(Tween.call((type, source) -> blastin = false))
-                .pushPause(0.5f)
+                .push(Tween.to(target, Vector2Accessor.XY, 1.0f).target(targetB.x, targetB.y))//.ease(Quint.INOUT))
+//                .push(Tween.call((type, source) -> blastin = false))
+//                .pushPause(0.6f)
+//                .push(Tween.call((type, source) -> blastin = true))
+                .push(Tween.to(target, Vector2Accessor.XY, 1.5f).target(targetC.x, targetC.y))//.ease(Quint.INOUT))
+//                .push(Tween.call((type, source) -> blastin = false))
+//                .pushPause(0.6f)
+//                .push(Tween.call((type, source) -> blastin = true))
+                .push(Tween.to(target, Vector2Accessor.XY, 1.0f).target(targetD.x, targetD.y))//.ease(Quint.INOUT))
+//                .push(Tween.call((type, source) -> blastin = false))
+//                .pushPause(0.6f)
                 .push(Tween.call((type, source) -> complete = true))
                 .start(zuck.screen.game.tween);
+
+        Gdx.app.log("lazer phase", "started");
     }
 
     @Override
     public void update(float dt) {
-        iFramesTimer -= dt;
-        if (iFramesTimer < 0f) {
-            iFramesTimer = 0f;
-        }
         if (iFramesTimer == 0f && blastin) {
             Player player = zuck.screen.player;
             eye1Start.set(zuck.position.x - 28, zuck.position.y + 43);
@@ -71,10 +81,15 @@ public class LazerEyesPhase extends BossPhase {
             boolean hitPlayer1 = Intersector.intersectSegmentRectangle(eye1Start, eye1End, player.collisionBounds);
             boolean hitPlayer2 = Intersector.intersectSegmentRectangle(eye2Start, eye2End, player.collisionBounds);
             if (hitPlayer1 || hitPlayer2) {
-                player.hitPoints -= 1;
+                player.hitPoints -= 2;
                 zuck.screen.particles.interact(player.position.x, player.position.y);
                 iFramesTimer = 2f;
             }
+        }
+
+        iFramesTimer -= dt;
+        if (iFramesTimer < 0f) {
+            iFramesTimer = 0f;
         }
     }
 

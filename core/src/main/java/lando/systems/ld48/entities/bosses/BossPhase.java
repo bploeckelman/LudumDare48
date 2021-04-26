@@ -22,7 +22,8 @@ public abstract class BossPhase {
     }
 
     public abstract void update(float dt);
-    public abstract void render(SpriteBatch batch);
+
+    public void render(SpriteBatch batch) {}
 
     public boolean isComplete() {
         return complete;

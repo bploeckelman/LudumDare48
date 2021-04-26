@@ -54,20 +54,29 @@ public class ZuckTank extends Boss {
 
         this.stateTime = 0f;
         this.animation = animations.idleA;
-        float scale = 1f;
-        float width  = scale * this.animation.getKeyFrames()[0].getRegionWidth();
-        float height = scale * this.animation.getKeyFrames()[0].getRegionHeight();
 
         this.screen = screen;
         this.assets = screen.game.assets;
-        this.position = new Vector2(x, y);
-        this.imageBounds = new Rectangle(x - width / 2, y - height / 2, width, height);
-        float margin = (1f / 3f) * imageBounds.width;
-        this.collisionBounds = new Rectangle(imageBounds.x + margin, imageBounds.y, imageBounds.width - 2f * margin, imageBounds.height);
+        this.position = new Vector2();
+        this.imageBounds = new Rectangle();
+        this.collisionBounds = new Rectangle();
+
+        setPosition(x, y);
 
         this.currentPhase = new IdlePhase(this);
 
         this.alive = true;
+    }
+
+    public void setPosition(float x, float y) {
+        float scale = 1f;
+        float width  = scale * animation.getKeyFrames()[0].getRegionWidth();
+        float height = scale * animation.getKeyFrames()[0].getRegionHeight();
+
+        position.set(x, y);
+        imageBounds.set(x - width / 2, y - height / 2, width, height);
+        float margin = (1f / 3f) * imageBounds.width;
+        collisionBounds.set(imageBounds.x + margin, imageBounds.y, imageBounds.width - 2f * margin, imageBounds.height);
     }
 
     @Override
