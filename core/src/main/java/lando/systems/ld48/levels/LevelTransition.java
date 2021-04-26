@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 import lando.systems.ld48.Assets;
 import lando.systems.ld48.entities.Player;
+import lando.systems.ld48.screens.EndScreen;
 import lando.systems.ld48.screens.GameScreen;
 import lando.systems.ld48.ui.typinglabel.TypingLabel;
 
@@ -22,7 +23,7 @@ import lando.systems.ld48.ui.typinglabel.TypingLabel;
 
 public class LevelTransition {
 
-    public enum Type { military, organic, alien }
+    public enum Type { military, organic, alien, ending }
 
     private Type type;
     private Texture background;
@@ -45,15 +46,18 @@ public class LevelTransition {
     private boolean outroStarted = false;
 
     private TypingLabel typingLabel;
+    private String transitionText;
 
     public LevelTransition(Exit exit, GameScreen screen) {
         this.type = exit.levelTransitionType;
         this.targetLevel = exit.targetLevel;
         switch (type) {
             default:
-            case military: background = screen.game.assets.levelTransitionMilitary; break;
-            case organic:  background = screen.game.assets.levelTransitionOrganic;  break;
-            case alien:    background = screen.game.assets.levelTransitionAlien;  break;
+            //TODO: update transition text to fit the lore, update transitionText as necessary. May need to move transitionText to more appropriate place
+            case military: background = screen.game.assets.levelTransitionMilitary; transitionText = "level1Text"; break;
+            case organic:  background = screen.game.assets.levelTransitionOrganic;  transitionText = "level2Text"; break;
+            case alien:    background = screen.game.assets.levelTransitionAlien;    transitionText = "level3Text"; break;
+            case ending:   background = screen.game.assets.levelTransitionMilitary; transitionText = "endingText"; break;
         }
 
         this.screen = screen;
@@ -71,7 +75,7 @@ public class LevelTransition {
         final float screenWidth  = screen.getWorldCamera().viewportWidth;
         final float screenHeight = screen.getWorldCamera().viewportHeight;
 
-        this.typingLabel = new TypingLabel(assets.pixelFont16, assets.strings.get("test"), 90, screenHeight - 90);
+        this.typingLabel = new TypingLabel(assets.pixelFont16, assets.strings.get(transitionText), 90, screenHeight - 90);
         this.typingLabel.setWidth((1f / 3f) * screenWidth);
         this.typingLabel.setFontScale(.16f);
         this.typingLabel.setLineAlign(Align.right);
@@ -173,8 +177,12 @@ public class LevelTransition {
     }
 
     private void goToNextLevel(GameScreen screen) {
-        GameScreen.CameraConstraints.override = false;
-        screen.loadLevel(targetLevel);
+        if (this.type == LevelTransition.Type.ending && this.targetLevel == LevelDescriptor.ending) {
+            screen.game.setScreen(new EndScreen(screen.game));
+        } else {
+            GameScreen.CameraConstraints.override = false;
+            screen.loadLevel(targetLevel);
+        }
     }
 
 }
