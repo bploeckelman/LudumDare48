@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import lando.systems.ld48.Assets;
+import lando.systems.ld48.entities.bosses.zuck.ZuckTank;
 import lando.systems.ld48.physics.Segment2D;
 import lando.systems.ld48.screens.GameScreen;
 import lando.systems.ld48.utils.Utils;
@@ -57,6 +58,7 @@ public class Level {
 
     private Exit exit;
     private SpawnPlayer playerSpawn;
+    private Array<SpawnBoss> bossSpawns;
     private Array<SpawnEnemy> enemySpawns;
     private Array<SpawnPickup> pickupSpawns;
     private Array<SpawnInteractable> interactableSpawns;
@@ -117,6 +119,7 @@ public class Level {
         // load map objects
         exit = null;
         playerSpawn = null;
+        bossSpawns = new Array<>();
         enemySpawns = new Array<>();
         pickupSpawns = new Array<>();
         interactableSpawns = new Array<>();
@@ -139,6 +142,11 @@ public class Level {
                 SpawnEnemy.Type enemyType = SpawnEnemy.Type.valueOf((String) props.get("enemy-type"));
                 SpawnEnemy spawn = new SpawnEnemy(enemyType, x, y, gameScreen.game.assets);
                 enemySpawns.add(spawn);
+            }
+            else if ("spawn-boss".equalsIgnoreCase(type)) {
+                SpawnBoss.Type bossType = SpawnBoss.Type.valueOf((String) props.get("boss-type"));
+                SpawnBoss spawn = new SpawnBoss(bossType, x, y, gameScreen.game.assets);
+                bossSpawns.add(spawn);
             }
             else if ("spawn-pickup".equalsIgnoreCase(type)) {
                 SpawnPickup.Type pickupType = SpawnPickup.Type.valueOf((String) props.get("pickup-type"));
@@ -184,6 +192,10 @@ public class Level {
 
     public SpawnPlayer getPlayerSpawn() {
         return playerSpawn;
+    }
+
+    public Array<SpawnBoss> getBossSpawns() {
+        return bossSpawns;
     }
 
     public Array<SpawnEnemy> getEnemySpawns() {
