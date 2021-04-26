@@ -252,7 +252,7 @@ public class Assets implements Disposable {
         reptilianAttackAnimation = new Animation<>(0.1f, atlas.findRegions("enemies/reptilian/reptilian-shoot/reptilian-shoot"), Animation.PlayMode.NORMAL);
         reptilianJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("enemies/reptilian/reptilian-jump/reptilian-jump"),  Animation.PlayMode.NORMAL);
         reptilianFallAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/reptilian/reptilian-jump/reptilian-jump"),  Animation.PlayMode.REVERSED);
-        reptilianDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/reptilian/reptilian-idle"),   Animation.PlayMode.NORMAL);
+        reptilianDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/reptilian/reptilian-idle/reptilian-idle"),   Animation.PlayMode.NORMAL);
 
         reptilianBabyAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/reptilian-baby/reptilian-baby"),   Animation.PlayMode.NORMAL);
 
