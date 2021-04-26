@@ -51,23 +51,8 @@ public class TitleScreen extends BaseScreen {
             float width  = worldCamera.viewportWidth;
             float height = worldCamera.viewportHeight;
 
-            batch.setColor(Color.SKY);
-            batch.draw(game.assets.pixel, 0, 0, width, height);
-
-            batch.setColor(1f, 1f, 1f, backgroundAlpha);
-            batch.draw(game.assets.title, 0, 0, width, height);
-
             batch.setColor(Color.WHITE);
-            TextureRegion catKeyFrame = cat.getKeyFrame(stateTime);
-            TextureRegion dogKeyFrame = dog.getKeyFrame(stateTime);
-            if (!catKeyFrame.isFlipX()) {
-                catKeyFrame.flip(true, false);
-            }
-            float left  = (1f / 3f) * width - catKeyFrame.getRegionWidth() / 2f;
-            float right = (2f / 3f) * width - dogKeyFrame.getRegionWidth() / 2f;
-            float y     = (1f / 4f) * height;
-            batch.draw(catKeyFrame, left, y);
-            batch.draw(dogKeyFrame, right, y);
+            batch.draw(game.assets.title, 0, 0, width, height);
         }
         batch.end();
 
@@ -76,12 +61,17 @@ public class TitleScreen extends BaseScreen {
         {
             float width  = windowCamera.viewportWidth;
             float height = windowCamera.viewportHeight;
-            float targetWidth = (1f / 3f) * width;
-            game.assets.layout.setText(game.assets.pixelFont16, "Is Game,\n\ntouch to play!", Color.SALMON, targetWidth, Align.center, true);
+            float targetWidth = (1f / 3f) * width - 75f;
+            float x = width - targetWidth - 20f;
+            float y = (1f / 3f) * height - 110f;
 
-            float x = targetWidth;
-            float y = (2f / 3f) * height;
-            game.assets.pixelFont16.draw(batch, game.assets.layout, x, y);
+            game.assets.layout.setText(game.assets.pixelFont16, "Click to start your adventure!", Color.WHITE, targetWidth, Align.center, true);
+            batch.setColor(Color.WHITE);
+            game.assets.roundedBoxNinePatch.draw(batch, x - 7.5f, y - 120f, targetWidth + 15f,  100f);
+            batch.setColor(64f / 255f, 64f / 255f, 64f / 255f, 0.5f);
+            batch.draw(game.assets.whitePixel, x - 7.5f, y - 120f, targetWidth + 15f, 100f);
+            batch.setColor(Color.WHITE);
+            game.assets.pixelFont16.draw(batch, game.assets.layout, x, y - 35f);
         }
         batch.end();
     }

@@ -148,7 +148,7 @@ public class Assets implements Disposable {
         mgr = new AssetManager();
         {
             mgr.load(new AssetDescriptor<>("images/pixel.png", Texture.class));
-            mgr.load(new AssetDescriptor<>("images/title.png", Texture.class));
+            mgr.load(new AssetDescriptor<>("images/elon-flux-title-screen.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/elevator-military.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/elevator-organic.png", Texture.class));
             mgr.load(new AssetDescriptor<>("images/elevator-alien.png", Texture.class));
@@ -202,7 +202,7 @@ public class Assets implements Disposable {
         if (initialized) return 1f;
 
         pixel = mgr.get("images/pixel.png");
-        title = mgr.get("images/title.png");
+        title = mgr.get("images/elon-flux-title-screen.png");
 
         levelTransitionMilitary = mgr.get("images/elevator-military.png");
         levelTransitionOrganic  = mgr.get("images/elevator-organic.png");
