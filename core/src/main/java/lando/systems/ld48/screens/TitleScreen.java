@@ -17,6 +17,8 @@ public class TitleScreen extends BaseScreen {
     Animation<TextureRegion> cat;
     Animation<TextureRegion> dog;
 
+    private boolean hasSetScreen = false;
+
     public TitleScreen(Game game) {
         super(game);
         cat = game.assets.cat;
@@ -34,12 +36,9 @@ public class TitleScreen extends BaseScreen {
     @Override
     public void update(float dt) {
         stateTime += dt;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            Time.pause_for(1f);
-            backgroundAlpha = 1f;
-        }
-        if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
+        if ((Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) && !hasSetScreen) {
             game.setScreen(new GameScreen(game));
+            hasSetScreen = true;
         }
     }
 
