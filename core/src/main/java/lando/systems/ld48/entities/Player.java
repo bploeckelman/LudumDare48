@@ -1,9 +1,7 @@
 package lando.systems.ld48.entities;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld48.levels.SpawnPlayer;
@@ -32,8 +30,8 @@ public class Player extends MovableEntity {
     public Player(GameScreen screen, float x, float y) {
         super(screen, screen.game.assets.playerAnimation, screen.game.assets.playerMoveAnimation);
 
-        setJump(screen.game.assets.playerJumpAnimation, 200f);
-        setFall(screen.game.assets.playerFallAnimation);
+//        setJump(screen.game.assets.playerJumpAnimation, 200f);
+        setFall(screen.game.assets.playerAnimation);
 
         initEntity(x, y, keyframe.getRegionWidth() * SCALE, keyframe.getRegionHeight() * SCALE);
 
@@ -50,6 +48,11 @@ public class Player extends MovableEntity {
         float paddingX = (1f / 2f) * width;
         collisionBounds.set(x + paddingX / 2f, y, width - paddingX, height);
         setPosition(x, y);
+    }
+
+    @Override
+    public float getGravityModifier() {
+        return (capturedEnemy == null) ? 0.1f : 1f;
     }
 
     @Override
@@ -135,20 +138,20 @@ public class Player extends MovableEntity {
     }
 
     private boolean updateDeath(float dt) {
-        if (deathTime == -1 || !isGrounded()) return false;
+//        if (deathTime == -1 || !isGrounded()) return false;
+//
+//        Animation<TextureRegion> deathAnimation = assets.playerDieAnimation;
+//        float duration = deathAnimation.getAnimationDuration();
+//        float deathAnimTime = 7f;
+//
+//        deathTime += dt;
+//        keyframe = deathAnimation.getKeyFrame(deathTime);
+//        if (deathTime > deathAnimTime) {
+//            dead = false;
+//            deathTime = -1;
+//        }
 
-        Animation<TextureRegion> deathAnimation = assets.playerDieAnimation;
-        float duration = deathAnimation.getAnimationDuration();
-        float deathAnimTime = 7f;
-
-        deathTime += dt;
-        keyframe = deathAnimation.getKeyFrame(deathTime);
-        if (deathTime > deathAnimTime) {
-            dead = false;
-            deathTime = -1;
-        }
-
-        return true;
+        return false;
     }
 
     public void possess(EnemyEntity enemy) {
@@ -157,8 +160,9 @@ public class Player extends MovableEntity {
         }
 
         capturedEnemy = enemy;
-        animationSet = (capturedEnemy != null) ? capturedEnemy.animationSet : defaultAnimationSet;
 
+        animationSet = (capturedEnemy != null) ? capturedEnemy.animationSet : defaultAnimationSet;
+        jumpVelocity = (capturedEnemy != null) ? /*capturedEnemy.jumpVelocity*/ 200 : 0;
         state = State.standing;
         animation = animationSet.IdleAnimation;
     }

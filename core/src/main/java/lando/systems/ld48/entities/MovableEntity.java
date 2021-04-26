@@ -16,7 +16,7 @@ public class MovableEntity extends GameEntity {
 
     public boolean jumpHeld = false;
     private float jumpTime = 1f;
-    private float jumpVelocity = 0f;
+    protected float jumpVelocity = 0f;
     private float jumpKeyHeldTimer = 0f;
 
     private float attackTime = 1f;
@@ -145,7 +145,7 @@ public class MovableEntity extends GameEntity {
     }
 
     public void jump() {
-        if (state != State.jump && state != State.jumping && state != State.attacking && isGrounded()) {
+        if (state != State.jump && state != State.jumping && state != State.attacking && isGrounded() && animationSet.JumpAnimation != null) {
             screen.game.audio.playSound(Audio.Sounds.jump);
             jumpTime = 0;
             jumpKeyHeldTimer = 0;

@@ -11,7 +11,7 @@ public class Bullet extends GameEntity {
     public Bullet(GameEntity owner, Vector2 pos) {
         super(owner.screen, owner.assets.cat);
 
-        this.ignoreGravity = true;
+        this.gravityModifier = 0;
         this.owner = owner;
         maxHorizontalVelocity = 400;
         direction = owner.direction;

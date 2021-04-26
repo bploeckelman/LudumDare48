@@ -50,10 +50,10 @@ public class Assets implements Disposable {
 
     public Animation<TextureRegion> playerAnimation;
     public Animation<TextureRegion> playerMoveAnimation;
-    public Animation<TextureRegion> playerAttackAnimation;
-    public Animation<TextureRegion> playerJumpAnimation;
-    public Animation<TextureRegion> playerFallAnimation;
-    public Animation<TextureRegion> playerDieAnimation;
+    //public Animation<TextureRegion> playerAttackAnimation;
+    //public Animation<TextureRegion> playerJumpAnimation;
+    //public Animation<TextureRegion> playerFallAnimation;
+    //public Animation<TextureRegion> playerDieAnimation;
 
     // enemas
     public Animation<TextureRegion> grayAnimation;
@@ -167,10 +167,10 @@ public class Assets implements Disposable {
 
         playerAnimation       = new Animation<>(0.1f, atlas.findRegions("player/ghost-idle"),  Animation.PlayMode.LOOP);
         playerMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.LOOP);
-        playerAttackAnimation = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"), Animation.PlayMode.NORMAL);
-        playerJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("player/ghost-jump"),  Animation.PlayMode.NORMAL);
-        playerFallAnimation   = new Animation<>(0.1f, atlas.findRegions("player/ghost-fall"),  Animation.PlayMode.NORMAL);
-        playerDieAnimation    = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.NORMAL);
+//        playerAttackAnimation = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"), Animation.PlayMode.NORMAL);
+//        playerJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("player/ghost-jump"),  Animation.PlayMode.NORMAL);
+//        playerFallAnimation   = new Animation<>(0.1f, atlas.findRegions("player/ghost-fall"),  Animation.PlayMode.NORMAL);
+//        playerDieAnimation    = new Animation<>(0.1f, atlas.findRegions("player/ghost-move"),   Animation.PlayMode.NORMAL);
 
         grayAnimation       = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),  Animation.PlayMode.LOOP);
         grayMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-run"),   Animation.PlayMode.LOOP);

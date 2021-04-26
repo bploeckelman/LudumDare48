@@ -39,7 +39,7 @@ public class GameEntity implements PhysicsComponent {
     public Vector2 velocity = new Vector2();
     public Vector2 acceleration = new Vector2();
     public float bounceScale = 0.8f;
-    public boolean ignoreGravity = false;
+    protected float gravityModifier = 1f;
 
     public Rectangle imageBounds = new Rectangle();
     public Rectangle collisionBounds = new Rectangle();
@@ -237,9 +237,7 @@ public class GameEntity implements PhysicsComponent {
     }
 
     @Override
-    public boolean ignoreGravity() {
-        return ignoreGravity;
-    }
+    public float getGravityModifier() { return gravityModifier; }
 
     @Override
     public Vector2 getAcceleration() {

@@ -118,7 +118,7 @@ public class PhysicsSystem {
             vel.x *= (float)Math.pow(.02f, dt);
 
             vel.x += accel.x * dt;
-            float gravity = obj.isGrounded() || obj.ignoreGravity() ? 0 : GRAVITY;
+            float gravity = obj.isGrounded() ? 0 : (GRAVITY * obj.getGravityModifier());
             vel.y += (accel.y + gravity) * dt;
 //            if (Math.abs(vel.y) < 4) vel.y = 0;
 
