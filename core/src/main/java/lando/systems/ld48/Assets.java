@@ -93,6 +93,7 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> downArrowsAnimation;
 
     public NinePatch debugNinePatch;
+    public NinePatch roundedBoxNinePatch;
 
     public Sound exampleSound;
     public Sound jumpSound;
@@ -228,6 +229,7 @@ public class Assets implements Disposable {
         downArrowsAnimation  = new Animation<>(0.2f, atlas.findRegions("world/elevator-indicator"),  Animation.PlayMode.LOOP);
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 6, 6, 6, 6);
+        roundedBoxNinePatch = new NinePatch(atlas.findRegion("round_box"), 14, 14, 14, 14);
 
         transitions = new Transitions();
         transitions.blinds     = loadShader("shaders/transitions/default.vert", "shaders/transitions/blinds.frag");

@@ -120,6 +120,10 @@ public class GameScreen extends BaseScreen {
         if (levelTransition != null) {
             levelTransition.update(dt);
         } else {
+            if (player.isOffScreen) {
+                player.updateOffScreen(dt);
+                return;
+            }
             // stash player's current position pre-update in case we need to walk it back
             float playerPrevPosX = Calc.floor(player.position.x);
             float playerPrevPosY = Calc.floor(player.position.y);
@@ -291,6 +295,9 @@ public class GameScreen extends BaseScreen {
                 game.assets.pixelFont16.draw(batch, " fps: " + Gdx.graphics.getFramesPerSecond(), 10f, windowCamera.viewportHeight - 10f);
             }
             // draw overlay ui stuff
+            if (player.isOffScreen){
+                player.renderOffScreenMessage(batch);
+            }
         }
         batch.end();
     }

@@ -4,13 +4,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld48.Game;
 import lando.systems.ld48.levels.SpawnPlayer;
 import lando.systems.ld48.screens.GameScreen;
 import lando.systems.ld48.stuff.Progress;
+import lando.systems.ld48.ui.Modal;
 
 public class Player extends MovableEntity {
 
     public final static float SCALE = 0.75f;
+    public static int offScreenCount = 0;
 
     private final float horizontalSpeed = 20f;
 
@@ -22,6 +25,8 @@ public class Player extends MovableEntity {
     private Progress captureProgressBar;
 
     private AnimationSet defaultAnimationSet;
+    public boolean isOffScreen;
+    private Modal fellOffScreenModal;
 
     public Player(GameScreen screen, SpawnPlayer spawn) {
         this(screen, spawn.pos.x, spawn.pos.y);
@@ -88,6 +93,12 @@ public class Player extends MovableEntity {
         }
     }
 
+    public void renderOffScreenMessage(SpriteBatch batch) {
+        if (fellOffScreenModal != null){
+            fellOffScreenModal.render(batch);
+        }
+    }
+
     private final Color spookyTransparent = new Color(1f, 1f, 1f, 0.5f);
     @Override
     public Color getEffectColor() {
@@ -104,6 +115,23 @@ public class Player extends MovableEntity {
     private void checkIfFellOffscreen() {
         float offStage = -collisionBounds.height;
         if (position.y < offStage) {
+            isOffScreen = true;
+            if (offScreenCount < 2){
+                fellOffScreenModal = new Modal(screen.game.assets, screen.game.assets.strings.get("fallOffScreen"), screen.getWindowCamera());
+            }
+            offScreenCount++;
+        }
+    }
+
+    public void updateOffScreen(float dt) {
+        if (fellOffScreenModal != null){
+            fellOffScreenModal.update(dt);
+            if (fellOffScreenModal.isComplete()) {
+                fellOffScreenModal = null;
+            }
+        }
+        else {
+            isOffScreen = false;
             Array<Rectangle> tiles = new Array<>();
             screen.level.getTiles(position.x, position.y, position.x, 10000, tiles);
 
