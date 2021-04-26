@@ -113,6 +113,26 @@ public class Particles implements Disposable {
         }
     }
 
+    public void interact(float x, float y) {
+        TextureRegion keyframe = assets.particles.circle;
+        testColor.set(Color.GOLD);
+        int numParticles = 50;
+        for (int i = 0; i < numParticles; ++i) {
+            activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
+                    .keyframe(keyframe)
+                    .startPos(x, y)
+                    .velocityDirection(MathUtils.random(0f, 180f), MathUtils.random(100f, 300f))
+                    .startSize(3f)
+                    .endSize(1f)
+                    .startAlpha(1f)
+                    .endAlpha(0f)
+                    .timeToLive(2f)
+                    .startColor(testColor)
+                    .makePhysics()
+                    .init());
+        }
+    }
+
     private Color testColor = new Color();
     public void physics(float x, float y) {
         TextureRegion keyframe = assets.particles.circle;

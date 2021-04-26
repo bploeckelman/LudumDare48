@@ -28,6 +28,7 @@ public class GameEntity implements PhysicsComponent {
     protected TextureRegion keyframe;
     protected Animation<TextureRegion> animation;
     public AnimationSet animationSet;
+    public boolean animationPaused = false;
 
     public State state = State.standing;
     private State lastState = State.standing;
@@ -75,7 +76,7 @@ public class GameEntity implements PhysicsComponent {
         this.screen = screen;
         this.animation = null;
         this.keyframe = keyframe;
-        this.grounded = true;
+        this.grounded = false;
         this.stateTime = 0f;
     }
 
@@ -106,7 +107,9 @@ public class GameEntity implements PhysicsComponent {
             return;
         }
 
-        stateTime += dt;
+        if (!animationPaused) {
+            stateTime += dt;
+        }
 
         if (animation != null) {
             keyframe = animation.getKeyFrame(stateTime);

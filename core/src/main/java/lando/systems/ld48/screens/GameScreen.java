@@ -33,6 +33,7 @@ public class GameScreen extends BaseScreen {
     public CaptureHandler captureHandler;
     public Array<EnemyEntity> enemies;
     public Array<PickupEntity> pickups;
+    public Array<InteractableEntity> interactables;
 
     public PhysicsSystem physicsSystem;
     public Array<PhysicsComponent> physicsEntities;
@@ -59,6 +60,7 @@ public class GameScreen extends BaseScreen {
         this.captureHandler = new CaptureHandler(player, this);
         this.enemies = new Array<>();
         this.pickups = new Array<>();
+        this.interactables = new Array<>();
         this.physicsSystem = new PhysicsSystem(this);
         this.physicsEntities = new Array<>();
         this.physicsEntities.add(player);
@@ -82,6 +84,9 @@ public class GameScreen extends BaseScreen {
             spawner.spawn(this);
         }
         for (SpawnPickup spawner : this.level.getPickupSpawns()) {
+            spawner.spawn(this);
+        }
+        for (SpawnInteractable spawner : this.level.getInteractableSpawns()) {
             spawner.spawn(this);
         }
 
@@ -133,13 +138,25 @@ public class GameScreen extends BaseScreen {
                 }
             }
 
+            // interact with interactable entities
+            if (player.capturedEnemy != null) {
+                for (InteractableEntity interactable : interactables) {
+                    if (player.collisionBounds.overlaps(interactable.collisionBounds)) {
+                        interactable.interact();
+                    }
+                }
+            }
+
             // check for level exit
             // todo - this is abrupt, probably want to trigger an interaction animation like moving the player and making them face front, then spawning a particle system or something
             // todo - this is also a little dumb, probably want a more robust way to check for 'mostly overlapped' (vs 'any overlap' vs 'fully contained')
             if (player.capturedEnemy != null) {
-                Intersector.intersectRectangles(player.collisionBounds, level.getExit().bounds, exitOverlapRectangle);
-                if (exitOverlapRectangle.area() > 500f) {
-                    startLevelTransition(level.getExit());
+                if (Intersector.intersectRectangles(player.collisionBounds, level.getExit().bounds, exitOverlapRectangle)) {
+                    // lol, player got smaller so overlaps weren't counted anymore
+                    float minOverlapArea = 200f;
+                    if (exitOverlapRectangle.area() >= minOverlapArea) {
+                        startLevelTransition(level.getExit());
+                    }
                 }
             }
 
