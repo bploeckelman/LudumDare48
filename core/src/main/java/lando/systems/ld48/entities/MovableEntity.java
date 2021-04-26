@@ -20,7 +20,10 @@ public class MovableEntity extends GameEntity {
     protected float jumpVelocity = 0f;
     private float jumpKeyHeldTimer = 0f;
 
-    private float attackTime = 1f;
+    private float attackCD = 0f;
+    protected float attackDuration = 0.5f;
+    private float burstCD = 0f;
+    protected float attackHeat = 0.7f;
 
     private float deathTime = 1f;
 
@@ -76,6 +79,9 @@ public class MovableEntity extends GameEntity {
             return;
         }
 
+        attackCD = Math.max(0, attackCD - dt);
+        burstCD = Math.max(0, burstCD);
+
         if (velocity.y < -50 || state == State.falling) {
             state = State.falling;
             fallTime += dt;
@@ -111,14 +117,18 @@ public class MovableEntity extends GameEntity {
             }
         }
 
-        if (state == State.attacking) {
-            attackTime += dt;
-            if (animationSet.AttackAnimation != null) {
-                keyframe = animationSet.AttackAnimation.getKeyFrame(attackTime);
-            }
-            if (animationSet.AttackAnimation == null || attackTime > animationSet.AttackAnimation.getAnimationDuration()) {
-                state = Math.abs(velocity.x) > 10 ? State.walking : State.standing;
-            }
+//        if (state == State.attacking) {
+//            attackTime += dt;
+//            if (animationSet.AttackAnimation != null) {
+//                keyframe = animationSet.AttackAnimation.getKeyFrame(attackTime);
+//            }
+//            if (animationSet.AttackAnimation == null || attackTime > animationSet.AttackAnimation.getAnimationDuration()) {
+//                state = Math.abs(velocity.x) > 10 ? State.walking : State.standing;
+//            }
+//        }
+
+        if (this.attackCD != 0 && this.attackCD + this.animationSet.AttackAnimation.getAnimationDuration() > this.attackDuration) {
+            this.keyframe = animationSet.AttackAnimation.getKeyFrame(attackDuration - attackCD);
         }
 
         if (state == State.standing && lastState != State.standing) {
@@ -155,11 +165,14 @@ public class MovableEntity extends GameEntity {
     }
 
     public void attack() {
-        if ((this.state == State.standing || this.state == State.walking) && this.animationSet.AttackAnimation != null) {
+        if (this.animationSet.AttackAnimation != null && this.attackCD == 0) {
             screen.game.audio.playSound(Audio.Sounds.attack);
-            attackTime = 0;
-            state = State.attacking;
+            attackCD = attackDuration;
             new Bullet(this, position);
+            this.burstCD += attackHeat;
+            if (this.attackHeat > 2) {
+                this.attackCD = attackHeat;
+            }
         }
     }
 

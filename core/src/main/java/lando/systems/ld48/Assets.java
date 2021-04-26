@@ -226,14 +226,14 @@ public class Assets implements Disposable {
 
         grayAnimation       = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),  Animation.PlayMode.LOOP);
         grayMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-run"),   Animation.PlayMode.LOOP);
-        grayAttackAnimation = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-shoot"), Animation.PlayMode.NORMAL);
+        grayAttackAnimation = new Animation<>(0.07f, atlas.findRegions("enemies/gray/gray-shoot"), Animation.PlayMode.NORMAL);
         grayJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.NORMAL);
         grayFallAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-jump"),  Animation.PlayMode.REVERSED);
         grayDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/gray/gray-idle"),   Animation.PlayMode.NORMAL);
 
         soldierAnimation       = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-idle"),  Animation.PlayMode.LOOP);
         soldierMoveAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-run"),   Animation.PlayMode.LOOP);
-        soldierAttackAnimation = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-shoot"), Animation.PlayMode.NORMAL);
+        soldierAttackAnimation = new Animation<>(0.04f, atlas.findRegions("enemies/soldier/soldier-shoot"), Animation.PlayMode.NORMAL);
         soldierJumpAnimation   = new Animation<>(0.03f, atlas.findRegions("enemies/soldier/soldier-jump"),  Animation.PlayMode.NORMAL);
         soldierFallAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-jump"),  Animation.PlayMode.REVERSED);
         soldierDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-idle"),   Animation.PlayMode.NORMAL);
