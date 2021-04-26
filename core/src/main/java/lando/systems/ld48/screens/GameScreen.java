@@ -94,9 +94,10 @@ public class GameScreen extends BaseScreen {
             case test:  backTexture = game.assets.sunsetBackground; break;
             case test2: backTexture = game.assets.desertBackground; break;
             case test3: backTexture = game.assets.desertBackground; break;
-            case core:  backTexture = game.assets.coreBackground; break;
+            case musk_arena:  backTexture = game.assets.coreBackground; break;
         }
-        this.background = new ParallaxBackground(new TextureRegionParallaxLayer(backTexture, levelWidth, levelHeight, scrollRatio));
+        TextureRegionParallaxLayer parallax = new TextureRegionParallaxLayer(backTexture, levelWidth, levelHeight, scrollRatio);
+        this.background = new ParallaxBackground(parallax);
 
         // immediately spawn stuff, probably not enough time to get clever spawning setup
         for (SpawnBoss spawner : this.level.getBossSpawns()) {
