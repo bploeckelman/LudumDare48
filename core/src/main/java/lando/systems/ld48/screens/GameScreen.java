@@ -217,7 +217,7 @@ public class GameScreen extends BaseScreen {
         }
     }
 
-    private boolean doorTutorialShown = false;
+    public boolean doorTutorialShown = false;
     private void showDoorTutorial() {
         if (doorTutorialShown) { return; }
 

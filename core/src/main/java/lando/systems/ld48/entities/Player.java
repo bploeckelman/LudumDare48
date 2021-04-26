@@ -204,6 +204,8 @@ public class Player extends MovableEntity {
     }
 
     public void possess(EnemyEntity enemy) {
+        // prevent the 'tutorial' popup if you've figured how to possess someone
+        screen.doorTutorialShown = true;
         if (capturedEnemy != null) {
             capturedEnemy.reset(imageBounds);
         }
