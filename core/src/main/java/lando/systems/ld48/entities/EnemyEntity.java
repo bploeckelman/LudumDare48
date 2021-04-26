@@ -64,7 +64,6 @@ public class EnemyEntity extends MovableEntity {
         attackDelay -= dt;
 
 
-        // TODO check for collideable object, like the door that can be removed
         if (direction == Direction.left){
             screen.level.getTiles(collisionBounds.x, collisionBounds.y, collisionBounds.x - 10, collisionBounds.y + collisionBounds.height, tiles);
             if (tiles.size > 0) {

@@ -70,7 +70,7 @@ public class Player extends MovableEntity {
         if (this.hitPoints <= 0){
             this.hitPoints = 100;
             possess(null);
-            //TODO make him fly back
+            velocity.set(0, 400);
         }
 
         super.update(dt);
