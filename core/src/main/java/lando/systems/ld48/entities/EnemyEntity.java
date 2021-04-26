@@ -106,17 +106,18 @@ public class EnemyEntity extends MovableEntity {
             }
         }
 
+        if (!targeted) {
+            move(direction, 15f);
 
-        move(direction, 15f);
-
-        if (direction == Direction.left){
-            shootRay.set(position.x - 200, position.y);
-        } else {
-            shootRay.set(position.x + 200, position.y);
-        }
-        if (attackDelay <= 0 && screen.player.capturedEnemy != null && Intersector.intersectSegmentRectangle(position, shootRay, screen.player.collisionBounds)) {
-            attack();
-            attackDelay += MathUtils.random(3f) + 2f;
+            if (direction == Direction.left) {
+                shootRay.set(position.x - 200, position.y);
+            } else {
+                shootRay.set(position.x + 200, position.y);
+            }
+            if (attackDelay <= 0 && screen.player.capturedEnemy != null && Intersector.intersectSegmentRectangle(position, shootRay, screen.player.collisionBounds)) {
+                attack();
+                attackDelay += MathUtils.random(3f) + 2f;
+            }
         }
     }
 
