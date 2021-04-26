@@ -65,7 +65,7 @@ public class ZuckTank extends Boss {
         float margin = (1f / 3f) * imageBounds.width;
         this.collisionBounds = new Rectangle(imageBounds.x + margin, imageBounds.y, imageBounds.width - 2f * margin, imageBounds.height);
 
-        this.currentPhase = new ZuckPhase1(this);
+        this.currentPhase = new IdlePhase(this);
 
         this.alive = true;
     }

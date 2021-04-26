@@ -1,18 +1,17 @@
 package lando.systems.ld48.entities.bosses.zuck;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import lando.systems.ld48.entities.bosses.Boss;
 import lando.systems.ld48.entities.bosses.BossPhase;
 
-public class ZuckPhase1 implements BossPhase {
+public class IdlePhase extends BossPhase {
 
     private final ZuckTank zuck;
-    private boolean complete;
     private float timer = 0f;
 
-    // TODO: pass in Callback for nextPhase so it can be changed when transitioning between phases
-    public ZuckPhase1(ZuckTank zuck) {
-        this.zuck = zuck;
-        this.complete = false;
+    public IdlePhase(Boss boss) {
+        super(boss, () -> new LazerEyesPhase(boss));
+        this.zuck = (ZuckTank) boss;
 
         zuck.animation = zuck.animations.idleA;
         zuck.stateTime = 0f;
@@ -28,16 +27,6 @@ public class ZuckPhase1 implements BossPhase {
 
     @Override
     public void render(SpriteBatch batch) {
-    }
-
-    @Override
-    public boolean isComplete() {
-        return complete;
-    }
-
-    @Override
-    public BossPhase nextPhase() {
-        return new ZuckPhase2(zuck);
     }
 
 }

@@ -9,31 +9,26 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.entities.Player;
+import lando.systems.ld48.entities.bosses.Boss;
 import lando.systems.ld48.entities.bosses.BossPhase;
 import lando.systems.ld48.utils.accessors.Vector2Accessor;
 
-public class ZuckPhase2 implements BossPhase {
+public class LazerEyesPhase extends BossPhase {
 
     private final ZuckTank zuck;
-    private boolean complete;
     private boolean blastin;
-    private Vector2 target;
-    private Vector2 targetA;
-    private Vector2 targetB;
-    private Vector2 targetC;
-    private Vector2 eye1Start;
-    private Vector2 eye1End;
-    private Vector2 eye2Start;
-    private Vector2 eye2End;
+    private final Vector2 target;
+    private final Vector2 eye1Start;
+    private final Vector2 eye1End;
+    private final Vector2 eye2Start;
+    private final Vector2 eye2End;
     private float iFramesTimer;
 
-    public ZuckPhase2(ZuckTank zuck) {
-        this.zuck = zuck;
+    public LazerEyesPhase(Boss boss) {
+        super(boss, () -> new ZuckPhase3(boss));
+        this.zuck = (ZuckTank) boss;
         this.complete = false;
         this.target = new Vector2();
-        this.targetA = new Vector2(zuck.position.x, zuck.position.y - zuck.imageBounds.height / 2f);
-        this.targetB = new Vector2(zuck.position.x - 500f, zuck.position.y);
-        this.targetC = new Vector2(zuck.position.x, zuck.position.y + zuck.imageBounds.height + zuck.imageBounds.height / 2f);
         this.eye1Start = new Vector2();
         this.eye1End   = new Vector2();
         this.eye2Start = new Vector2();
@@ -44,14 +39,19 @@ public class ZuckPhase2 implements BossPhase {
         zuck.stateTime = 0f;
 
         this.blastin = false;
+
+        Vector2 targetA = new Vector2(zuck.position.x, zuck.position.y - zuck.imageBounds.height / 2f);
+        Vector2 targetB = new Vector2(zuck.position.x - 500f, zuck.position.y);
+        Vector2 targetC = new Vector2(zuck.position.x, zuck.position.y + zuck.imageBounds.height + zuck.imageBounds.height / 2f);
+
         this.target.set(targetA);
         Timeline.createSequence()
                 .pushPause(1f)
                 .push(Tween.call((type, source) -> blastin = true))
                 .push(Tween.to(target, Vector2Accessor.XY, 2f).target(targetB.x, targetB.y).ease(Quint.INOUT))
-                .push(Tween.to(target, Vector2Accessor.XY, 2f).target(targetC.x, targetC.y).ease(Quint.INOUT))
+                .push(Tween.to(target, Vector2Accessor.XY, 1.33f).target(targetC.x, targetC.y).ease(Quint.INOUT))
                 .push(Tween.call((type, source) -> blastin = false))
-                .pushPause(2f)
+                .pushPause(0.5f)
                 .push(Tween.call((type, source) -> complete = true))
                 .start(zuck.screen.game.tween);
     }
@@ -81,33 +81,32 @@ public class ZuckPhase2 implements BossPhase {
     @Override
     public void render(SpriteBatch batch) {
         if (!blastin) return;
-        // NOTE: this is trash garbage and might cause problems
-        float x1a = zuck.position.x - 28;
-        float y1a = zuck.position.y + 43;
-        float x1b = zuck.position.x - 63;
-        float y1b = zuck.position.y + 33;
-        float x2 = target.x;
-        float y2 = target.y;
-        float width = 3f;
+
+        // NOTE: killing the batch like this to draw some rects is trash garbage and might cause problems
         batch.end();
-        zuck.assets.shapes.setProjectionMatrix(zuck.screen.getWorldCamera().combined);
-        zuck.assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
-        zuck.assets.shapes.setColor(Color.RED);
-        zuck.assets.shapes.rectLine(x1a, y1a, x2, y2, width);
-        zuck.assets.shapes.rectLine(x1b, y1b, x2, y2, width);
-        zuck.assets.shapes.setColor(Color.WHITE);
-        zuck.assets.shapes.end();
+        {
+            ShapeRenderer shapes = zuck.assets.shapes;
+            shapes.setProjectionMatrix(zuck.screen.getWorldCamera().combined);
+            shapes.begin(ShapeRenderer.ShapeType.Filled);
+            {
+                float width = 2f;
+                shapes.setColor(Color.RED);
+                shapes.rectLine(eye1Start, target, width * 3);
+                shapes.rectLine(eye2Start, target, width * 3);
+                shapes.setColor(Color.ORANGE);
+                shapes.rectLine(eye1Start, target, width * 2);
+                shapes.rectLine(eye2Start, target, width * 2);
+                shapes.setColor(Color.YELLOW);
+                shapes.rectLine(eye1Start, target, width);
+                shapes.rectLine(eye2Start, target, width);
+                shapes.setColor(Color.WHITE);
+                shapes.rectLine(eye1Start, target, 1);
+                shapes.rectLine(eye2Start, target, 1);
+                shapes.setColor(Color.WHITE);
+            }
+            shapes.end();
+        }
         batch.begin();
-    }
-
-    @Override
-    public boolean isComplete() {
-        return complete;
-    }
-
-    @Override
-    public BossPhase nextPhase() {
-        return new ZuckPhase3(zuck);
     }
 
 }

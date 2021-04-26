@@ -207,12 +207,12 @@ public class Assets implements Disposable {
         soldierDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/soldier/soldier-idle"),   Animation.PlayMode.NORMAL);
 
         zuckTankMissileAnimation = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-missile/zuck-missile"), Animation.PlayMode.NORMAL);
-        zuckTankLowerAnimation   = new Animation<>(0.3f, atlas.findRegions("bosses/zuck-tank/zuck-tank-lower/zuck-tank-lower"), Animation.PlayMode.NORMAL);
-        zuckTankTalkAnimation    = new Animation<>(0.3f, atlas.findRegions("bosses/zuck-tank/zuck-tank-talk/zuck-tank-talk"), Animation.PlayMode.NORMAL);
-        zuckTankIdleAAnimation   = new Animation<>(0.3f, atlas.findRegions("bosses/zuck-tank/zuck-tank-idle-a/zuck-tank-idle-a"), Animation.PlayMode.LOOP_PINGPONG);
-        zuckTankIdleBAnimation   = new Animation<>(0.3f, atlas.findRegions("bosses/zuck-tank/zuck-tank-idle-b/zuck-tank-idle-b"), Animation.PlayMode.LOOP_PINGPONG);
-        zuckTankShootAnimation   = new Animation<>(0.3f, atlas.findRegions("bosses/zuck-tank/zuck-tank-shoot/zuck-tank-shoot"), Animation.PlayMode.NORMAL);
-        zuckTankRamTellAnimation = new Animation<>(0.3f, atlas.findRegions("bosses/zuck-tank/zuck-tank-ram-tell/zuck-tank-ram-tell"), Animation.PlayMode.NORMAL);
+        zuckTankLowerAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-lower/zuck-tank-lower"), Animation.PlayMode.NORMAL);
+        zuckTankTalkAnimation    = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-talk/zuck-tank-talk"), Animation.PlayMode.NORMAL);
+        zuckTankIdleAAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-idle-a/zuck-tank-idle-a"), Animation.PlayMode.LOOP_PINGPONG);
+        zuckTankIdleBAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-idle-b/zuck-tank-idle-b"), Animation.PlayMode.LOOP_PINGPONG);
+        zuckTankShootAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-shoot/zuck-tank-shoot"), Animation.PlayMode.NORMAL);
+        zuckTankRamTellAnimation = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-ram-tell/zuck-tank-ram-tell"), Animation.PlayMode.NORMAL);
         zuckTankRamActAnimation  = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-ram-state/zuck-tank-ram-state"), Animation.PlayMode.LOOP);
 
         dogeCoinAnimation  = new Animation<>(0.066f, atlas.findRegions("pickups/dogecoin/doge-coin"), Animation.PlayMode.LOOP);
