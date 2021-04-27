@@ -5,6 +5,9 @@ canvas {
 
 body {
     background-color: #222222;
+    background-image: url('elevator-alien.png');
+    background-size: cover;
+    background-repeat: repeat-y;
 }
 
 .superdev {

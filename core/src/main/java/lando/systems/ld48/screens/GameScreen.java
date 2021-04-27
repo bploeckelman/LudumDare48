@@ -60,8 +60,7 @@ public class GameScreen extends BaseScreen {
         super(game);
         this.player = new Player(this, 0, 0);
         // ROSSMAN: swap comments for boss testing
-        //this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.musk_arena, "introText"), this);
-        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.purgatory, LevelDescriptor.introduction, "introText"), this);
+        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.purgatory, LevelDescriptor.introduction, "exposition"), this);
 
     }
 
