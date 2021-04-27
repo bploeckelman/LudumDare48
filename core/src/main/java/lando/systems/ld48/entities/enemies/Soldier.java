@@ -19,6 +19,6 @@ public class Soldier extends EnemyEntity {
         animationSet.AttackAnimation = assets.soldierAttackAnimation;
         animationSet.DieAnimation = assets.soldierDieAnimation;
 
-        setJump(assets.soldierJumpAnimation, 150);
+        setJump(assets.soldierJumpAnimation, 200);
     }
 }
