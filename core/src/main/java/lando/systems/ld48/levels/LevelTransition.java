@@ -202,7 +202,8 @@ public class LevelTransition {
                 music = Audio.Musics.intro;
             }
             case ending: {
-                music = Audio.Musics.level1boss;
+//                music = Audio.Musics.level1boss;
+                music = Audio.Musics.level2;
             } break;
         }
         screen.game.audio.playMusic(music, true);

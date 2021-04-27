@@ -46,9 +46,9 @@ public class Audio implements Disposable {
         example,
         intro,
         level1,
+        level1elevator,
         level1boss,
         level2,
-        level1elevator,
         level2elevator,
         level3,
         level3elevator
@@ -70,8 +70,8 @@ public class Audio implements Disposable {
         this.tween = game.tween;
 
         putSound(Sounds.none, assets.exampleSound);
-        putSound(Sounds.attack, assets.bulletHitSound);
-        putSound(Sounds.bulletHit, assets.attackSound);
+        putSound(Sounds.attack, assets.attackSound);
+        putSound(Sounds.bulletHit, assets.bulletHitSound);
         putSound(Sounds.example, assets.exampleSound);
         putSound(Sounds.capture, assets.captureSound);
         putSound(Sounds.coin, assets.coinSound);
