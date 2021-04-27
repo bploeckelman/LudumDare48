@@ -20,6 +20,7 @@ public class EnemyEntity extends MovableEntity {
 
     public float scale = 1f;
     private float attackDelay = 0;
+    public float dirChangeCD = 0.2f;
 
     protected EnemyEntity(GameScreen screen, Animation<TextureRegion> animation, float x, float y) {
         this(screen, animation, 1f, x, y);
@@ -64,25 +65,33 @@ public class EnemyEntity extends MovableEntity {
     public void update(float dt) {
         super.update(dt);
         attackDelay -= dt;
+        dirChangeCD -= dt;
+        boolean flip = false;
 
+
+        screen.level.getTiles(collisionBounds.x, collisionBounds.y, collisionBounds.x + collisionBounds.width, collisionBounds.y - 4, tiles);
+        if (tiles.size == 0) {
+            velocity.x = 0;
+            setGrounded(false);
+        }
 
         if (direction == Direction.left){
             screen.level.getTiles(collisionBounds.x, collisionBounds.y, collisionBounds.x - 10, collisionBounds.y + collisionBounds.height, tiles);
             if (tiles.size > 0) {
                 velocity.x = 0;
-                direction = Direction.right;
+                flip = true;
             }
-            screen.level.getTiles(collisionBounds.x, collisionBounds.y - 4, collisionBounds.x - 10, collisionBounds.y - 1, tiles);
+            screen.level.getTiles(collisionBounds.x, collisionBounds.y - 15, collisionBounds.x - 10, collisionBounds.y - 1, tiles);
             if (tiles.size == 0) {
                 velocity.x = 0;
-                direction = Direction.right;
+                flip = true;
             }
             testRectangle.set(collisionBounds.x - 10, collisionBounds.y, collisionBounds.width, collisionBounds.height);
             for (InteractableEntity interactable : screen.interactables){
                 if (interactable.type == SpawnInteractable.Type.door){
                     if (interactable.collisionBounds.overlaps(testRectangle)){
                         velocity.x = 0;
-                        direction = Direction.right;
+                        flip = true;
                     }
                 }
             }
@@ -90,22 +99,26 @@ public class EnemyEntity extends MovableEntity {
             screen.level.getTiles(collisionBounds.x + collisionBounds.width, collisionBounds.y, collisionBounds.x +collisionBounds.width + 10, collisionBounds.y + collisionBounds.height, tiles);
             if (tiles.size > 0) {
                 velocity.x = 0;
-                direction = Direction.left;
+                flip = true;
             }
-            screen.level.getTiles(collisionBounds.x + collisionBounds.width, collisionBounds.y - 4, collisionBounds.x +collisionBounds.width + 10, collisionBounds.y - 1, tiles);
+            screen.level.getTiles(collisionBounds.x + collisionBounds.width, collisionBounds.y - 15, collisionBounds.x +collisionBounds.width + 10, collisionBounds.y - 1, tiles);
             if (tiles.size == 0) {
                 velocity.x = 0;
-                direction = Direction.left;
+                flip = true;
             }
             testRectangle.set(collisionBounds.x + 10, collisionBounds.y, collisionBounds.width, collisionBounds.height);
             for (InteractableEntity interactable : screen.interactables){
                 if (interactable.type == SpawnInteractable.Type.door){
                     if (interactable.collisionBounds.overlaps(testRectangle)){
                         velocity.x = 0;
-                        direction = Direction.left;
+                        flip = true;
                     }
                 }
             }
+        }
+
+        if (flip && dirChangeCD < 0) {
+            changeDirection();
         }
 
         if (!targeted) {
