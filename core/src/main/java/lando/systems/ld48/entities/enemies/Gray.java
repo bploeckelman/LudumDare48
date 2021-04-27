@@ -8,6 +8,9 @@ public class Gray extends EnemyEntity {
 
     private static final float SCALE = 0.75f;
 
+    protected float attackDuration = 0.3f;
+    protected float attackHeat = 0.45f;
+
     private float moveTimer = MathUtils.random(10f, 15f);
     private float turnTimer = MathUtils.random(1f, 3f);
 

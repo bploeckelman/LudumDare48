@@ -81,9 +81,9 @@ public class RamPhase extends BossPhase {
             if (iFramesTimer == 0f) {
                 Player player = zuck.screen.player;
                 if (zuck.collisionBounds.contains(player.collisionBounds)) {
-                    player.hitPoints -= 4;
+                    player.hitPoints -= 20;
                     zuck.screen.particles.interact(player.position.x, player.position.y);
-                    iFramesTimer = 2f;
+                    iFramesTimer = 2.5f;
                 }
             }
 

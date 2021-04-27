@@ -86,9 +86,9 @@ public class LazerEyesPhase extends BossPhase {
             boolean hitPlayer1 = Intersector.intersectSegmentRectangle(eye1Start, eye1End, player.collisionBounds);
             boolean hitPlayer2 = Intersector.intersectSegmentRectangle(eye2Start, eye2End, player.collisionBounds);
             if (hitPlayer1 || hitPlayer2) {
-                player.hitPoints -= 2;
+                player.hitPoints -= 3;
                 zuck.screen.particles.interact(player.position.x, player.position.y);
-                iFramesTimer = 2f;
+                iFramesTimer = 0.04f;
             }
         }
 

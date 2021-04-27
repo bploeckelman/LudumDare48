@@ -45,6 +45,8 @@ public class Player extends MovableEntity {
 
         id = MoveEntityIds.player;
 
+        hitPoints = 150;
+
         defaultAnimationSet = animationSet;
 
         captureProgressBar = new Progress(assets);
@@ -75,7 +77,7 @@ public class Player extends MovableEntity {
 
         this.jumpHeld = this.screen.upPressed;
         if (this.hitPoints <= 0){
-            this.hitPoints = 100;
+            this.hitPoints = 150;
             possess(null);
             velocity.set(0, 30);
         }
