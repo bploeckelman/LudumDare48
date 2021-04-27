@@ -92,6 +92,15 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> zuckTankRamTellAnimation;
     public Animation<TextureRegion> zuckTankRamActAnimation;
 
+    public Animation<TextureRegion> muskIdleAAnimation;
+    public Animation<TextureRegion> muskIdleBAnimation;
+    public Animation<TextureRegion> muskShootAAnimation;
+    public Animation<TextureRegion> muskShootBAnimation;
+    public Animation<TextureRegion> muskMissileAAnimation;
+    public Animation<TextureRegion> muskMissileBAnimation;
+    public Animation<TextureRegion> muskHitAnimation;
+
+
     // pickups
     public Animation<TextureRegion> dogeCoinAnimation;
     public Animation<TextureRegion> bitCoinAnimation;
@@ -270,6 +279,18 @@ public class Assets implements Disposable {
         zuckTankShootAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-shoot/zuck-tank-shoot"), Animation.PlayMode.NORMAL);
         zuckTankRamTellAnimation = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-ram-tell/zuck-tank-ram-tell"), Animation.PlayMode.NORMAL);
         zuckTankRamActAnimation  = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-ram-state/zuck-tank-ram-state"), Animation.PlayMode.LOOP);
+
+        muskIdleAAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/musk/musk-idle/musk-idle"), Animation.PlayMode.LOOP);
+        muskIdleBAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/musk/musk-idle/musk-idle"), Animation.PlayMode.LOOP_PINGPONG);
+        muskShootAAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/musk/musk-rocket/musk-rocket"), Animation.PlayMode.NORMAL);
+        muskShootBAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/musk/musk-openchest/musk-openchest"), Animation.PlayMode.NORMAL);
+        muskMissileAAnimation = new Animation<>(0.1f, atlas.findRegions("bosses/musk/musk-bullet-rocket/musk-bullet-rocket"), Animation.PlayMode.NORMAL);
+        muskMissileBAnimation = new Animation<>(0.1f, atlas.findRegions("bosses/musk/musk-bullet-roadster/musk-bullet-roadster"), Animation.PlayMode.NORMAL);
+        muskHitAnimation = new Animation<>(0.1f, atlas.findRegions("bosses/musk/musk-hit/musk-hit"), Animation.PlayMode.NORMAL);
+//        muskLowerAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/musk/musk-hit/musk-hit"), Animation.PlayMode.NORMAL);
+//        muskTalkAnimation    = new Animation<>(0.2f, atlas.findRegions("bosses/musk/musk-openchest/musk-openchest"), Animation.PlayMode.LOOP);
+//        muskRamTellAnimation = new Animation<>(0.2f, atlas.findRegions("bosses/musk/musk-idle/musk-idle"), Animation.PlayMode.NORMAL);
+//        muskRamActAnimation  = new Animation<>(0.1f, atlas.findRegions("bosses/musk/musk-roadster"), Animation.PlayMode.LOOP);
 
         dogeCoinAnimation  = new Animation<>(0.066f, atlas.findRegions("pickups/dogecoin/doge-coin"), Animation.PlayMode.LOOP);
         bitCoinAnimation  = new Animation<>(0.066f, atlas.findRegions("pickups/bitcoin/bitcoin-coin"), Animation.PlayMode.LOOP);

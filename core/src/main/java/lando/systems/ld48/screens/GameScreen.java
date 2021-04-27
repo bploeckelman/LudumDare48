@@ -60,19 +60,22 @@ public class GameScreen extends BaseScreen {
         super(game);
         this.player = new Player(this, 0, 0);
         // ROSSMAN: swap comments for boss testing
-//        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.musk_arena, "introText"), this);
-        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.purgatory, LevelDescriptor.introduction, "exposition"), this);
+        //this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.alien, LevelDescriptor.musk_arena, "introText"), this);
+        this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.purgatory, LevelDescriptor.introduction, "introText"), this);
 
-        Timeline.createSequence()
-                .pushPause(15f)
-                .push(Tween.call((type, source) -> showDoorTutorial()))
-                .start(game.tween);
     }
 
     public void loadLevel(LevelDescriptor levelDescriptor) {
         this.boss = null;
         this.level = new Level(levelDescriptor, this);
         this.levelTransition = null;
+
+        if (levelDescriptor == LevelDescriptor.introduction) {
+            Timeline.createSequence()
+                    .pushPause(0.1f)
+                    .push(Tween.call((type, source) -> showDoorTutorial()))
+                    .start(game.tween);
+        }
 
         resetPlayer(level.getPlayerSpawn());
 
@@ -405,6 +408,7 @@ public class GameScreen extends BaseScreen {
             // ----------------------
             case Input.Keys.SHIFT_LEFT:
             case Input.Keys.SHIFT_RIGHT:
+            case Input.Keys.K:
                 shiftPressed = true;
                 break;
         }

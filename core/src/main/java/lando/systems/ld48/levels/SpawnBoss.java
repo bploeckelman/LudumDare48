@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld48.Assets;
 import lando.systems.ld48.entities.bosses.Boss;
+import lando.systems.ld48.entities.bosses.musk.MuskKrang;
 import lando.systems.ld48.entities.bosses.zuck.ZuckTank;
 import lando.systems.ld48.screens.GameScreen;
 
@@ -34,7 +35,7 @@ public class SpawnBoss {
         switch (type) {
             default:
             case zuck: boss = new ZuckTank(screen, pos.x, pos.y); break;
-//            case musk: boss = new MuskKrang(screen, pos.x, pos.y); break;
+            case musk: boss = new MuskKrang(screen, pos.x + 16, pos.y + 16); break;
         }
 
         if (boss == null) return;
