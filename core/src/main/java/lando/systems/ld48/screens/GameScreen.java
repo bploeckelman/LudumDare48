@@ -256,14 +256,20 @@ public class GameScreen extends BaseScreen {
                 for (EnemyEntity enemy : enemies) {
                     if (enemy.collisionBounds.contains(b.getPosition())) {
                         enemy.adjustHitpoints(-b.damage);
+                        enemy.position.set(enemy.position.x + (b.velocity.x > 0 ? 5 : -5), enemy.position.y);
+                        particles.blood(enemy.position.x, enemy.position.y);
                         bullets.removeValue(b, true);
                         physicsEntities.removeValue(b, true);
+
                     }
                 }
             } else {
                 // enemy bullet
                 if (player.capturedEnemy != null && player.collisionBounds.contains(b.position)){
                     player.adjustHitpoints(-b.damage);
+                    particles.blood(player.position.x, player.position.y);
+                    player.velocity.set(player.velocity.x + (b.bulletSpeed > 0 ? 15 : -15), player.velocity.y + 5);
+                    player.setGrounded(false);
                     bullets.removeValue(b, true);
                     physicsEntities.removeValue(b, true);
                 }

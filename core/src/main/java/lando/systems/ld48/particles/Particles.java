@@ -177,4 +177,26 @@ public class Particles implements Disposable {
         }
     }
 
+    public void blood(float x, float y) {
+        TextureRegion keyframe = assets.particles.circle;
+
+        int numParticles = 150;
+        for (int i = 0; i < numParticles; ++i) {
+            Utils.hsvToRgb(MathUtils.random(0.0f, 0.05f), MathUtils.random(0.8f, 1f), MathUtils.random(0.5f, 0.9f), testColor);
+            activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
+                    .keyframe(keyframe)
+                    .startPos(x, y)
+                    .velocityDirection(MathUtils.random(70, 110), MathUtils.random(90f, 200f))
+                    .startSize(2f)
+                    .endSize(0.1f)
+                    .startAlpha(1f)
+                    .endAlpha(0f)
+                    .timeToLive(0.6f)
+                    .startColor(testColor)
+                    .makePhysics()
+                    .interpolation(Interpolation.fastSlow)
+                    .init());
+        }
+    }
+
 }
