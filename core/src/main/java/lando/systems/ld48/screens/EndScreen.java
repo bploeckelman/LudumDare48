@@ -29,10 +29,10 @@ public class EndScreen extends BaseScreen {
     static String theme = "Made for Ludum Dare 48: Deeper and Deeper";
 
     static String thanks = "{GRADIENT=purple;cyan}Thanks for playing our game!{ENDGRADIENT}";
-    static String developers = "{COLOR=gray}Developed by:{COLOR=white}\n";
-    static String artists = "{COLOR=gray}Art by:{COLOR=white}\n";
-    static String emotionalSupport = "{COLOR=cyan}Emotional Support:{COLOR=white}\n Asuka and  Cherry";
-    static String music = "{COLOR=gray}Sound by:{COLOR=white}\n";
+    static String developers = "{COLOR=gray}Developed by:{COLOR=white}\n Brian Ploeckelman \n Brian Rossman \n Jeffrey Hwang \n Zander Rossman \n Doug Graham";
+    static String artists = "{COLOR=gray}Art by:{COLOR=white}\n Matt Neumannm \n Luke Bain \n Troy Sullivan";
+    static String emotionalSupport = "{COLOR=cyan}Emotional Support:{COLOR=white}\n  Asuka and     Cherry";
+    static String music = "{COLOR=gray}Sound by:{COLOR=white}\n Pete Valeo";
     static String libgdx = "Made with {COLOR=red}<3{COLOR=white} and LibGDX";
     static String disclaimer = "Disclaimer!!!\nNo animals were harmed in the making of this game (they got lots of pets tho)";
 
@@ -104,8 +104,8 @@ public class EndScreen extends BaseScreen {
             if (accum > 7.5) {
                 TextureRegion catTexture = catAnimation.getKeyFrame(accum);
                 TextureRegion dogTexture = dogAnimation.getKeyFrame(accum);
-                batch.draw(catTexture, 330f, 215f);
-                batch.draw(dogTexture, 60f, 210f);
+                batch.draw(catTexture, 330f, 180f);
+                batch.draw(dogTexture, 60f, 175f);
             }
             batch.setColor(Color.WHITE);
         }
