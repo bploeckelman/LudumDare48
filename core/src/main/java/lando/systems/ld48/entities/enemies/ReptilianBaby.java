@@ -21,4 +21,8 @@ public class ReptilianBaby extends EnemyEntity {
         maxHorizontalVelocity = 1f;
         setJump(assets.reptilianBabyAnimation, 50f);
     }
+
+    @Override
+    public void attack() {
+    }
 }
