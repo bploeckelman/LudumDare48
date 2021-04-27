@@ -7,7 +7,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -60,6 +62,7 @@ public class GameScreen extends BaseScreen {
         super(game);
         this.player = new Player(this, 0, 0);
         // ROSSMAN: swap comments for boss testing
+
         this.levelTransition = new LevelTransition(new Exit(LevelTransition.Type.purgatory, LevelDescriptor.introduction, "exposition"), this);
 
     }
@@ -179,6 +182,16 @@ public class GameScreen extends BaseScreen {
                         particles.pickup(pickup.position.x, pickup.position.y, pickup.type);
                         game.audio.playSound(Audio.Sounds.coin);
                         pickup.removeFromScreen();
+                        switch (pickup.type) {
+                            case dogecoin:
+                                player.dogeCount++;
+                                break;
+                            case bitcoin:
+                                player.btcCount++;
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
@@ -367,6 +380,13 @@ public class GameScreen extends BaseScreen {
             if (generalModal != null) {
                 generalModal.render(batch);
             }
+            TextureRegion doge = game.assets.dogeCoinAnimation.getKeyFrame(0);
+            TextureRegion btc = game.assets.bitCoinAnimation.getKeyFrame(0);
+            batch.setColor(Color.WHITE);
+            batch.draw(doge, windowCamera.viewportWidth - 200f, windowCamera.viewportHeight - 70f, 50f, 50f);
+            game.assets.pixelFont16.draw(batch, "x " + player.dogeCount, windowCamera.viewportWidth - 130f, windowCamera.viewportHeight - 30f);
+            batch.draw(btc, windowCamera.viewportWidth - 380f, windowCamera.viewportHeight - 70f, 50f, 50f);
+            game.assets.pixelFont16.draw(batch, "x " + player.btcCount, windowCamera.viewportWidth - 310f, windowCamera.viewportHeight - 30f);
         }
         batch.end();
     }

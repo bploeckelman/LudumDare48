@@ -1,5 +1,6 @@
 package lando.systems.ld48.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -28,6 +29,8 @@ public class Player extends MovableEntity {
     private AnimationSet defaultAnimationSet;
     public boolean isOffScreen;
     private Modal fellOffScreenModal;
+    public int dogeCount = 0;
+    public int btcCount = 0;
 
     private float invulnTimer = 0f;
 
@@ -44,6 +47,8 @@ public class Player extends MovableEntity {
         initEntity(x, y, keyframe.getRegionWidth() * SCALE, keyframe.getRegionHeight() * SCALE);
 
         id = MoveEntityIds.player;
+
+        hitPoints = 150;
 
         defaultAnimationSet = animationSet;
 
@@ -75,7 +80,7 @@ public class Player extends MovableEntity {
 
         this.jumpHeld = this.screen.upPressed;
         if (this.hitPoints <= 0){
-            this.hitPoints = 100;
+            this.hitPoints = 150;
             possess(null);
             velocity.set(0, 30);
         }
@@ -96,7 +101,8 @@ public class Player extends MovableEntity {
             }
         }
 
-        if (this.screen.shiftPressed) {
+        if (this.screen.shiftPressed || Gdx.input.isTouched()) {
+            this.attack();
             this.attack();
         }
 
@@ -112,6 +118,9 @@ public class Player extends MovableEntity {
         if (captureProgress > 0) {
             captureProgressBar.draw(batch, captureProgress, imageBounds.x,
                     imageBounds.y + imageBounds.height + 5, imageBounds.width, 2);
+        } else if (capturedEnemy != null) {
+            captureProgressBar.draw(batch, (float)hitPoints / capturedEnemy.maxHitpoints, imageBounds.x,
+                    imageBounds.y + imageBounds.height + 5, imageBounds.width, 2, true);
         }
 
         if (this.currentHeat > 0) {
@@ -235,6 +244,7 @@ public class Player extends MovableEntity {
             bulletSize = capturedEnemy.bulletSize;
             bulletSpeed = capturedEnemy.bulletSpeed;
             scale = capturedEnemy.scale;
+            hitPoints = capturedEnemy.maxHitpoints;
         } else {
             animationSet = defaultAnimationSet;
             jumpVelocity = 0;

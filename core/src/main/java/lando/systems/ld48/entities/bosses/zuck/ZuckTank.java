@@ -37,7 +37,7 @@ public class ZuckTank extends Boss {
     MutableFloat alpha = new MutableFloat(1f);
 
     int numHits;
-    final int numHitsToBeKilled = 10;
+    final int numHitsToBeKilled = 30;
 
     boolean flip = false;
 
@@ -114,7 +114,7 @@ public class ZuckTank extends Boss {
             Missile missile = missiles.get(i);
             missile.update(dt);
             if (Intersector.overlaps(missile.bounds, player.collisionBounds)) {
-                player.hitPoints -= 5;
+                player.adjustHitpoints(-30);
                 screen.particles.physics(missile.bounds.x, missile.bounds.y);
                 missiles.removeIndex(i);
             }
