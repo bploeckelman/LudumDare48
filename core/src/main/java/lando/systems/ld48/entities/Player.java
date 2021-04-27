@@ -28,6 +28,8 @@ public class Player extends MovableEntity {
     private AnimationSet defaultAnimationSet;
     public boolean isOffScreen;
     private Modal fellOffScreenModal;
+    public int dogeCount = 0;
+    public int btcCount = 0;
 
     private float invulnTimer = 0f;
 
