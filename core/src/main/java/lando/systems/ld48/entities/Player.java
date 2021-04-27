@@ -29,6 +29,8 @@ public class Player extends MovableEntity {
     public boolean isOffScreen;
     private Modal fellOffScreenModal;
 
+    private float invulnTimer = 0f;
+
     public Player(GameScreen screen, SpawnPlayer spawn) {
         this(screen, spawn.pos.x, spawn.pos.y);
     }
@@ -80,6 +82,8 @@ public class Player extends MovableEntity {
 
         if (this.screen.upPressed && this.capturedEnemy == null) { this.velocity.set(this.velocity.x, Math.max(this.velocity.y, Math.min(this.velocity.y + 90 * dt, 60))); }
 
+        invulnTimer -= dt;
+
         super.update(dt);
 
         // this is the animation of starting to jump
@@ -101,7 +105,9 @@ public class Player extends MovableEntity {
 
     @Override
     public void render(SpriteBatch batch) {
-        super.render(batch);
+        if (invulnTimer <= 0 || invulnTimer % 0.15 < 0.075) {
+            super.render(batch);
+        }
 
         if (captureProgress > 0) {
             captureProgressBar.draw(batch, captureProgress, imageBounds.x,
@@ -184,6 +190,15 @@ public class Player extends MovableEntity {
     @Override
     public void changeDirection() {
         // noop so it doesn't flip rapidly when pushing against a wall.
+    }
+
+    @Override
+    public void adjustHitpoints(int value) {
+        if (value < 0 && this.invulnTimer > 0) { return; }
+        this.hitPoints += value;
+        if (value < 0) {
+            invulnTimer = 0.75f;
+        }
     }
 
     private boolean updateDeath(float dt) {
