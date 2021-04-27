@@ -98,8 +98,8 @@ public class GameScreen extends BaseScreen {
             case introduction: backTexture = game.assets.sunsetBackground; break;
             case military:     backTexture = game.assets.coreBackground; break;
             case zuck_arena:   backTexture = game.assets.coreBackground; break;
-            case alien:        backTexture = game.assets.desertBackground; break;
-            case reptilian:    backTexture = game.assets.desertBackground; break;
+            case alien:        backTexture = game.assets.alienBackground; break;
+            case reptilian:    backTexture = game.assets.reptilianBackground; break;
             case musk_arena:   backTexture = game.assets.coreBackground; break;
             default:           backTexture = game.assets.desertBackground; break;
         }
