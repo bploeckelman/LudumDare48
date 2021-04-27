@@ -30,7 +30,7 @@ public class EndScreen extends BaseScreen {
 
     static String thanks = "{GRADIENT=purple;cyan}Thanks for playing our game!{ENDGRADIENT}";
     static String developers = "{COLOR=gray}Developed by:{COLOR=white}\n Brian Ploeckelman \n Brian Rossman \n Jeffrey Hwang \n Zander Rossman \n Doug Graham";
-    static String artists = "{COLOR=gray}Art by:{COLOR=white}\n Matt Neumannm \n Luke Bain \n Troy Sullivan";
+    static String artists = "{COLOR=gray}Art by:{COLOR=white}\n Matt Neumann \n Luke Bain \n Troy Sullivan";
     static String emotionalSupport = "{COLOR=cyan}Emotional Support:{COLOR=white}\n  Asuka and     Cherry";
     static String music = "{COLOR=gray}Sound by:{COLOR=white}\n Pete Valeo";
     static String libgdx = "Made with {COLOR=red}<3{COLOR=white} and LibGDX";
