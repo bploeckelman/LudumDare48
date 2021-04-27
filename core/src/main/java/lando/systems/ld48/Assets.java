@@ -111,6 +111,14 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> leverAnimation;
     public Animation<TextureRegion> doorAnimation;
 
+    public Animation<TextureRegion> pizzaGateIdle;
+    public Animation<TextureRegion> alienGateIdle;
+    public Animation<TextureRegion> reptilianGateIdle;
+
+    public Animation<TextureRegion> pizzaGateOpening;
+    public Animation<TextureRegion> alienGateOpening;
+    public Animation<TextureRegion> reptilianGateOpening;
+
     // misc
     public Animation<TextureRegion> downArrowsAnimation;
 
@@ -273,7 +281,7 @@ public class Assets implements Disposable {
         reptilianFallAnimation   = new Animation<>(0.1f, atlas.findRegions("enemies/reptilian/reptilian-jump/reptilian-jump"),  Animation.PlayMode.REVERSED);
         reptilianDieAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/reptilian/reptilian-idle/reptilian-idle"),   Animation.PlayMode.NORMAL);
 
-        reptilianBabyAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/reptilian-baby/reptilian-baby"),   Animation.PlayMode.NORMAL);
+        reptilianBabyAnimation    = new Animation<>(0.1f, atlas.findRegions("enemies/reptilian-baby/reptilian-baby"),   Animation.PlayMode.LOOP);
 
         zuckTankMissileAnimation = new Animation<>(0.1f, atlas.findRegions("bosses/zuck-tank/zuck-tank-missile/zuck-missile"), Animation.PlayMode.NORMAL);
         zuckTankLowerAnimation   = new Animation<>(0.2f, atlas.findRegions("bosses/zuck-tank/zuck-tank-lower/zuck-tank-lower"), Animation.PlayMode.NORMAL);
@@ -301,6 +309,14 @@ public class Assets implements Disposable {
 
         leverAnimation = new Animation<>(0.2f, atlas.findRegions("interactables/lever"), Animation.PlayMode.NORMAL);
         doorAnimation  = new Animation<>(0.2f, atlas.findRegions("interactables/door"),  Animation.PlayMode.NORMAL);
+
+        pizzaGateIdle  = new Animation<>(0.2f, atlas.findRegions("interactables/pizza-gate-closed"),  Animation.PlayMode.LOOP);
+        alienGateIdle  = new Animation<>(0.2f, atlas.findRegions("interactables/alien-gate-closed"),  Animation.PlayMode.LOOP);
+        reptilianGateIdle  = new Animation<>(0.2f, atlas.findRegions("interactables/reptilian-gate-closed"),  Animation.PlayMode.LOOP);
+
+        pizzaGateOpening  = new Animation<>(0.2f, atlas.findRegions("interactables/pizza-gate-opening"),  Animation.PlayMode.NORMAL);
+        alienGateOpening  = new Animation<>(0.2f, atlas.findRegions("interactables/alien-gate-opening"),  Animation.PlayMode.NORMAL);
+        reptilianGateOpening  = new Animation<>(0.2f, atlas.findRegions("interactables/reptilian-gate-opening"),  Animation.PlayMode.NORMAL);
 
         downArrowsAnimation  = new Animation<>(0.2f, atlas.findRegions("world/elevator-indicator"),  Animation.PlayMode.LOOP);
 

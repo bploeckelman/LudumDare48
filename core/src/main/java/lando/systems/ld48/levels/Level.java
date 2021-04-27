@@ -53,7 +53,7 @@ public class Level {
     private boolean collisionDirty;
     private Array<Segment2D> collisionSegments;
 
-    private LevelDescriptor currentLevel;
+    public LevelDescriptor currentLevel;
     private LevelDescriptor nextLevel = null;
 
     private Exit exit;

@@ -12,7 +12,7 @@ public class SpawnInteractable {
 
     public boolean interactionDisabled = false;
 
-    public enum Type { lever, door }
+    public enum Type { lever, door, pizzaGate, alienGate, reptilianGate }
 
     public int id;
     public int targetId;
@@ -41,7 +41,22 @@ public class SpawnInteractable {
         switch (type) {
             default:
             case lever: anim = screen.game.assets.leverAnimation; break;
-            case door:  anim = screen.game.assets.doorAnimation;  break;
+            case door:
+                switch (screen.level.currentLevel) {
+                    case alien:
+                        anim = screen.game.assets.alienGateIdle; break;
+                    case reptilian:
+                        anim = screen.game.assets.reptilianGateIdle; break;
+                    case military:
+                        anim = screen.game.assets.doorAnimation; break;
+                    case zuck_arena:
+                    case musk_arena:
+                        anim = screen.game.assets.pizzaGateIdle; break;
+                    default:
+                        anim = screen.game.assets.doorAnimation;  break;
+                }
+
+
         }
         InteractableEntity entity = new InteractableEntity(screen, pos.x, pos.y, this, anim);
         entity.disabled = interactionDisabled;

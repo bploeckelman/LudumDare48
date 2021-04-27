@@ -32,12 +32,17 @@ public class InteractableEntity extends GameEntity {
 
         animationPaused = true;
 
+        if (anim == screen.game.assets.alienGateIdle || anim == screen.game.assets.reptilianGateIdle || anim == screen.game.assets.pizzaGateIdle) {
+            animationPaused = false;
+        }
+
         completionCallback = params -> {
             if (type == SpawnInteractable.Type.lever) {
                 screen.game.audio.playSound(Audio.Sounds.lever);
 
                 screen.particles.interact(position.x, position.y);
             } else if (type == SpawnInteractable.Type.door) {
+
                 screen.game.audio.playSound(Audio.Sounds.door);
 
                 screen.particles.smoke(position.x, position.y);
@@ -53,6 +58,18 @@ public class InteractableEntity extends GameEntity {
         if (completed) return;
         if (active) return;
         active = true;
+        switch (screen.level.currentLevel) {
+            case alien:
+                setAnimation(screen.game.assets.alienGateOpening); break;
+            case reptilian:
+                setAnimation(screen.game.assets.reptilianGateOpening); break;
+            case zuck_arena:
+            case musk_arena:
+                setAnimation(screen.game.assets.pizzaGateOpening); break;
+            default:
+                break;
+        }
+
 
         animationPaused = false;
     }
@@ -61,6 +78,9 @@ public class InteractableEntity extends GameEntity {
     public void update(float dt) {
         boolean wasIncomplete = !completed;
         completed = animation.isAnimationFinished(stateTime);
+        if (animation == screen.game.assets.alienGateIdle || animation == screen.game.assets.reptilianGateIdle || animation == screen.game.assets.pizzaGateIdle) {
+            completed = false;
+        }
         if (wasIncomplete && completed) {
             if (completionCallback != null) {
                 completionCallback.call();
