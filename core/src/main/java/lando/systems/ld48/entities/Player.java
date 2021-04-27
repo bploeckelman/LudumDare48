@@ -1,5 +1,7 @@
 package lando.systems.ld48.entities;
 
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -227,11 +229,19 @@ public class Player extends MovableEntity {
         return false;
     }
 
+    public boolean firstPosses = true;
     public void possess(EnemyEntity enemy) {
         // prevent the 'tutorial' popup if you've figured how to possess someone
         screen.doorTutorialShown = true;
         if (capturedEnemy != null) {
             capturedEnemy.reset(imageBounds);
+        } else if (firstPosses) {
+            firstPosses = false;
+            Timeline.createSequence()
+                    .pushPause(1f)
+                    .push(Tween.call((type, source) -> screen.generalModal = new Modal(screen.game.assets, screen.game.assets.strings.get("shootTutorial"), screen.getWindowCamera())))
+                    .start(screen.game.tween);
+
         }
 
         capturedEnemy = enemy;
