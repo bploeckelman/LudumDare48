@@ -1,5 +1,6 @@
 package lando.systems.ld48.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -100,7 +101,8 @@ public class Player extends MovableEntity {
             }
         }
 
-        if (this.screen.shiftPressed) {
+        if (this.screen.shiftPressed || Gdx.input.isTouched()) {
+            this.attack();
             this.attack();
         }
 
@@ -116,6 +118,9 @@ public class Player extends MovableEntity {
         if (captureProgress > 0) {
             captureProgressBar.draw(batch, captureProgress, imageBounds.x,
                     imageBounds.y + imageBounds.height + 5, imageBounds.width, 2);
+        } else if (capturedEnemy != null) {
+            captureProgressBar.draw(batch, (float)hitPoints / capturedEnemy.maxHitpoints, imageBounds.x,
+                    imageBounds.y + imageBounds.height + 5, imageBounds.width, 2, true);
         }
 
         if (this.currentHeat > 0) {
@@ -239,6 +244,7 @@ public class Player extends MovableEntity {
             bulletSize = capturedEnemy.bulletSize;
             bulletSpeed = capturedEnemy.bulletSpeed;
             scale = capturedEnemy.scale;
+            hitPoints = capturedEnemy.maxHitpoints;
         } else {
             animationSet = defaultAnimationSet;
             jumpVelocity = 0;

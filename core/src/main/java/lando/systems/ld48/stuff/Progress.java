@@ -17,13 +17,15 @@ public class Progress {
         this(assets);
         this.vertical = vertical;
     }
-
     public void draw(SpriteBatch batch, float progress, float x, float y, float width, float height) {
+        this.draw(batch, progress, x, y, width, height, false);
+    }
+    public void draw(SpriteBatch batch, float progress, float x, float y, float width, float height, boolean asHit) {
         batch.setColor(Color.BLACK);
         batch.draw(assets.whitePixel, x - 1, y - 1, width + 2, height + 2);
         batch.setColor(Color.WHITE);
         batch.draw(assets.whitePixel, x, y, width, height);
-        batch.setColor(Color.RED);
+        batch.setColor(asHit ? Color.GREEN : Color.RED);
         if (this.vertical) {
             batch.draw(assets.whitePixel, x, y, width, height * progress);
         } else {
